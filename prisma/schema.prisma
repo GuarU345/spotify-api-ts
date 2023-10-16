@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  likes     Like[]
+  tokens    Token[]
+}
+
+model Token {
+  id           String   @id @default(uuid())
+  jwtSecretKey String
+  user_id      String
+  user         User     @relation(fields: [user_id], references: [id])
+  createdAt    DateTime @default(now())
+}
+
+model Like {
+  id      Int    @id @default(autoincrement())
+  user_id String
+  song_id Int
+  user    User   @relation(fields: [user_id], references: [id])
+  song    Song   @relation(fields: [song_id], references: [id])
+
+  @@unique([user_id, song_id])
+}
+
+model Artist {
+  id          Int     @id @default(autoincrement())
+  name        String
+  nationality String?
+  albums      Album[]
+  songs       Song[]
+}
+
+model Album {
+  id           Int      @id @default(autoincrement())
+  name         String
+  release_date DateTime
+  album_image  String?
+  artist_id    Int
+  artist       Artist   @relation(fields: [artist_id], references: [id])
+  songs        Song[]
+}
+
+model Song {
+  id        Int     @id @default(autoincrement())
+  name      String
+  duration  String?
+  artist_id Int
+  artist    Artist? @relation(fields: [artist_id], references: [id])
+  album_id  Int
+  album     Album   @relation(fields: [album_id], references: [id])
+  likes     Like[]
+}
