@@ -33,3 +33,30 @@ export const createUserPlaylistService = async (id: string) => {
     throw new Error("No se pudo crear la playlist");
   }
 };
+
+export const updatePlaylistService = async (id, body) => {
+  try {
+    const { name, description, image } = body;
+    const playlist = await prisma.playlist.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+    if (!playlist) {
+      throw new Error("No se pudo encontrar la playlist");
+    }
+    const updatePlaylist = await prisma.playlist.update({
+      data: {
+        name,
+        description,
+        image,
+      },
+      where: {
+        id: playlist.id,
+      },
+    });
+    return updatePlaylist;
+  } catch (error) {
+    throw error;
+  }
+};
