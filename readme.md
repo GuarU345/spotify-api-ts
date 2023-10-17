@@ -23,19 +23,19 @@ o dislike a una cancion en especifico incluso tener sus propios playlist con las
 ## Instalación
 
 ```bash
-   git clone https://github.com/GuarU345/spotify-api-ts.git
+git clone https://github.com/GuarU345/spotify-api-ts.git
 ```
 
 ```bash
-   cd nombre-del-proyecto
+cd nombre-del-proyecto
 ```
 
 ```bash
-   npm install
+npm install
 ```
 
 ```bash
-   npm run dev
+npm run dev
 ```
 
 ## Ejemplo de solicitud GET a la ruta /api/songs
