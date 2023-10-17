@@ -24,8 +24,17 @@ o dislike a una cancion en especifico incluso tener sus propios playlist con las
 
 ```bash
    git clone https://github.com/GuarU345/spotify-api-ts.git
+```
+
+```bash
    cd nombre-del-proyecto
+```
+
+```bash
    npm install
+```
+
+```bash
    npm run dev
 ```
 
