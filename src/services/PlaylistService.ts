@@ -169,3 +169,12 @@ export const countSongsByPlaylistService = async (id) => {
     throw error;
   }
 };
+
+export const PlaylistService = {
+  getUserPlaylistsService,
+  addSongToPlaylistService,
+  updatePlaylistService,
+  countSongsByPlaylistService,
+  createUserPlaylistService,
+  getSongsByPlaylistIdService,
+};

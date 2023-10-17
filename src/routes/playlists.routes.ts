@@ -1,20 +1,19 @@
 import { Router } from "express";
-import {
-  addSongToPlaylist,
-  countSongsByPlaylistId,
-  createUserPlaylist,
-  getSongsByPlaylistId,
-  getUserPlaylists,
-  updatePlaylist,
-} from "../controllers/PlaylistController";
+import { PlaylistController } from "../controllers/PlaylistController";
 
 const router = Router();
 
-router.get("/api/users/:id/playlists", getUserPlaylists);
-router.get("/api/playlists/:id/songs", getSongsByPlaylistId);
-router.get("/api/playlists/:id/songs/count", countSongsByPlaylistId);
-router.post("/api/users/:id/playlists", createUserPlaylist);
-router.patch("/api/playlists/:id", updatePlaylist);
-router.post("/api/playlists/:id/songs/:songId", addSongToPlaylist);
+router.get("/api/users/:id/playlists", PlaylistController.getUserPlaylists);
+router.get("/api/playlists/:id/songs", PlaylistController.getSongsByPlaylistId);
+router.get(
+  "/api/playlists/:id/songs/count",
+  PlaylistController.countSongsByPlaylistId
+);
+router.post("/api/users/:id/playlists", PlaylistController.createUserPlaylist);
+router.patch("/api/playlists/:id", PlaylistController.updatePlaylist);
+router.post(
+  "/api/playlists/:id/songs/:songId",
+  PlaylistController.addSongToPlaylist
+);
 
 export const playlistRoutes = router;
