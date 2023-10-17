@@ -1,6 +1,4 @@
-# Titulo del proyecto
-
-API CLON TIPO SPOTIFY
+# API CLON TIPO SPOTIFY
 
 ## Descripcion
 
