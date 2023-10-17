@@ -15,8 +15,7 @@ o dislike a una cancion en especifico incluso tener sus propios playlist con las
 3. [Uso](#uso)
 4. [Rutas](#rutas)
 5. [Contribuciones](#contribuciones)
-6. [Licencia](#licencia)
-7. [Contacto](#contacto)
+6. [Contacto](#contacto)
 
 ## Requisitos
 
@@ -37,3 +36,55 @@ o dislike a una cancion en especifico incluso tener sus propios playlist con las
 curl http://localhost:3000/api/ejemplo
 
 ## Rutas
+
+### Obtener todas las canciones
+
+- **Ruta:** `GET api/songs`
+- **Descripcion:** Obtiene la lista de canciones
+- **Parametros de consulta:** Ninguno.
+- **Ejemplo de respuesta:**
+
+```json
+[
+  {
+    "authorId": 1,
+    "authorName": "Post Malone",
+    "album": {
+      "albumId": 1,
+      "albumName": "Hollywoods Bleeding",
+      "albumImage": "https://upload.wikimedia.org/wikipedia/en/5/58/Post_Malone_-_Hollywood%27s_Bleeding.png"
+    },
+    "song": {
+      "songId": 1,
+      "songName": "Saint-Tropez"
+    }
+  },
+  {
+    "authorId": 1,
+    "authorName": "Post Malone",
+    "album": {
+      "albumId": 1,
+      "albumName": "Hollywoods Bleeding",
+      "albumImage": "https://upload.wikimedia.org/wikipedia/en/5/58/Post_Malone_-_Hollywood%27s_Bleeding.png"
+    },
+    "song": {
+      "songId": 2,
+      "songName": "Enemies"
+    }
+  }
+]
+```
+
+## Contribuciones
+
+- Crea un fork del repositorio
+- Crea una nueva rama para tus cambios: `git checkout -b nueva-caracteristica`
+- Realiza tus cambios y haz commit: `git commit -m "añade nueva caracteristica`
+- Envia tus cambios: `git push origin tu-rama`
+
+## Contacto
+
+Si tienes alguna pregunta o sugerencia, no dudes en ponerte en contacto conmigo
+en [abelmtz34@outlook.com] o con mi perfil de github GuarU345.
+
+¡Gracias por utilizar la API!
