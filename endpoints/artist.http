@@ -1,5 +1,0 @@
-### get artists
-GET http://localhost:3000/api/artists
-
-### get artist by id
-GET http://localhost:3000/api/artists/1

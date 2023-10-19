@@ -1,5 +1,0 @@
-### get albums
-GET http://localhost:3000/api/albums
-
-### get album by artist id
-GET http://localhost:3000/api/artist/1/albums

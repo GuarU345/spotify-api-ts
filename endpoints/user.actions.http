@@ -1,5 +1,0 @@
-### like song
-POST http://localhost:3000/api/likes/users/4cf5ea9f-0111-47ff-974c-0d4e6d716e08/songs/1
-
-### dislike song
-DELETE http://localhost:3000/api/likes/users/4cf5ea9f-0111-47ff-974c-0d4e6d716e08/songs/7
