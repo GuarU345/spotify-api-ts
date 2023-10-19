@@ -35,6 +35,10 @@ npm install
 ```
 
 ```bash
+npx prisma init --datasource-provider sqlite
+```
+
+```bash
 npm run dev
 ```
 
