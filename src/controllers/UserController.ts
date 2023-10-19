@@ -30,6 +30,7 @@ const signin = async (req: Request, res: Response) => {
     return res.json(token);
   } catch (error) {
     if (error instanceof InvalidCredentialsError) {
+      console.log(error.message);
       return res.json({ message: error.message });
     }
     if (error instanceof GenericPrismaError) {

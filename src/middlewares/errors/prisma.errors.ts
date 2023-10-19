@@ -1,7 +1,7 @@
 class GenericPrismaError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "GenericPrisma";
+    this.name = "GenericPrismaError";
   }
 }
 

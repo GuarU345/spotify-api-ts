@@ -84,12 +84,13 @@ const signinService = async (body) => {
     });
 
     return newToken.jwtSecretKey;
-  } catch (error: unknown) {
+  } catch (error) {
     if (error instanceof InvalidCredentialsError) {
-      throw new Error(error.message);
+      throw error;
+    } else {
+      console.error(error);
+      throw new GenericPrismaError("No se ha podido iniciar sesion");
     }
-    console.error(error);
-    throw new GenericPrismaError("No se ha podido iniciar sesion");
   }
 };
 

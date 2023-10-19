@@ -12,8 +12,6 @@ const createSongService = async (albumId, body) => {
       throw new Error("No puedes crear una cancion en un album que no existe");
     }
 
-    console.log(duration);
-
     const newSong = await prisma.song.create({
       data: {
         name,
