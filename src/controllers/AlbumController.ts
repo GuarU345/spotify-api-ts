@@ -1,12 +1,14 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { AlbumService } from "../services/AlbumService";
 import { albumSchema } from "../schemas/albumSchema";
 import { readFile } from "fs/promises";
 import { Buffer } from "buffer";
-import EmptyResponseError from "../middlewares/errors/errors";
-import GenericPrismaError from "../middlewares/errors/prisma.errors";
 
-const createNewArtistAlbum = async (req: Request, res: Response) => {
+const createNewArtistAlbum = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id } = req.params;
   const image = req.file;
 
@@ -38,39 +40,25 @@ const createNewArtistAlbum = async (req: Request, res: Response) => {
       imageToBase64
     );
     res.json(newAlbum);
-  } catch (error) {
-    if (error instanceof GenericPrismaError) {
-      return res.status(404).json({ error: error.message });
-    }
-  }
+  } catch (error) {}
 };
 
-const getAlbums = async (_req, res) => {
+const getAlbums = async (_req, res: Response, next: NextFunction) => {
   try {
     const albums = await AlbumService.getAlbumsService();
     res.json(albums);
   } catch (error) {
-    if (error instanceof EmptyResponseError) {
-      return res.json({ message: error.message });
-    }
-    if (error instanceof GenericPrismaError) {
-      return res.status(404).json({ error: error.message });
-    }
+    next(error);
   }
 };
 
-const getAlbumsByArtist = async (req, res) => {
+const getAlbumsByArtist = async (req, res: Response, next: NextFunction) => {
   const { id } = req.params;
   try {
     const artistAlbums = await AlbumService.getAlbumsByArtistService(id);
     res.json(artistAlbums);
-  } catch (error: any) {
-    if (error instanceof EmptyResponseError) {
-      return res.json({ message: error.message });
-    }
-    if (error instanceof GenericPrismaError) {
-      return res.status(404).json({ error: error.message });
-    }
+  } catch (error) {
+    next(error);
   }
 };
 

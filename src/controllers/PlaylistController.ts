@@ -1,49 +1,53 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { PlaylistService } from "../services/PlaylistService";
-import EmptyResponseError from "../middlewares/errors/errors";
-import GenericPrismaError from "../middlewares/errors/prisma.errors";
 
-const getUserPlaylists = async (req: Request, res: Response) => {
+const getUserPlaylists = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id } = req.params;
   try {
     const playlists = await PlaylistService.getUserPlaylistsService(id);
     return res.json(playlists);
   } catch (error) {
-    if (error instanceof EmptyResponseError) {
-      return res.json({ message: error.message });
-    }
-    if (error instanceof GenericPrismaError) {
-      return res.status(404).json({ error: error.message });
-    }
+    next(error);
   }
 };
 
-const getSongsByPlaylistId = async (req: Request, res: Response) => {
+const getSongsByPlaylistId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id } = req.params;
   try {
     const resp = await PlaylistService.getSongsByPlaylistIdService(id);
     return res.json(resp);
   } catch (error) {
-    if (error instanceof EmptyResponseError) {
-      return res.json({ message: error.message });
-    }
-    if (error instanceof GenericPrismaError) {
-      return res.status(404).json({ error: error.message });
-    }
+    next(error);
   }
 };
-const createUserPlaylist = async (req: Request, res: Response) => {
+
+const createUserPlaylist = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id } = req.params;
   try {
     const newPlayslist = await PlaylistService.createUserPlaylistService(id);
     return res.json(newPlayslist);
   } catch (error) {
-    if (error instanceof GenericPrismaError) {
-      return res.status(404).json({ error: error.message });
-    }
+    next(error);
   }
 };
-const updatePlaylist = async (req: Request, res: Response) => {
+
+const updatePlaylist = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const body = req.body;
   const { id } = req.params;
   try {
@@ -53,35 +57,36 @@ const updatePlaylist = async (req: Request, res: Response) => {
     );
     return res.json(updatedPlaylist);
   } catch (error) {
-    if (error instanceof GenericPrismaError) {
-      return res.status(404).json({ error: error.message });
-    }
+    next(error);
   }
 };
-const addSongToPlaylist = async (req: Request, res: Response) => {
+
+const addSongToPlaylist = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id } = req.params;
   const { songId } = req.params;
   try {
     const addSong = await PlaylistService.addSongToPlaylistService(id, songId);
     return res.json(addSong);
   } catch (error) {
-    if (error instanceof GenericPrismaError) {
-      return res.status(404).json({ error: error.message });
-    }
+    next(error);
   }
 };
-const countSongsByPlaylistId = async (req: Request, res: Response) => {
+
+const countSongsByPlaylistId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id } = req.params;
   try {
     const songsCount = await PlaylistService.countSongsByPlaylistService(id);
     return res.json(songsCount);
   } catch (error) {
-    if (error instanceof EmptyResponseError) {
-      return res.json({ message: error.message });
-    }
-    if (error instanceof GenericPrismaError) {
-      return res.status(404).json({ error: error.message });
-    }
+    next(error);
   }
 };
 

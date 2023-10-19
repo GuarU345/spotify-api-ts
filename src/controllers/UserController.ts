@@ -1,10 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { UserService } from "../services/UserService";
 import { userSchema } from "../schemas/userSchema";
-import InvalidCredentialsError from "../middlewares/errors/user.errors";
-import GenericPrismaError from "../middlewares/errors/prisma.errors";
 
-const signup = async (req: Request, res: Response) => {
+const signup = async (req: Request, res: Response, next: NextFunction) => {
   const result = userSchema.safeParse(req.body);
 
   if (result.success === false) {
@@ -17,25 +15,17 @@ const signup = async (req: Request, res: Response) => {
     const newUser = await UserService.signupService(body);
     res.json(newUser);
   } catch (error) {
-    if (error instanceof GenericPrismaError) {
-      return res.status(404).json({ error: error.message });
-    }
+    next(error);
   }
 };
 
-const signin = async (req: Request, res: Response) => {
+const signin = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const body = req.body;
     const token = await UserService.signinService(body);
     return res.json(token);
   } catch (error) {
-    if (error instanceof InvalidCredentialsError) {
-      console.log(error.message);
-      return res.json({ message: error.message });
-    }
-    if (error instanceof GenericPrismaError) {
-      return res.status(404).json({ error: error.message });
-    }
+    next(error);
   }
 };
 
