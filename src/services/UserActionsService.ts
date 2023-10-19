@@ -4,6 +4,7 @@ import {
 } from "@prisma/client/runtime/library";
 import EmptyResponseError from "../middlewares/errors/errors";
 import { prisma } from "../utils/prisma";
+import GenericPrismaError from "../middlewares/errors/prisma.errors";
 
 const likeSongService = async (userId: string, songId: string) => {
   try {
@@ -24,7 +25,9 @@ const likeSongService = async (userId: string, songId: string) => {
     return likeSong;
   } catch (error) {
     console.error(error);
-    throw new Error("No se pudo agregar la cancion en tus me gusta");
+    throw new GenericPrismaError(
+      "No se pudo agregar la cancion en tus me gusta"
+    );
   }
 };
 
@@ -58,7 +61,7 @@ const dislikeSongService = async (userId: string, songId: string) => {
       throw error;
     }
     console.error(error);
-    throw new Error("Error al intentar eliminar el registro");
+    throw new GenericPrismaError("Error al intentar eliminar el registro");
   }
 };
 

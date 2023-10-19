@@ -1,5 +1,6 @@
 import { prisma } from "../utils/prisma";
 import EmptyResponseError from "../middlewares/errors/errors";
+import GenericPrismaError from "../middlewares/errors/prisma.errors";
 
 const getArtistsService = async () => {
   try {
@@ -13,7 +14,7 @@ const getArtistsService = async () => {
       throw error;
     }
     console.error(error);
-    throw new Error("Error al buscar los artistas");
+    throw new GenericPrismaError("Error al buscar los artistas");
   }
 };
 
@@ -33,7 +34,7 @@ const getArtistByIdService = async (id: string) => {
       throw error;
     }
     console.error(error);
-    throw new Error("Error al buscar el artista");
+    throw new GenericPrismaError("Error al buscar el artista");
   }
 };
 
@@ -49,7 +50,7 @@ const createArtistService = async (body) => {
     return newArtist;
   } catch (error) {
     console.error(error);
-    throw new Error("Error al crear el artista");
+    throw new GenericPrismaError("Error al crear el artista");
   }
 };
 

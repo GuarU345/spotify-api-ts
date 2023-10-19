@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { artistSchema } from "../schemas/artistSchema";
 import { ArtistService } from "../services/ArtistService";
 import EmptyResponseError from "../middlewares/errors/errors";
+import GenericPrismaError from "../middlewares/errors/prisma.errors";
 
 const createNewArtist = async (req: Request, res: Response) => {
   const result = artistSchema.safeParse(req.body);
@@ -15,8 +16,10 @@ const createNewArtist = async (req: Request, res: Response) => {
   try {
     const newArtist = await ArtistService.createArtistService(body);
     res.json(newArtist);
-  } catch (error: any) {
-    res.json({ message: error.message });
+  } catch (error) {
+    if (error instanceof GenericPrismaError) {
+      return res.status(404).json({ error: error.message });
+    }
   }
 };
 
@@ -27,6 +30,9 @@ const getArtists = async (_req, res) => {
   } catch (error) {
     if (error instanceof EmptyResponseError) {
       return res.json({ message: error.message });
+    }
+    if (error instanceof GenericPrismaError) {
+      return res.status(404).json({ error: error.message });
     }
   }
 };
@@ -39,6 +45,9 @@ const getArtistById = async (req, res) => {
   } catch (error) {
     if (error instanceof EmptyResponseError) {
       return res.json({ message: error.message });
+    }
+    if (error instanceof GenericPrismaError) {
+      return res.status(404).json({ error: error.message });
     }
   }
 };

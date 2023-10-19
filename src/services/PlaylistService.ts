@@ -1,4 +1,5 @@
 import EmptyResponseError from "../middlewares/errors/errors";
+import GenericPrismaError from "../middlewares/errors/prisma.errors";
 import { prisma } from "../utils/prisma";
 
 export const getUserPlaylistsService = async (id) => {
@@ -19,7 +20,9 @@ export const getUserPlaylistsService = async (id) => {
       throw error;
     }
     console.error(error);
-    throw new Error("Error al encontrar las playlists del usuario");
+    throw new GenericPrismaError(
+      "Error al encontrar las playlists del usuario"
+    );
   }
 };
 
@@ -82,7 +85,9 @@ export const getSongsByPlaylistIdService = async (id: string) => {
       throw error;
     }
     console.error(error);
-    throw new Error("Error al encontrar las canciones de esa playlist");
+    throw new GenericPrismaError(
+      "Error al encontrar las canciones de esa playlist"
+    );
   }
 };
 
@@ -101,7 +106,7 @@ export const createUserPlaylistService = async (id: string) => {
     return createPlaylist;
   } catch (error) {
     console.error(error);
-    throw new Error("No se pudo crear la playlist");
+    throw new GenericPrismaError("No se pudo crear la playlist");
   }
 };
 
@@ -132,7 +137,7 @@ export const updatePlaylistService = async (id: string, body) => {
       throw error;
     }
     console.error(error);
-    throw new Error("Error al tratar de actualizar la playlist");
+    throw new GenericPrismaError("Error al tratar de actualizar la playlist");
   }
 };
 
@@ -169,7 +174,9 @@ export const addSongToPlaylistService = async (
       throw error;
     }
     console.error(error);
-    throw new Error("Error al tratar de añadir la cancion a la playlist");
+    throw new GenericPrismaError(
+      "Error al tratar de añadir la cancion a la playlist"
+    );
   }
 };
 
@@ -194,7 +201,7 @@ export const countSongsByPlaylistService = async (id) => {
       throw error;
     }
     console.error(error);
-    throw new Error("Error al realizar la consulta");
+    throw new GenericPrismaError("Error al realizar la consulta");
   }
 };
 

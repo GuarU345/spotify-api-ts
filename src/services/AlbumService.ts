@@ -1,4 +1,5 @@
 import EmptyResponseError from "../middlewares/errors/errors";
+import GenericPrismaError from "../middlewares/errors/prisma.errors";
 import { prisma } from "../utils/prisma";
 
 // Crea un nuevo álbum para un artista dado.
@@ -16,7 +17,7 @@ const createArtistAlbumService = async (artistId, body, album_image) => {
     return newAlbum;
   } catch (error) {
     console.error(error);
-    throw new Error("Error al crear un nuevo album");
+    throw new GenericPrismaError("Error al crear un nuevo album");
   }
 };
 
@@ -37,7 +38,7 @@ const getAlbumByIdService = async (albumId) => {
       throw error;
     }
     console.error(error);
-    throw new Error("Error al buscar el album");
+    throw new GenericPrismaError("Error al buscar el album");
   }
 };
 
@@ -58,7 +59,7 @@ const getAlbumsService = async () => {
       throw error;
     }
     console.error(error);
-    throw new Error("Error al traer los albums");
+    throw new GenericPrismaError("Error al traer los albums");
   }
 };
 
@@ -97,7 +98,7 @@ const getAlbumsByArtistService = async (artistId) => {
       throw error;
     }
     console.error(error);
-    throw new Error("Error al traer los albums del artista");
+    throw new GenericPrismaError("Error al traer los albums del artista");
   }
 };
 

@@ -2,6 +2,7 @@ import { prisma } from "../utils/prisma";
 import jwt from "jsonwebtoken";
 import argon2 from "argon2";
 import InvalidCredentialsError from "../middlewares/errors/user.errors";
+import GenericPrismaError from "../middlewares/errors/prisma.errors";
 
 const signupService = async (body) => {
   const { username, email, password } = body;
@@ -36,8 +37,8 @@ const signupService = async (body) => {
     });
 
     return newUser;
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error) {
+    throw new GenericPrismaError("Error al intentar registrarte");
   }
 };
 
@@ -88,7 +89,7 @@ const signinService = async (body) => {
       throw new Error(error.message);
     }
     console.error(error);
-    throw new Error("No se ha podido iniciar sesion");
+    throw new GenericPrismaError("No se ha podido iniciar sesion");
   }
 };
 

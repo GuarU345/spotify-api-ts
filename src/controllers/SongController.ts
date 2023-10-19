@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { SongService } from "../services/SongService";
 import { songSchema } from "../schemas/songSchema";
 import EmptyResponseError from "../middlewares/errors/errors";
+import GenericPrismaError from "../middlewares/errors/prisma.errors";
 
 const createNewSong = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -16,9 +17,10 @@ const createNewSong = async (req: Request, res: Response) => {
   try {
     const newSong = await SongService.createSongService(id, body);
     res.json(newSong);
-  } catch (error: any) {
-    res.json({ message: error.message });
-    return res.status(404);
+  } catch (error) {
+    if (error instanceof GenericPrismaError) {
+      return res.status(404).json({ error: error.message });
+    }
   }
 };
 
@@ -31,7 +33,9 @@ const getSongs = async (req: Request, res) => {
     if (error instanceof EmptyResponseError) {
       return res.json({ message: error.message });
     }
-    return res.status(404);
+    if (error instanceof GenericPrismaError) {
+      return res.status(404).json({ error: error.message });
+    }
   }
 };
 
@@ -44,7 +48,9 @@ const getSongsByAlbum = async (req: Request, res: Response) => {
     if (error instanceof EmptyResponseError) {
       return res.json({ message: error.message });
     }
-    return res.status(404);
+    if (error instanceof GenericPrismaError) {
+      return res.status(404).json({ error: error.message });
+    }
   }
 };
 
@@ -57,7 +63,9 @@ const getLikedSongsByUser = async (req: Request, res: Response) => {
     if (error instanceof EmptyResponseError) {
       return res.json({ message: error.message });
     }
-    return res.status(404);
+    if (error instanceof GenericPrismaError) {
+      return res.status(404).json({ error: error.message });
+    }
   }
 };
 

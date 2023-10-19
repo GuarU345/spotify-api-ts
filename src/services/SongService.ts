@@ -1,4 +1,5 @@
 import EmptyResponseError from "../middlewares/errors/errors";
+import GenericPrismaError from "../middlewares/errors/prisma.errors";
 import { prisma } from "../utils/prisma";
 import { AlbumService } from "./AlbumService";
 
@@ -24,7 +25,7 @@ const createSongService = async (albumId, body) => {
     return newSong;
   } catch (error) {
     console.error(error);
-    throw new Error("Error al crear la cancion");
+    throw new GenericPrismaError("Error al crear la cancion");
   }
 };
 
@@ -68,7 +69,7 @@ const getAllSongsOrSongByNameService = async (name) => {
       throw error;
     }
     console.error(error);
-    throw new Error("Error al tratar de realizar la busqueda");
+    throw new GenericPrismaError("Error al tratar de realizar la busqueda");
   }
 };
 
@@ -107,7 +108,7 @@ const getSongsByAlbumService = async (albumId) => {
       throw error;
     }
     console.error(error);
-    throw new Error("Error al tratar de encontrar las canciones");
+    throw new GenericPrismaError("Error al tratar de encontrar las canciones");
   }
 };
 
@@ -154,7 +155,7 @@ const getLikedSongsByUserService = async (id: string) => {
       throw error;
     }
     console.error(error);
-    throw new Error("Error al tratar de encontrar las canciones");
+    throw new GenericPrismaError("Error al tratar de encontrar las canciones");
   }
 };
 

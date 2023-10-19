@@ -3,6 +3,8 @@ import { AlbumService } from "../services/AlbumService";
 import { albumSchema } from "../schemas/albumSchema";
 import { readFile } from "fs/promises";
 import { Buffer } from "buffer";
+import EmptyResponseError from "../middlewares/errors/errors";
+import GenericPrismaError from "../middlewares/errors/prisma.errors";
 
 const createNewArtistAlbum = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -36,8 +38,10 @@ const createNewArtistAlbum = async (req: Request, res: Response) => {
       imageToBase64
     );
     res.json(newAlbum);
-  } catch (error: any) {
-    res.json({ message: error.message });
+  } catch (error) {
+    if (error instanceof GenericPrismaError) {
+      return res.status(404).json({ error: error.message });
+    }
   }
 };
 
@@ -46,8 +50,11 @@ const getAlbums = async (_req, res) => {
     const albums = await AlbumService.getAlbumsService();
     res.json(albums);
   } catch (error) {
-    if (error instanceof Error) {
-      res.json({ message: error.message });
+    if (error instanceof EmptyResponseError) {
+      return res.json({ message: error.message });
+    }
+    if (error instanceof GenericPrismaError) {
+      return res.status(404).json({ error: error.message });
     }
   }
 };
@@ -58,7 +65,12 @@ const getAlbumsByArtist = async (req, res) => {
     const artistAlbums = await AlbumService.getAlbumsByArtistService(id);
     res.json(artistAlbums);
   } catch (error: any) {
-    res.json({ message: error.message });
+    if (error instanceof EmptyResponseError) {
+      return res.json({ message: error.message });
+    }
+    if (error instanceof GenericPrismaError) {
+      return res.status(404).json({ error: error.message });
+    }
   }
 };
 
