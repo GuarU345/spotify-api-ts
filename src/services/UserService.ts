@@ -1,8 +1,8 @@
 import { prisma } from "../utils/prisma";
 import jwt from "jsonwebtoken";
 import argon2 from "argon2";
-import InvalidCredentialsError from "../middlewares/errors/user.errors";
-import GenericPrismaError from "../middlewares/errors/prisma.errors";
+import InvalidCredentialsError from "../middlewares/errors/user.error";
+import GenericPrismaError from "../middlewares/errors/prisma.error";
 
 const signupService = async (body) => {
   const { username, email, password } = body;

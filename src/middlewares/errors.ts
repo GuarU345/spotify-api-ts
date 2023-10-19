@@ -1,6 +1,6 @@
-import EmptyResponseError from "./errors/errors";
-import GenericPrismaError from "./errors/prisma.errors";
-import InvalidCredentialsError from "./errors/user.errors";
+import EmptyResponseError from "./errors/empty.error";
+import GenericPrismaError from "./errors/prisma.error";
+import InvalidCredentialsError from "./errors/user.error";
 
 export const handleError = async (err, _req, res, _next) => {
   // Verifica si el error es de tipo InvalidCredentialsError

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { prisma } from "../utils/prisma";
+import CustomErrors from "./errors/token.error";
 
 export const authenticate = async (
   req: Request,
@@ -11,7 +12,7 @@ export const authenticate = async (
     const header = req.headers.authorization;
 
     if (!header || !header.startsWith("Bearer ")) {
-      throw new Error("No cabecera");
+      throw new CustomErrors.NotAuthorizationTokenError("No cabecera");
     }
 
     const token = header.replace("Bearer ", "");
@@ -23,7 +24,7 @@ export const authenticate = async (
     });
 
     if (!tokenExist) {
-      throw new Error("Token Invalido");
+      throw new CustomErrors.InvalidTokenError("Token Invalido");
     }
 
     jwt.verify(token, process.env.JWT_KEY || "");

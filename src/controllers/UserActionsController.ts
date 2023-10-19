@@ -1,7 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { UserActionsService } from "../services/UserActionsService";
-import EmptyResponseError from "../middlewares/errors/errors";
-import GenericPrismaError from "../middlewares/errors/prisma.errors";
 
 const likeSong = async (req: Request, res: Response, next: NextFunction) => {
   const { userId } = req.params;

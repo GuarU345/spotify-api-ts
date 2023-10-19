@@ -2,9 +2,9 @@ import {
   PrismaClientKnownRequestError,
   PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
-import EmptyResponseError from "../middlewares/errors/errors";
+import EmptyResponseError from "../middlewares/errors/empty.error";
 import { prisma } from "../utils/prisma";
-import GenericPrismaError from "../middlewares/errors/prisma.errors";
+import GenericPrismaError from "../middlewares/errors/prisma.error";
 
 const likeSongService = async (userId: string, songId: string) => {
   try {

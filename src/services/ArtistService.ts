@@ -1,6 +1,6 @@
 import { prisma } from "../utils/prisma";
-import EmptyResponseError from "../middlewares/errors/errors";
-import GenericPrismaError from "../middlewares/errors/prisma.errors";
+import EmptyResponseError from "../middlewares/errors/empty.error";
+import GenericPrismaError from "../middlewares/errors/prisma.error";
 
 const getArtistsService = async () => {
   try {

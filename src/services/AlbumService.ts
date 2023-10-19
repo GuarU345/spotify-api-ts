@@ -1,5 +1,5 @@
-import EmptyResponseError from "../middlewares/errors/errors";
-import GenericPrismaError from "../middlewares/errors/prisma.errors";
+import EmptyResponseError from "../middlewares/errors/empty.error";
+import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { prisma } from "../utils/prisma";
 
 // Crea un nuevo álbum para un artista dado.
