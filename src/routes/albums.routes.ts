@@ -8,13 +8,13 @@ const router = Router();
 router.get("/api/albums", AlbumController.getAlbums);
 router.post(
   "/api/artists/:id/albums",
-
+  authenticate,
   upload.single("album_image"),
   AlbumController.createNewArtistAlbum
 );
 router.get(
   "/api/artists/:id/albums",
-
+  authenticate,
   AlbumController.getAlbumsByArtist
 );
 

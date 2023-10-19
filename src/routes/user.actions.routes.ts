@@ -6,10 +6,12 @@ const router = Router();
 
 router.post(
   "/api/users/:userId/songs/:songId/likes",
+  authenticate,
   UserActionsController.likeSong
 );
 router.delete(
   "/api/users/:userId/songs/:songId/likes",
+  authenticate,
   UserActionsController.dislikeSong
 );
 
