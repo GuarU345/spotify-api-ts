@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { artistSchema } from "../schemas/artistSchema";
 import { ArtistService } from "../services/ArtistService";
+import EmptyResponseError from "../middlewares/errors/errors";
 
 const createNewArtist = async (req: Request, res: Response) => {
   const result = artistSchema.safeParse(req.body);
@@ -23,8 +24,10 @@ const getArtists = async (_req, res) => {
   try {
     const artists = await ArtistService.getArtistsService();
     res.json(artists);
-  } catch (error: any) {
-    res.json({ message: error.message });
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      return res.json({ message: error.message });
+    }
   }
 };
 
@@ -33,8 +36,10 @@ const getArtistById = async (req, res) => {
   try {
     const artist = await ArtistService.getArtistByIdService(id);
     res.json(artist);
-  } catch (error: any) {
-    res.json({ message: error.message });
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      return res.json({ message: error.message });
+    }
   }
 };
 

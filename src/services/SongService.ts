@@ -1,3 +1,4 @@
+import EmptyResponseError from "../middlewares/errors/errors";
 import { prisma } from "../utils/prisma";
 import { AlbumService } from "./AlbumService";
 
@@ -22,11 +23,12 @@ const createSongService = async (albumId, body) => {
     });
     return newSong;
   } catch (error) {
+    console.error(error);
     throw new Error("Error al crear la cancion");
   }
 };
 
-const searchSongByNameService = async (name) => {
+const getAllSongsOrSongByNameService = async (name) => {
   try {
     const songs = await prisma.song.findMany({
       include: {
@@ -62,6 +64,10 @@ const searchSongByNameService = async (name) => {
 
     return songsWithData;
   } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
     throw new Error("Error al tratar de realizar la busqueda");
   }
 };
@@ -79,7 +85,7 @@ const getSongsByAlbumService = async (albumId) => {
     });
 
     if (!album) {
-      throw new Error("Album no encontrado");
+      throw new EmptyResponseError("Album no encontrado");
     }
 
     const songsAlbum = {
@@ -97,6 +103,10 @@ const getSongsByAlbumService = async (albumId) => {
     };
     return songsAlbum;
   } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
     throw new Error("Error al tratar de encontrar las canciones");
   }
 };
@@ -109,7 +119,7 @@ const getLikedSongsByUserService = async (id: string) => {
       },
     });
     if (searchLikedSongs.length === 0) {
-      throw new Error("No tienes canciones con me gusta");
+      throw new EmptyResponseError("No tienes canciones con me gusta");
     }
     const likedSongIds = searchLikedSongs.map((likedSong) => likedSong.song_id);
 
@@ -140,13 +150,17 @@ const getLikedSongsByUserService = async (id: string) => {
 
     return likedSongs;
   } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
     throw new Error("Error al tratar de encontrar las canciones");
   }
 };
 
 export const SongService = {
   createSongService,
-  searchSongByNameService,
+  getAllSongsOrSongByNameService,
   getSongsByAlbumService,
   getLikedSongsByUserService,
 };

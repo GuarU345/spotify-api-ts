@@ -5,13 +5,11 @@ import { authenticate } from "../middlewares/authenticate";
 const router = Router();
 
 router.post(
-  "/api/likes/user/:userId/song/:songId",
-  authenticate,
+  "/api/likes/users/:userId/songs/:songId",
   UserActionsController.likeSong
 );
 router.delete(
-  "/api/likes/user/:userId/song/:songId",
-  authenticate,
+  "/api/likes/users/:userId/songs/:songId",
   UserActionsController.dislikeSong
 );
 

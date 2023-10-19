@@ -1,14 +1,18 @@
-import { Prisma } from "@prisma/client";
 import { prisma } from "../utils/prisma";
+import EmptyResponseError from "../middlewares/errors/errors";
 
 const getArtistsService = async () => {
   try {
     const artists = await prisma.artist.findMany();
     if (!artists) {
-      throw new Error("No se encontraron artistas");
+      throw new EmptyResponseError("No se encontraron artistas");
     }
     return artists;
   } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
     throw new Error("Error al buscar los artistas");
   }
 };
@@ -21,10 +25,14 @@ const getArtistByIdService = async (id: string) => {
       },
     });
     if (!artist) {
-      throw new Error("Artista no encontrado");
+      throw new EmptyResponseError("Artista no encontrado");
     }
     return artist;
   } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
     throw new Error("Error al buscar el artista");
   }
 };
@@ -40,6 +48,7 @@ const createArtistService = async (body) => {
     });
     return newArtist;
   } catch (error) {
+    console.error(error);
     throw new Error("Error al crear el artista");
   }
 };

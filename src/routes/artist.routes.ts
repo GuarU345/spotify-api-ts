@@ -4,8 +4,8 @@ import { authenticate } from "../middlewares/authenticate";
 
 const router = Router();
 
-router.post("/api/artists", authenticate, ArtistController.createNewArtist);
-router.get("/api/artists", authenticate, ArtistController.getArtists);
-router.get("/api/artists/:id", authenticate, ArtistController.getArtistById);
+router.post("/api/artists", ArtistController.createNewArtist);
+router.get("/api/artists", ArtistController.getArtists);
+router.get("/api/artists/:id", ArtistController.getArtistById);
 
 export const artistRoutes = router;

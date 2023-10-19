@@ -1,3 +1,4 @@
+import EmptyResponseError from "../middlewares/errors/errors";
 import { prisma } from "../utils/prisma";
 
 // Crea un nuevo álbum para un artista dado.
@@ -14,6 +15,7 @@ const createArtistAlbumService = async (artistId, body, album_image) => {
     });
     return newAlbum;
   } catch (error) {
+    console.error(error);
     throw new Error("Error al crear un nuevo album");
   }
 };
@@ -26,9 +28,15 @@ const getAlbumByIdService = async (albumId) => {
         id: Number(albumId),
       },
     });
-
+    if (!album) {
+      throw new EmptyResponseError("No se pudo encontrar el album");
+    }
     return album;
   } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
     throw new Error("Error al buscar el album");
   }
 };
@@ -42,10 +50,14 @@ const getAlbumsService = async () => {
       },
     });
     if (!albums) {
-      throw new Error("No se encontraron albums");
+      throw new EmptyResponseError("No se encontraron albums");
     }
     return albums;
   } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
     throw new Error("Error al traer los albums");
   }
 };
@@ -63,7 +75,7 @@ const getAlbumsByArtistService = async (artistId) => {
     });
 
     if (!artist) {
-      throw new Error("Artista no encontrado");
+      throw new EmptyResponseError("Artista no encontrado");
     }
 
     const artistAlbums = {
@@ -81,6 +93,10 @@ const getAlbumsByArtistService = async (artistId) => {
     };
     return artistAlbums;
   } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
     throw new Error("Error al traer los albums del artista");
   }
 };

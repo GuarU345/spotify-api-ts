@@ -1,13 +1,17 @@
 import { Request, Response } from "express";
 import { PlaylistService } from "../services/PlaylistService";
+import EmptyResponseError from "../middlewares/errors/errors";
 
 const getUserPlaylists = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const playlists = await PlaylistService.getUserPlaylistsService(id);
     return res.json(playlists);
-  } catch (error: any) {
-    return res.status(404).json({ message: error.message });
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      return res.json({ message: error.message });
+    }
+    return res.status(404).json(error);
   }
 };
 
@@ -16,8 +20,11 @@ const getSongsByPlaylistId = async (req: Request, res: Response) => {
   try {
     const resp = await PlaylistService.getSongsByPlaylistIdService(id);
     return res.json(resp);
-  } catch (error: any) {
-    return res.status(404).json({ message: error.message });
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      return res.json({ message: error.message });
+    }
+    return res.status(404).json(error);
   }
 };
 const createUserPlaylist = async (req: Request, res: Response) => {
@@ -57,8 +64,11 @@ const countSongsByPlaylistId = async (req: Request, res: Response) => {
   try {
     const songsCount = await PlaylistService.countSongsByPlaylistService(id);
     return res.json(songsCount);
-  } catch (error: any) {
-    return res.status(404).json({ message: error.message });
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      return res.json({ message: error.message });
+    }
+    return res.status(404).json(error);
   }
 };
 

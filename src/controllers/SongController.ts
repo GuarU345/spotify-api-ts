@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { SongService } from "../services/SongService";
 import { songSchema } from "../schemas/songSchema";
+import EmptyResponseError from "../middlewares/errors/errors";
 
 const createNewSong = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -17,16 +18,20 @@ const createNewSong = async (req: Request, res: Response) => {
     res.json(newSong);
   } catch (error: any) {
     res.json({ message: error.message });
+    return res.status(404);
   }
 };
 
-const getSongByName = async (req: Request, res) => {
+const getSongs = async (req: Request, res) => {
   const { name } = req.query;
   try {
-    const songWithData = await SongService.searchSongByNameService(name);
+    const songWithData = await SongService.getAllSongsOrSongByNameService(name);
     res.json(songWithData);
-  } catch (error: any) {
-    res.json({ message: error.message });
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      return res.json({ message: error.message });
+    }
+    return res.status(404);
   }
 };
 
@@ -34,9 +39,12 @@ const getSongsByAlbum = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const songsAlbum = await SongService.getSongsByAlbumService(id);
-    res.json(songsAlbum);
-  } catch (error: any) {
-    res.json({ message: error.message });
+    return res.json(songsAlbum);
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      return res.json({ message: error.message });
+    }
+    return res.status(404);
   }
 };
 
@@ -45,14 +53,17 @@ const getLikedSongsByUser = async (req: Request, res: Response) => {
   try {
     const likedSongs = await SongService.getLikedSongsByUserService(id);
     res.json(likedSongs);
-  } catch (error: any) {
-    res.json({ message: error.message });
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      return res.json({ message: error.message });
+    }
+    return res.status(404);
   }
 };
 
 export const SongController = {
   createNewSong,
   getSongsByAlbum,
-  getSongByName,
+  getSongs,
   getLikedSongsByUser,
 };

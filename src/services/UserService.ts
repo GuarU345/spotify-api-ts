@@ -1,7 +1,7 @@
 import { prisma } from "../utils/prisma";
 import jwt from "jsonwebtoken";
 import argon2 from "argon2";
-import InvalidCredentialsError from "../middlewares/errors";
+import InvalidCredentialsError from "../middlewares/errors/user.errors";
 
 const signupService = async (body) => {
   const { username, email, password } = body;
@@ -86,9 +86,9 @@ const signinService = async (body) => {
   } catch (error: unknown) {
     if (error instanceof InvalidCredentialsError) {
       throw new Error(error.message);
-    } else {
-      throw new Error("No se ha podido iniciar sesion");
     }
+    console.error(error);
+    throw new Error("No se ha podido iniciar sesion");
   }
 };
 

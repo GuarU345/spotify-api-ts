@@ -1,3 +1,4 @@
+import EmptyResponseError from "../middlewares/errors/errors";
 import { prisma } from "../utils/prisma";
 
 export const getUserPlaylistsService = async (id) => {
@@ -8,67 +9,81 @@ export const getUserPlaylistsService = async (id) => {
       },
     });
     if (playlists.length === 0) {
-      throw new Error("No se encontraron playlists de ese usuario");
+      throw new EmptyResponseError(
+        "No se encontraron playlists de ese usuario"
+      );
     }
     return playlists;
   } catch (error) {
-    throw error;
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
+    throw new Error("Error al encontrar las playlists del usuario");
   }
 };
 
 export const getSongsByPlaylistIdService = async (id: string) => {
-  //get specific playlist
-  const playlist = await prisma.playlist.findUnique({
-    where: {
-      id: Number(id),
-    },
-  });
-
-  if (!playlist) {
-    throw new Error("No se pudo encontrar la playlist");
-  }
-
-  //get info with playlist id
-  const playlistData = await prisma.playlistSong.findMany({
-    where: {
-      playlist_id: playlist.id,
-    },
-  });
-
-  if (playlistData.length === 0) {
-    throw new Error("Playlist vacia");
-  }
-
-  //get song ids saved in this playlist
-  const songIds = playlistData.map((playlistSong) => playlistSong.song_id);
-
-  //search songs by id iterating the song ids
-  const songsInfo = await prisma.song.findMany({
-    where: {
-      id: {
-        in: songIds,
+  try {
+    //get specific playlist
+    const playlist = await prisma.playlist.findUnique({
+      where: {
+        id: Number(id),
       },
-    },
-    include: {
-      artist: true,
-      album: true,
-    },
-  });
+    });
 
-  const playlistSongs = {
-    playlist: playlist.name,
-    playlistDescription: playlist.description,
-    playlistImg: playlist.image,
-    songs: songsInfo.map((playlistSong) => {
-      return {
-        songName: playlistSong.name,
-        artistName: playlistSong.artist?.name,
-        albumName: playlistSong.album.name,
-        albumImage: playlistSong.album.album_image,
-      };
-    }),
-  };
-  return playlistSongs;
+    if (!playlist) {
+      throw new EmptyResponseError("No se pudo encontrar la playlist");
+    }
+
+    //get info with playlist id
+    const playlistData = await prisma.playlistSong.findMany({
+      where: {
+        playlist_id: playlist.id,
+      },
+    });
+
+    if (playlistData.length === 0) {
+      throw new EmptyResponseError("Playlist vacia");
+    }
+
+    //get song ids saved in this playlist
+    const songIds = playlistData.map((playlistSong) => playlistSong.song_id);
+
+    //search songs by id iterating the song ids
+    const songsInfo = await prisma.song.findMany({
+      where: {
+        id: {
+          in: songIds,
+        },
+      },
+      include: {
+        artist: true,
+        album: true,
+      },
+    });
+
+    const playlistSongs = {
+      playlist: playlist.name,
+      playlistDescription: playlist.description,
+      playlistImg: playlist.image,
+      songs: songsInfo.map((playlistSong) => {
+        return {
+          songName: playlistSong.name,
+          artistName: playlistSong.artist?.name,
+          albumName: playlistSong.album.name,
+          albumImage: playlistSong.album.album_image,
+        };
+      }),
+    };
+    return playlistSongs;
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
+    throw new Error("Error al encontrar las canciones de esa playlist");
+  }
 };
 
 export const createUserPlaylistService = async (id: string) => {
@@ -85,6 +100,7 @@ export const createUserPlaylistService = async (id: string) => {
     });
     return createPlaylist;
   } catch (error) {
+    console.error(error);
     throw new Error("No se pudo crear la playlist");
   }
 };
@@ -98,7 +114,7 @@ export const updatePlaylistService = async (id: string, body) => {
       },
     });
     if (!playlist) {
-      throw new Error("No se pudo encontrar la playlist");
+      throw new EmptyResponseError("No se pudo encontrar la playlist");
     }
     const updatePlaylist = await prisma.playlist.update({
       data: {
@@ -112,7 +128,11 @@ export const updatePlaylistService = async (id: string, body) => {
     });
     return updatePlaylist;
   } catch (error) {
-    throw error;
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
+    throw new Error("Error al tratar de actualizar la playlist");
   }
 };
 
@@ -127,7 +147,7 @@ export const addSongToPlaylistService = async (
       },
     });
     if (!playlist) {
-      throw new Error("No se pudo encontrar la playlist");
+      throw new EmptyResponseError("No se pudo encontrar la playlist");
     }
     const song = await prisma.song.findUnique({
       where: {
@@ -135,7 +155,7 @@ export const addSongToPlaylistService = async (
       },
     });
     if (!song) {
-      throw new Error("No se pudo encontrar la cancion");
+      throw new EmptyResponseError("No se pudo encontrar la cancion");
     }
     const addSong = await prisma.playlistSong.create({
       data: {
@@ -145,7 +165,11 @@ export const addSongToPlaylistService = async (
     });
     return addSong;
   } catch (error) {
-    throw error;
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
+    throw new Error("Error al tratar de añadir la cancion a la playlist");
   }
 };
 
@@ -160,13 +184,17 @@ export const countSongsByPlaylistService = async (id) => {
       },
     });
     if (!playlist) {
-      throw new Error("No se pudo encontrar la playlist");
+      throw new EmptyResponseError("No se pudo encontrar la playlist");
     }
     return {
       count: playlist.PlaylistSongs.length,
     };
   } catch (error) {
-    throw error;
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
+    throw new Error("Error al realizar la consulta");
   }
 };
 
