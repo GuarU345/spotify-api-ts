@@ -69,8 +69,23 @@ const addSongToPlaylist = async (
   const { id } = req.params;
   const { songId } = req.params;
   try {
-    const addSong = await PlaylistService.addSongToPlaylistService(id, songId);
-    return res.json(addSong);
+    await PlaylistService.addSongToPlaylistService(id, songId);
+    return res.json({ add: true });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const removeSongOnPlaylist = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.params;
+  const { songId } = req.params;
+  try {
+    await PlaylistService.removeSongOnPlaylistService(id, songId);
+    return res.json({ removed: true });
   } catch (error) {
     next(error);
   }
@@ -97,4 +112,5 @@ export const PlaylistController = {
   updatePlaylist,
   addSongToPlaylist,
   countSongsByPlaylistId,
+  removeSongOnPlaylist,
 };

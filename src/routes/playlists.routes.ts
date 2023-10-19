@@ -15,5 +15,9 @@ router.post(
   "/api/playlists/:id/songs/:songId",
   PlaylistController.addSongToPlaylist
 );
+router.delete(
+  "/api/playlists/:id/songs/:songId",
+  PlaylistController.removeSongOnPlaylist
+);
 
 export const playlistRoutes = router;
