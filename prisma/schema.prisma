@@ -87,4 +87,6 @@ model PlaylistSong {
   song        Song     @relation(fields: [song_id], references: [id])
   playlist_id Int
   playlist    Playlist @relation(fields: [playlist_id], references: [id])
+
+  @@unique([song_id, playlist_id])
 }
