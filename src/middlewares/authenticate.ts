@@ -29,7 +29,7 @@ export const authenticate = async (
 
     jwt.verify(token, process.env.JWT_KEY || "");
     next();
-  } catch (error: any) {
-    return res.status(401).json({ error: error.message });
+  } catch (error) {
+    next(error);
   }
 };
