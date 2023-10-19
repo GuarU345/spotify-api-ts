@@ -5,6 +5,7 @@ node_modules
 #files of prisma
 migrations
 dev.db
+dev.db-journal
 
 #external files
 upload
