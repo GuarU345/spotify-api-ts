@@ -1,0 +1,49 @@
+### Este archivo contiene los endpoints iniciales para poder comenzar a usar la api
+
+### Te debes de registrar para poder tener tu cuenta y poder iniciar sesion
+POST http://localhost:3000/api/signup
+Content-Type: application/json
+
+{
+    "username":"?",
+    "email":"email de prueba",
+    "password":"?"
+}
+
+### Debes de iniciar sesion para poder utilizar los demas endpoints ya que requeriras un token
+POST http://localhost:3000/api/signin
+Content-Type: application/json
+
+{
+    "email":"tu email creado",
+    "password":"tu contraseña"
+}
+
+### Crear un artista es necesario para despues crear un album
+POST http://localhost:3000/api/artists
+Content-Type: application/json
+
+{
+    "name":"nombre del artista",
+    "nationality":"nacionalidad del artista"
+}
+
+### Crear un album al que despues le podras agregar canciones
+POST http://localhost:3000/api/artist/:id/albums
+Content-Type: application/json
+
+{
+    "name":"nombre del album",
+    "release_date":"fecha de creacion"
+}
+
+### Agregar una cancion a un album en especifico
+POST http://localhost:3000/api/albums/:id/songs
+Content-Type: application/json
+
+{
+    "name":"nombre de la cancion",
+    "duration":"duracion de la cancion HH:MM o MM:SS"
+}
+
+### Con estos endpoints ya puedes empezar a manejar los datos a tu gusto
