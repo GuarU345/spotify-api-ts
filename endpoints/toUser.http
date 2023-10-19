@@ -22,6 +22,7 @@ Content-Type: application/json
 ### Crear un artista es necesario para despues crear un album
 POST http://localhost:3000/api/artists
 Content-Type: application/json
+Authorization: Bearer tu token
 
 {
     "name":"nombre del artista",
@@ -31,6 +32,7 @@ Content-Type: application/json
 ### Crear un album al que despues le podras agregar canciones
 POST http://localhost:3000/api/artist/:id/albums
 Content-Type: application/json
+Authorization: Bearer tu token
 
 {
     "name":"nombre del album",
@@ -40,6 +42,7 @@ Content-Type: application/json
 ### Agregar una cancion a un album en especifico
 POST http://localhost:3000/api/albums/:id/songs
 Content-Type: application/json
+Authorization: Bearer tu token
 
 {
     "name":"nombre de la cancion",
