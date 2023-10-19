@@ -30,7 +30,7 @@ Authorization: Bearer tu token
 }
 
 ### Crear un album al que despues le podras agregar canciones
-POST http://localhost:3000/api/artist/:id/albums
+POST http://localhost:3000/api/artists/:id/albums
 Content-Type: application/json
 Authorization: Bearer tu token
 

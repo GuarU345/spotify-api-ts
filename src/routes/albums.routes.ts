@@ -7,13 +7,13 @@ const router = Router();
 
 router.get("/api/albums", AlbumController.getAlbums);
 router.post(
-  "/api/artist/:id/albums",
+  "/api/artists/:id/albums",
 
   upload.single("album_image"),
   AlbumController.createNewArtistAlbum
 );
 router.get(
-  "/api/artist/:id/albums",
+  "/api/artists/:id/albums",
 
   AlbumController.getAlbumsByArtist
 );
