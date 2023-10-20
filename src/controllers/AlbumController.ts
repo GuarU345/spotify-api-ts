@@ -13,7 +13,7 @@ const createNewArtistAlbum = async (
   const image = req.file;
 
   if (image === undefined) {
-    throw new Error();
+    return res.json(422).json();
   }
 
   const img = await readFile(image.path);

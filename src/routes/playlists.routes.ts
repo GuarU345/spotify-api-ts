@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { PlaylistController } from "../controllers/PlaylistController";
 import { authenticate } from "../middlewares/authenticate";
+import upload from "../middlewares/multer";
 
 const router = Router();
 
@@ -27,6 +28,7 @@ router.post(
 router.patch(
   "/api/users/:userId/playlists/:playlistId",
   authenticate,
+  upload.single("image"),
   PlaylistController.updatePlaylist
 );
 router.post(
