@@ -35,12 +35,16 @@ npm install
 ```
 
 ```bash
-npx prisma init --datasource-provider sqlite
+npx prisma migrate dev --name init
 ```
 
 ```bash
 npm run dev
 ```
+
+## Uso
+
+Esta API te permite acceder a las funciones esenciales similares a las que ofrece Spotify, como agregar artistas, crear álbumes, agregar canciones, dar like o dislike a una canción y administrar tus propias listas de reproducción personalizadas. A continuación, se detallan los pasos y ejemplos de cómo utilizar algunas de las funcionalidades principales
 
 ## Ejemplo de solicitud GET a la ruta /api/songs
 
