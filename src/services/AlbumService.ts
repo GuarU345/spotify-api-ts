@@ -64,7 +64,7 @@ const getAlbumsService = async () => {
 };
 
 // Obtiene todos los álbumes de un artista por su ID.
-const getAlbumsByArtistService = async (artistId) => {
+const getAlbumsByArtistIdService = async (artistId) => {
   try {
     const artist = await prisma.artist.findUnique({
       include: {
@@ -105,6 +105,6 @@ const getAlbumsByArtistService = async (artistId) => {
 export const AlbumService = {
   getAlbumsService,
   getAlbumByIdService,
-  getAlbumsByArtistService,
+  getAlbumsByArtistIdService,
   createArtistAlbumService,
 };

@@ -2,7 +2,7 @@ import EmptyResponseError from "../middlewares/errors/empty.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { prisma } from "../utils/prisma";
 
-const getUserPlaylistsService = async (id) => {
+const getPlaylistsByUserIdService = async (id) => {
   try {
     const playlists = await prisma.playlist.findMany({
       where: {
@@ -110,7 +110,7 @@ const createUserPlaylistService = async (id: string) => {
   }
 };
 
-const updatePlaylistService = async (id: string, body) => {
+const updatePlaylistService = async (id: string, userId: string, body) => {
   try {
     const { name, description, image } = body;
     const playlist = await prisma.playlist.findUnique({
@@ -129,6 +129,7 @@ const updatePlaylistService = async (id: string, body) => {
       },
       where: {
         id: playlist.id,
+        user_id: userId,
       },
     });
     return updatePlaylist;
@@ -227,7 +228,7 @@ const removeSongOnPlaylistService = async (playlistId, songId) => {
   }
 };
 
-const countSongsByPlaylistService = async (id) => {
+const countSongsByPlaylistIdService = async (id) => {
   try {
     const playlist = await prisma.playlist.findUnique({
       where: {
@@ -253,10 +254,10 @@ const countSongsByPlaylistService = async (id) => {
 };
 
 export const PlaylistService = {
-  getUserPlaylistsService,
+  getPlaylistsByUserIdService,
   addSongToPlaylistService,
   updatePlaylistService,
-  countSongsByPlaylistService,
+  countSongsByPlaylistIdService,
   createUserPlaylistService,
   getSongsByPlaylistIdService,
   removeSongOnPlaylistService,

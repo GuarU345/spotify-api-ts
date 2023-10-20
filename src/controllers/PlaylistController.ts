@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import { PlaylistService } from "../services/PlaylistService";
 
-const getUserPlaylists = async (
+const getPlaylistsByUserId = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const { id } = req.params;
   try {
-    const playlists = await PlaylistService.getUserPlaylistsService(id);
+    const playlists = await PlaylistService.getPlaylistsByUserIdService(id);
     return res.json(playlists);
   } catch (error) {
     next(error);
@@ -49,10 +49,11 @@ const updatePlaylist = async (
   next: NextFunction
 ) => {
   const body = req.body;
-  const { id } = req.params;
+  const { playlistId, userId } = req.params;
   try {
     const updatedPlaylist = await PlaylistService.updatePlaylistService(
-      id,
+      playlistId,
+      userId,
       body
     );
     return res.json(updatedPlaylist);
@@ -66,10 +67,9 @@ const addSongToPlaylist = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { id } = req.params;
-  const { songId } = req.params;
+  const { playlistId, songId } = req.params;
   try {
-    await PlaylistService.addSongToPlaylistService(id, songId);
+    await PlaylistService.addSongToPlaylistService(playlistId, songId);
     return res.json({ add: true });
   } catch (error) {
     next(error);
@@ -81,10 +81,10 @@ const removeSongOnPlaylist = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { id } = req.params;
+  const { playlistId } = req.params;
   const { songId } = req.params;
   try {
-    await PlaylistService.removeSongOnPlaylistService(id, songId);
+    await PlaylistService.removeSongOnPlaylistService(playlistId, songId);
     return res.json({ removed: true });
   } catch (error) {
     next(error);
@@ -98,7 +98,7 @@ const countSongsByPlaylistId = async (
 ) => {
   const { id } = req.params;
   try {
-    const songsCount = await PlaylistService.countSongsByPlaylistService(id);
+    const songsCount = await PlaylistService.countSongsByPlaylistIdService(id);
     return res.json(songsCount);
   } catch (error) {
     next(error);
@@ -106,7 +106,7 @@ const countSongsByPlaylistId = async (
 };
 
 export const PlaylistController = {
-  getUserPlaylists,
+  getPlaylistsByUserId,
   getSongsByPlaylistId,
   createUserPlaylist,
   updatePlaylist,

@@ -15,7 +15,7 @@ router.post(
 router.get(
   "/api/artists/:id/albums",
   authenticate,
-  AlbumController.getAlbumsByArtist
+  AlbumController.getAlbumsByArtistId
 );
 
 export const albumRoutes = router;

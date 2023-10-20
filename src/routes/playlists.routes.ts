@@ -7,7 +7,7 @@ const router = Router();
 router.get(
   "/api/users/:id/playlists",
   authenticate,
-  PlaylistController.getUserPlaylists
+  PlaylistController.getPlaylistsByUserId
 );
 router.get(
   "/api/playlists/:id/songs",
@@ -25,17 +25,17 @@ router.post(
   PlaylistController.createUserPlaylist
 );
 router.patch(
-  "/api/playlists/:id",
+  "/api/users/:userId/playlists/:playlistId",
   authenticate,
   PlaylistController.updatePlaylist
 );
 router.post(
-  "/api/playlists/:id/songs/:songId",
+  "/api/playlists/:playlistId/songs/:songId",
   authenticate,
   PlaylistController.addSongToPlaylist
 );
 router.delete(
-  "/api/playlists/:id/songs/:songId",
+  "/api/playlists/:playlistId/songs/:songId",
   authenticate,
   PlaylistController.removeSongOnPlaylist
 );

@@ -2,8 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { UserActionsService } from "../services/UserActionsService";
 
 const likeSong = async (req: Request, res: Response, next: NextFunction) => {
-  const { userId } = req.params;
-  const { songId } = req.params;
+  const { userId, songId } = req.params;
 
   try {
     await UserActionsService.likeSongService(userId, songId);
@@ -14,8 +13,7 @@ const likeSong = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const dislikeSong = async (req: Request, res: Response, next: NextFunction) => {
-  const { userId } = req.params;
-  const { songId } = req.params;
+  const { userId, songId } = req.params;
 
   try {
     await UserActionsService.dislikeSongService(userId, songId);

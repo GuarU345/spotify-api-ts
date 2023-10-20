@@ -94,6 +94,21 @@ const signinService = async (body) => {
   }
 };
 
+export const getUserDataByTokenService = async (bearer: string) => {
+  const token = bearer.replace("Bearer", "").trim();
+  const userToken = await prisma.token.findFirst({
+    where: {
+      jwtSecretKey: token,
+    },
+  });
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userToken?.user_id,
+    },
+  });
+  return user?.id;
+};
+
 export const UserService = {
   signupService,
   signinService,
