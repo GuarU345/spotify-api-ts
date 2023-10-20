@@ -41,7 +41,7 @@ model Like {
 
 model Artist {
   id          Int     @id @default(autoincrement())
-  name        String
+  name        String  @unique
   nationality String?
   albums      Album[]
   songs       Song[]
@@ -55,6 +55,8 @@ model Album {
   artist_id    Int
   artist       Artist   @relation(fields: [artist_id], references: [id])
   songs        Song[]
+
+  @@unique([name, artist_id])
 }
 
 model Song {
@@ -67,6 +69,8 @@ model Song {
   album         Album          @relation(fields: [album_id], references: [id])
   likes         Like[]
   PlaylistSongs PlaylistSong[]
+
+  @@unique([name, artist_id])
 }
 
 model Playlist {
@@ -79,6 +83,8 @@ model Playlist {
   user_id       String
   user          User           @relation(fields: [user_id], references: [id])
   PlaylistSongs PlaylistSong[]
+
+  @@unique([name, user_id])
 }
 
 model PlaylistSong {
