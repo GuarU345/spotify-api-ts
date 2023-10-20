@@ -42,7 +42,7 @@ model Like {
 model Artist {
   id          Int     @id @default(autoincrement())
   name        String  @unique
-  nationality String?
+  nationality String
   albums      Album[]
   songs       Song[]
 }

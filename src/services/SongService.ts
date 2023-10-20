@@ -47,8 +47,8 @@ const getAllSongsOrSongByNameService = async (name) => {
 
     const songsWithData = songs.map((song) => {
       return {
-        authorId: song.artist_id,
-        authorName: song?.artist?.name,
+        artistId: song.artist_id,
+        artist: song?.artist?.name,
         album: {
           albumId: song?.album.id,
           albumName: song.album.name,
@@ -88,7 +88,7 @@ const getSongsByAlbumIdService = async (albumId) => {
     }
 
     const songsAlbum = {
-      author: album?.artist.name,
+      artist: album?.artist.name,
       album: album?.name,
       songs:
         album.songs.length > 0
