@@ -5,7 +5,7 @@ import upload from "../middlewares/multer";
 
 const router = Router();
 
-router.get("/api/albums", AlbumController.getAlbums);
+router.get("/api/albums", authenticate, AlbumController.getAlbums);
 router.post(
   "/api/artists/:id/albums",
   authenticate,
