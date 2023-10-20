@@ -11,19 +11,19 @@ const createNewArtistAlbum = async (
 ) => {
   const { id } = req.params;
   const image = req.file;
+  let imageToBase64 = "";
+  let requestBody = {};
 
-  if (image === undefined) {
-    return res.json(422).json();
+  if (image) {
+    const img = await readFile(image.path);
+    imageToBase64 = Buffer.from(img.buffer).toString("base64");
+    requestBody = {
+      ...req.body,
+      album_image: imageToBase64,
+    };
+  } else {
+    requestBody = req.body;
   }
-
-  const img = await readFile(image.path);
-
-  const imageToBase64 = Buffer.from(img.buffer).toString("base64");
-
-  const requestBody = {
-    ...req.body,
-    album_image: imageToBase64,
-  };
 
   const result = albumSchema.safeParse(requestBody);
 
