@@ -78,7 +78,7 @@ model Playlist {
   name          String
   description   String?
   image         String
-  release_date  String
+  release_date  DateTime
   duration      Int?
   user_id       String
   user          User           @relation(fields: [user_id], references: [id])

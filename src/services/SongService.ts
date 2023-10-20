@@ -71,7 +71,7 @@ const getAllSongsOrSongByNameService = async (name) => {
   }
 };
 
-const getSongsByAlbumService = async (albumId) => {
+const getSongsByAlbumIdService = async (albumId) => {
   try {
     const album = await prisma.album.findUnique({
       include: {
@@ -110,7 +110,7 @@ const getSongsByAlbumService = async (albumId) => {
   }
 };
 
-const getLikedSongsByUserService = async (id: string) => {
+const getLikedSongsByUserIdService = async (id: string) => {
   try {
     const searchLikedSongs = await prisma.like.findMany({
       where: {
@@ -160,6 +160,6 @@ const getLikedSongsByUserService = async (id: string) => {
 export const SongService = {
   createSongService,
   getAllSongsOrSongByNameService,
-  getSongsByAlbumService,
-  getLikedSongsByUserService,
+  getSongsByAlbumIdService,
+  getLikedSongsByUserIdService,
 };

@@ -13,12 +13,12 @@ router.get("/api/songs", authenticate, SongController.getSongs);
 router.get(
   "/api/albums/:id/songs",
   authenticate,
-  SongController.getSongsByAlbum
+  SongController.getSongsByAlbumId
 );
 router.get(
   "/api/users/:id/songs",
   authenticate,
-  SongController.getLikedSongsByUser
+  SongController.getLikedSongsByUserId
 );
 
 export const songRoutes = router;

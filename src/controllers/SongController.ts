@@ -34,28 +34,28 @@ const getSongs = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const getSongsByAlbum = async (
+const getSongsByAlbumId = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const { id } = req.params;
   try {
-    const songsAlbum = await SongService.getSongsByAlbumService(id);
+    const songsAlbum = await SongService.getSongsByAlbumIdService(id);
     return res.json(songsAlbum);
   } catch (error) {
     next(error);
   }
 };
 
-const getLikedSongsByUser = async (
+const getLikedSongsByUserId = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const { id } = req.params;
   try {
-    const likedSongs = await SongService.getLikedSongsByUserService(id);
+    const likedSongs = await SongService.getLikedSongsByUserIdService(id);
     res.json(likedSongs);
   } catch (error) {
     next(error);
@@ -64,7 +64,7 @@ const getLikedSongsByUser = async (
 
 export const SongController = {
   createNewSong,
-  getSongsByAlbum,
+  getSongsByAlbumId,
   getSongs,
-  getLikedSongsByUser,
+  getLikedSongsByUserId,
 };

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { PlaylistService } from "../services/PlaylistService";
+import { playlistUpdateSchema } from "../schemas/playlistSchema";
 
 const getPlaylistsByUserId = async (
   req: Request,
@@ -48,8 +49,14 @@ const updatePlaylist = async (
   res: Response,
   next: NextFunction
 ) => {
-  const body = req.body;
+  const result = playlistUpdateSchema.safeParse(req.body);
   const { playlistId, userId } = req.params;
+
+  if (result.success === false) {
+    return res.json({ error: JSON.parse(result.error.message) });
+  }
+  const body = result.data;
+
   try {
     const updatedPlaylist = await PlaylistService.updatePlaylistService(
       playlistId,
