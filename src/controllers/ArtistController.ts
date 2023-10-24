@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { artistSchema } from "../schemas/artistSchema";
 import { ArtistService } from "../services/ArtistService";
+import { Artist } from "../interfaces/interfaces";
 
 const createNewArtist = async (
   req: Request,
@@ -23,7 +24,7 @@ const createNewArtist = async (
   }
 };
 
-const getArtists = async (_req, res: Response, next: NextFunction) => {
+const getArtists = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const artists = await ArtistService.getArtistsService();
     res.json(artists);
@@ -32,7 +33,11 @@ const getArtists = async (_req, res: Response, next: NextFunction) => {
   }
 };
 
-const getArtistById = async (req, res: Response, next: NextFunction) => {
+const getArtistById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id } = req.params;
   try {
     const artist = await ArtistService.getArtistByIdService(id);

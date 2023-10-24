@@ -1,9 +1,10 @@
+import { Song } from "../interfaces/interfaces";
 import EmptyResponseError from "../middlewares/errors/empty.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { prisma } from "../utils/prisma";
 import { AlbumService } from "./AlbumService";
 
-const createSongService = async (albumId, body) => {
+const createSongService = async (albumId: string, body: Song) => {
   const { name, duration } = body;
   try {
     const albumData = await AlbumService.getAlbumByIdService(albumId);
@@ -27,7 +28,7 @@ const createSongService = async (albumId, body) => {
   }
 };
 
-const getAllSongsOrSongByNameService = async (name) => {
+const getAllSongsOrSongByNameService = async (name: string) => {
   try {
     const songs = await prisma.song.findMany({
       include: {
@@ -71,7 +72,7 @@ const getAllSongsOrSongByNameService = async (name) => {
   }
 };
 
-const getSongsByAlbumIdService = async (albumId) => {
+const getSongsByAlbumIdService = async (albumId: string) => {
   try {
     const album = await prisma.album.findUnique({
       include: {

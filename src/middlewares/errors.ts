@@ -2,8 +2,14 @@ import EmptyResponseError from "./errors/empty.error";
 import GenericPrismaError from "./errors/prisma.error";
 import InvalidCredentialsError from "./errors/user.error";
 import CustomErrors from "./errors/token.error";
+import { Errback, NextFunction, Request, Response } from "express";
 
-export const handleError = async (err, _req, res, _next) => {
+export const handleError = async (
+  err: Errback,
+  _req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
   // Verifica si el error es de tipo InvalidCredentialsError
   if (err instanceof InvalidCredentialsError) {
     return res.status(401).json({ message: err.message });

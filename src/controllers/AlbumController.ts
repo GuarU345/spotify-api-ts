@@ -43,7 +43,7 @@ const createNewArtistAlbum = async (
   } catch (error) {}
 };
 
-const getAlbums = async (_req, res: Response, next: NextFunction) => {
+const getAlbums = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const albums = await AlbumService.getAlbumsService();
     res.json(albums);
@@ -52,7 +52,11 @@ const getAlbums = async (_req, res: Response, next: NextFunction) => {
   }
 };
 
-const getAlbumsByArtistId = async (req, res: Response, next: NextFunction) => {
+const getAlbumsByArtistId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id } = req.params;
   try {
     const artistAlbums = await AlbumService.getAlbumsByArtistIdService(id);

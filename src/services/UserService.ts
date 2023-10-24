@@ -3,8 +3,9 @@ import jwt from "jsonwebtoken";
 import argon2 from "argon2";
 import InvalidCredentialsError from "../middlewares/errors/user.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
+import { User } from "../interfaces/interfaces";
 
-const signupService = async (body) => {
+const signupService = async (body: User) => {
   const { username, email, password } = body;
   try {
     const hashedPassword = await argon2.hash(password);
@@ -42,7 +43,7 @@ const signupService = async (body) => {
   }
 };
 
-const signinService = async (body) => {
+const signinService = async (body: User) => {
   try {
     const { email, password } = body;
 

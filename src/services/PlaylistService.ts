@@ -1,8 +1,9 @@
+import { Playlist } from "../interfaces/interfaces";
 import EmptyResponseError from "../middlewares/errors/empty.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { prisma } from "../utils/prisma";
 
-const getPlaylistsByUserIdService = async (id) => {
+const getPlaylistsByUserIdService = async (id: string) => {
   try {
     const playlists = await prisma.playlist.findMany({
       where: {
@@ -110,7 +111,11 @@ const createUserPlaylistService = async (id: string) => {
   }
 };
 
-const updatePlaylistService = async (id: string, userId: string, body) => {
+const updatePlaylistService = async (
+  id: string,
+  userId: string,
+  body: Playlist
+) => {
   try {
     const { name, description, image } = body;
     const playlist = await prisma.playlist.findUnique({
@@ -178,7 +183,10 @@ const addSongToPlaylistService = async (playlistId: string, songId: string) => {
   }
 };
 
-const removeSongOnPlaylistService = async (playlistId, songId) => {
+const removeSongOnPlaylistService = async (
+  playlistId: string,
+  songId: string
+) => {
   try {
     const playlist = await prisma.playlist.findUnique({
       where: {
@@ -228,7 +236,7 @@ const removeSongOnPlaylistService = async (playlistId, songId) => {
   }
 };
 
-const countSongsByPlaylistIdService = async (id) => {
+const countSongsByPlaylistIdService = async (id: string) => {
   try {
     const playlist = await prisma.playlist.findUnique({
       where: {

@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.userActionsRoutes = void 0;
+const express_1 = require("express");
+const UserActionsController_1 = require("../controllers/UserActionsController");
+const authenticate_1 = require("../middlewares/authenticate");
+const router = (0, express_1.Router)();
+router.post("/api/users/:userId/songs/:songId/likes", authenticate_1.authenticate, UserActionsController_1.UserActionsController.likeSong);
+router.delete("/api/users/:userId/songs/:songId/likes", authenticate_1.authenticate, UserActionsController_1.UserActionsController.dislikeSong);
+exports.userActionsRoutes = router;

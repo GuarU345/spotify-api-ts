@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.artistRoutes = void 0;
+const express_1 = require("express");
+const ArtistController_1 = require("../controllers/ArtistController");
+const authenticate_1 = require("../middlewares/authenticate");
+const router = (0, express_1.Router)();
+router.post("/api/artists", authenticate_1.authenticate, ArtistController_1.ArtistController.createNewArtist);
+router.get("/api/artists", authenticate_1.authenticate, ArtistController_1.ArtistController.getArtists);
+router.get("/api/artists/:id", authenticate_1.authenticate, ArtistController_1.ArtistController.getArtistById);
+exports.artistRoutes = router;

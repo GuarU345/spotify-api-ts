@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.router = void 0;
+const express_1 = require("express");
+const artist_routes_1 = require("./artist.routes");
+const albums_routes_1 = require("./albums.routes");
+const songs_routes_1 = require("./songs.routes");
+const user_routes_1 = require("./user.routes");
+const user_actions_routes_1 = require("./user.actions.routes");
+const playlists_routes_1 = require("./playlists.routes");
+exports.router = (0, express_1.Router)();
+exports.router.use(artist_routes_1.artistRoutes);
+exports.router.use(albums_routes_1.albumRoutes);
+exports.router.use(songs_routes_1.songRoutes);
+exports.router.use(user_routes_1.userRoutes);
+exports.router.use(user_actions_routes_1.userActionsRoutes);
+exports.router.use(playlists_routes_1.playlistRoutes);

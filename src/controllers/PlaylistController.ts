@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { PlaylistService } from "../services/PlaylistService";
 import { playlistUpdateSchema } from "../schemas/playlistSchema";
 import { readFile } from "fs/promises";
+import { Playlist } from "../interfaces/interfaces";
 
 const getPlaylistsByUserId = async (
   req: Request,

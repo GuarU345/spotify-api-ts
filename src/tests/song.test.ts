@@ -1,9 +1,9 @@
-import request from "supertest";
+import request, { Response } from "supertest";
 import { app } from "../app";
 const authToken = "";
 
 describe("Try to get songs", () => {
-  let response;
+  let response: Response;
 
   beforeEach(async () => {
     response = await request(app)
