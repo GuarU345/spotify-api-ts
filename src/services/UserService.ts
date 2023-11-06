@@ -5,7 +5,7 @@ import InvalidCredentialsError from "../middlewares/errors/user.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { User } from "../interfaces/interfaces";
 
-const signupService = async (body: User) => {
+const signup = async (body: User) => {
   const { username, email, password } = body;
   try {
     const hashedPassword = await argon2.hash(password);
@@ -43,7 +43,7 @@ const signupService = async (body: User) => {
   }
 };
 
-const signinService = async (body: User) => {
+const signin = async (body: User) => {
   try {
     const { email, password } = body;
 
@@ -95,7 +95,7 @@ const signinService = async (body: User) => {
   }
 };
 
-export const getUserDataByTokenService = async (bearer: string) => {
+export const getUserDataByToken = async (bearer: string) => {
   const token = bearer.replace("Bearer", "").trim();
   const userToken = await prisma.token.findFirst({
     where: {
@@ -111,6 +111,6 @@ export const getUserDataByTokenService = async (bearer: string) => {
 };
 
 export const UserService = {
-  signupService,
-  signinService,
+  signup,
+  signin,
 };

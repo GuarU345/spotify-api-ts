@@ -4,10 +4,10 @@ import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { prisma } from "../utils/prisma";
 import { AlbumService } from "./AlbumService";
 
-const createSongService = async (albumId: string, body: Song) => {
+const createSong = async (albumId: string, body: Song) => {
   const { name, duration } = body;
   try {
-    const albumData = await AlbumService.getAlbumByIdService(albumId);
+    const albumData = await AlbumService.getAlbumById(albumId);
 
     if (!albumData) {
       throw new EmptyResponseError(
@@ -33,7 +33,7 @@ const createSongService = async (albumId: string, body: Song) => {
   }
 };
 
-const getAllSongsOrSongByNameService = async (name: string) => {
+const getAllSongsOrSongByName = async (name: string) => {
   try {
     const songs = await prisma.song.findMany({
       include: {
@@ -77,7 +77,7 @@ const getAllSongsOrSongByNameService = async (name: string) => {
   }
 };
 
-const getSongsByAlbumIdService = async (albumId: string) => {
+const getSongsByAlbumId = async (albumId: string) => {
   try {
     const album = await prisma.album.findUnique({
       include: {
@@ -116,7 +116,7 @@ const getSongsByAlbumIdService = async (albumId: string) => {
   }
 };
 
-const getLikedSongsByUserIdService = async (id: string) => {
+const getLikedSongsByUserId = async (id: string) => {
   try {
     const searchLikedSongs = await prisma.songLike.findMany({
       where: {
@@ -164,8 +164,8 @@ const getLikedSongsByUserIdService = async (id: string) => {
 };
 
 export const SongService = {
-  createSongService,
-  getAllSongsOrSongByNameService,
-  getSongsByAlbumIdService,
-  getLikedSongsByUserIdService,
+  createSong,
+  getAllSongsOrSongByName,
+  getSongsByAlbumId,
+  getLikedSongsByUserId,
 };

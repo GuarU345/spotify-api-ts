@@ -34,7 +34,7 @@ const createNewArtistAlbum = async (
   const body = result.data;
 
   try {
-    const newAlbum = await AlbumService.createArtistAlbumService(
+    const newAlbum = await AlbumService.createArtistAlbum(
       id,
       body,
       imageToBase64
@@ -45,7 +45,7 @@ const createNewArtistAlbum = async (
 
 const getAlbums = async (_req: Request, res: Response, next: NextFunction) => {
   try {
-    const albums = await AlbumService.getAlbumsService();
+    const albums = await AlbumService.getAlbums();
     res.json(albums);
   } catch (error) {
     next(error);
@@ -59,7 +59,7 @@ const getAlbumsByArtistId = async (
 ) => {
   const { id } = req.params;
   try {
-    const artistAlbums = await AlbumService.getAlbumsByArtistIdService(id);
+    const artistAlbums = await AlbumService.getAlbumsByArtistId(id);
     res.json(artistAlbums);
   } catch (error) {
     next(error);

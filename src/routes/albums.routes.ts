@@ -17,6 +17,10 @@ router.get(
   authenticate,
   AlbumController.getAlbumsByArtistId
 );
-router.get("/api/users/:userId/albums", AlbumController.getLikedAlbumsByUserId);
+router.get(
+  "/api/users/:userId/albums",
+  authenticate,
+  AlbumController.getLikedAlbumsByUserId
+);
 
 export const albumRoutes = router;

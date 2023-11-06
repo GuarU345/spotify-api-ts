@@ -3,7 +3,7 @@ import EmptyResponseError from "../middlewares/errors/empty.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { prisma } from "../utils/prisma";
 
-const getPlaylistsByUserIdService = async (id: string) => {
+const getPlaylistsByUserId = async (id: string) => {
   try {
     const playlists = await prisma.playlist.findMany({
       where: {
@@ -27,7 +27,7 @@ const getPlaylistsByUserIdService = async (id: string) => {
   }
 };
 
-const getSongsByPlaylistIdService = async (id: string) => {
+const getSongsByPlaylistId = async (id: string) => {
   try {
     //get specific playlist
     const playlist = await prisma.playlist.findUnique({
@@ -92,7 +92,7 @@ const getSongsByPlaylistIdService = async (id: string) => {
   }
 };
 
-const createUserPlaylistService = async (id: string) => {
+const createUserPlaylist = async (id: string) => {
   try {
     const getPlaylists = await prisma.playlist.findMany();
     const standardPlaylistName = `Playlist N. ${getPlaylists.length + 1}`;
@@ -111,11 +111,7 @@ const createUserPlaylistService = async (id: string) => {
   }
 };
 
-const updatePlaylistService = async (
-  id: string,
-  userId: string,
-  body: Playlist
-) => {
+const updatePlaylist = async (id: string, userId: string, body: Playlist) => {
   try {
     const { name, description, image } = body;
     const playlist = await prisma.playlist.findUnique({
@@ -147,7 +143,7 @@ const updatePlaylistService = async (
   }
 };
 
-const addSongToPlaylistService = async (playlistId: string, songId: string) => {
+const addSongToPlaylist = async (playlistId: string, songId: string) => {
   try {
     const playlist = await prisma.playlist.findUnique({
       where: {
@@ -183,10 +179,7 @@ const addSongToPlaylistService = async (playlistId: string, songId: string) => {
   }
 };
 
-const removeSongOnPlaylistService = async (
-  playlistId: string,
-  songId: string
-) => {
+const removeSongOnPlaylist = async (playlistId: string, songId: string) => {
   try {
     const playlist = await prisma.playlist.findUnique({
       where: {
@@ -236,7 +229,7 @@ const removeSongOnPlaylistService = async (
   }
 };
 
-const countSongsByPlaylistIdService = async (id: string) => {
+const countSongsByPlaylistId = async (id: string) => {
   try {
     const playlist = await prisma.playlist.findUnique({
       where: {
@@ -262,11 +255,11 @@ const countSongsByPlaylistIdService = async (id: string) => {
 };
 
 export const PlaylistService = {
-  getPlaylistsByUserIdService,
-  addSongToPlaylistService,
-  updatePlaylistService,
-  countSongsByPlaylistIdService,
-  createUserPlaylistService,
-  getSongsByPlaylistIdService,
-  removeSongOnPlaylistService,
+  getPlaylistsByUserId,
+  addSongToPlaylist,
+  updatePlaylist,
+  countSongsByPlaylistId,
+  createUserPlaylist,
+  getSongsByPlaylistId,
+  removeSongOnPlaylist,
 };

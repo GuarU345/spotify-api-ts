@@ -22,27 +22,27 @@ Content-Type: application/json
 ### Crear un artista es necesario para despues crear un album
 POST http://localhost:3000/api/artists
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5ZGUyZThlLTRjYjQtNGQyNi1hMjBhLTU0YjFkNDIzYWRkNSIsImVtYWlsIjoiZ3VhcnVAZ21haWwuY29tIiwiaWF0IjoxNjk5MjQ2Nzc1fQ.Qce5869LNnTt_sdUghlPgdQQZg0RRLkBSnMq0BkK_Ow
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUxOWYxYzEwLWM1ZWQtNDkyMS05MmZlLTc5ZTM4NGJlMDI3OCIsImVtYWlsIjoiYWJlbEBnbWFpbC5jb20iLCJpYXQiOjE2OTkyODA4MDV9.v-365CZyEG5_ImP5HlrnVIQnLUdu9AOpLAs2n1FZIBA
 
 {
-    "name":"Post Malone",
+    "name":"Gorillaz",
     "nationality":"American"
 }
 
 ### Crear un album al que despues le podras agregar canciones
-POST http://localhost:3000/api/artists/1/albums
+POST http://localhost:3000/api/artists/9/albums
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5ZGUyZThlLTRjYjQtNGQyNi1hMjBhLTU0YjFkNDIzYWRkNSIsImVtYWlsIjoiZ3VhcnVAZ21haWwuY29tIiwiaWF0IjoxNjk5MjQ2Nzc1fQ.Qce5869LNnTt_sdUghlPgdQQZg0RRLkBSnMq0BkK_Ow
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUxOWYxYzEwLWM1ZWQtNDkyMS05MmZlLTc5ZTM4NGJlMDI3OCIsImVtYWlsIjoiYWJlbEBnbWFpbC5jb20iLCJpYXQiOjE2OTkyODA4MDV9.v-365CZyEG5_ImP5HlrnVIQnLUdu9AOpLAs2n1FZIBA
 
 {
-    "name":"Beerbongs & Bentleys",
+    "name":"Cracker Island",
     "release_date":"2018-04-27T00:00:00Z"
 }
 
 ### Agregar una cancion a un album en especifico
 POST http://localhost:3000/api/albums/1/songs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5ZGUyZThlLTRjYjQtNGQyNi1hMjBhLTU0YjFkNDIzYWRkNSIsImVtYWlsIjoiZ3VhcnVAZ21haWwuY29tIiwiaWF0IjoxNjk5MjQ2Nzc1fQ.Qce5869LNnTt_sdUghlPgdQQZg0RRLkBSnMq0BkK_Ow
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUxOWYxYzEwLWM1ZWQtNDkyMS05MmZlLTc5ZTM4NGJlMDI3OCIsImVtYWlsIjoiYWJlbEBnbWFpbC5jb20iLCJpYXQiOjE2OTkyODA4MDV9.v-365CZyEG5_ImP5HlrnVIQnLUdu9AOpLAs2n1FZIBA
 
 {
     "name":"Over Now",

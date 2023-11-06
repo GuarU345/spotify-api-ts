@@ -17,7 +17,7 @@ const createNewSong = async (
   const body = result.data;
 
   try {
-    const newSong = await SongService.createSongService(id, body);
+    const newSong = await SongService.createSong(id, body);
     res.json(newSong);
   } catch (error) {
     next(error);
@@ -27,7 +27,7 @@ const createNewSong = async (
 const getSongs = async (req: Request, res: Response, next: NextFunction) => {
   const { name } = req.query;
   try {
-    const songWithData = await SongService.getAllSongsOrSongByNameService(
+    const songWithData = await SongService.getAllSongsOrSongByName(
       name as string
     );
     res.json(songWithData);
@@ -43,7 +43,7 @@ const getSongsByAlbumId = async (
 ) => {
   const { id } = req.params;
   try {
-    const songsAlbum = await SongService.getSongsByAlbumIdService(id);
+    const songsAlbum = await SongService.getSongsByAlbumId(id);
     return res.json(songsAlbum);
   } catch (error) {
     next(error);
@@ -57,7 +57,7 @@ const getLikedSongsByUserId = async (
 ) => {
   const { id } = req.params;
   try {
-    const likedSongs = await SongService.getLikedSongsByUserIdService(id);
+    const likedSongs = await SongService.getLikedSongsByUserId(id);
     res.json(likedSongs);
   } catch (error) {
     next(error);

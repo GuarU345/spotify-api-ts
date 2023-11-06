@@ -12,7 +12,7 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
   const body = result.data;
 
   try {
-    const newUser = await UserService.signupService(body);
+    const newUser = await UserService.signup(body);
     res.json(newUser);
   } catch (error) {
     next(error);
@@ -22,7 +22,7 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
 const signin = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const body = req.body;
-    const token = await UserService.signinService(body);
+    const token = await UserService.signin(body);
     return res.json(token);
   } catch (error) {
     next(error);

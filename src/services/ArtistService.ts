@@ -3,7 +3,7 @@ import EmptyResponseError from "../middlewares/errors/empty.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { Artist } from "../interfaces/interfaces";
 
-const getArtistsService = async () => {
+const getArtists = async () => {
   try {
     const artists = await prisma.artist.findMany();
     if (!artists) {
@@ -19,7 +19,7 @@ const getArtistsService = async () => {
   }
 };
 
-const getArtistByIdService = async (id: string) => {
+const getArtistById = async (id: string) => {
   try {
     const artist = await prisma.artist.findUnique({
       where: {
@@ -39,7 +39,7 @@ const getArtistByIdService = async (id: string) => {
   }
 };
 
-const createArtistService = async (body: Artist) => {
+const createArtist = async (body: Artist) => {
   const { name, nationality } = body;
   try {
     const newArtist = await prisma.artist.create({
@@ -56,7 +56,7 @@ const createArtistService = async (body: Artist) => {
 };
 
 export const ArtistService = {
-  getArtistsService,
-  getArtistByIdService,
-  createArtistService,
+  getArtists,
+  getArtistById,
+  createArtist,
 };

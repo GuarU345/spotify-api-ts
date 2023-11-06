@@ -17,7 +17,7 @@ const createNewArtist = async (
   const body = result.data;
 
   try {
-    const newArtist = await ArtistService.createArtistService(body);
+    const newArtist = await ArtistService.createArtist(body);
     res.json(newArtist);
   } catch (error) {
     next(error);
@@ -26,7 +26,7 @@ const createNewArtist = async (
 
 const getArtists = async (_req: Request, res: Response, next: NextFunction) => {
   try {
-    const artists = await ArtistService.getArtistsService();
+    const artists = await ArtistService.getArtists();
     res.json(artists);
   } catch (error) {
     next(error);
@@ -40,7 +40,7 @@ const getArtistById = async (
 ) => {
   const { id } = req.params;
   try {
-    const artist = await ArtistService.getArtistByIdService(id);
+    const artist = await ArtistService.getArtistById(id);
     res.json(artist);
   } catch (error) {
     next(error);

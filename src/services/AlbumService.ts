@@ -4,7 +4,7 @@ import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { prisma } from "../utils/prisma";
 
 // Crea un nuevo álbum para un artista dado.
-const createArtistAlbumService = async (
+const createArtistAlbum = async (
   artistId: string,
   body: Album,
   album_image: string
@@ -27,7 +27,7 @@ const createArtistAlbumService = async (
 };
 
 //Obtiene un album por su id
-const getAlbumByIdService = async (albumId: string) => {
+const getAlbumById = async (albumId: string) => {
   try {
     const album = await prisma.album.findUnique({
       where: {
@@ -48,7 +48,7 @@ const getAlbumByIdService = async (albumId: string) => {
 };
 
 // Obtiene todos los álbumes con información detallada del artista.
-const getAlbumsService = async () => {
+const getAlbums = async () => {
   try {
     const albums = await prisma.album.findMany();
     if (!albums) {
@@ -65,7 +65,7 @@ const getAlbumsService = async () => {
 };
 
 // Obtiene todos los álbumes de un artista por su ID.
-const getAlbumsByArtistIdService = async (artistId: string) => {
+const getAlbumsByArtistId = async (artistId: string) => {
   try {
     const artist = await prisma.artist.findUnique({
       include: {
@@ -157,9 +157,9 @@ const getLikedAlbumsByUserId = async (userId: string) => {
 };
 
 export const AlbumService = {
-  getAlbumsService,
-  getAlbumByIdService,
-  getAlbumsByArtistIdService,
-  createArtistAlbumService,
+  getAlbums,
+  getAlbumById,
+  getAlbumsByArtistId,
+  createArtistAlbum,
   getLikedAlbumsByUserId,
 };

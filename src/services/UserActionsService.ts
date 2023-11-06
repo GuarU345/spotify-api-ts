@@ -2,7 +2,7 @@ import EmptyResponseError from "../middlewares/errors/empty.error";
 import { prisma } from "../utils/prisma";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 
-const likeSongService = async (userId: string, songId: string) => {
+const likeSong = async (userId: string, songId: string) => {
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -30,7 +30,7 @@ const likeSongService = async (userId: string, songId: string) => {
   }
 };
 
-const dislikeSongService = async (userId: string, songId: string) => {
+const dislikeSong = async (userId: string, songId: string) => {
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -64,7 +64,7 @@ const dislikeSongService = async (userId: string, songId: string) => {
   }
 };
 
-const likeAlbumService = async (userId: string, albumId: string) => {
+const likeAlbum = async (userId: string, albumId: string) => {
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -98,7 +98,7 @@ const likeAlbumService = async (userId: string, albumId: string) => {
   }
 };
 
-const dislikeAlbumService = async (userId: string, albumId: string) => {
+const dislikeAlbum = async (userId: string, albumId: string) => {
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -131,9 +131,44 @@ const dislikeAlbumService = async (userId: string, albumId: string) => {
   }
 };
 
+const followArtist = async (userId: string, artistId: string) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user) {
+      throw new EmptyResponseError("Usuario no existente");
+    }
+    const artist = await prisma.artist.findUnique({
+      where: {
+        id: Number(artistId),
+      },
+    });
+    if (!artist) {
+      throw new EmptyResponseError("Artista no encontrado");
+    }
+    const follow = await prisma.artistFollow.create({
+      data: {
+        user_id: user.id,
+        artist_id: artist.id,
+      },
+    });
+    return follow;
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
+    throw new GenericPrismaError("No se pudo agregar a tus seguidos");
+  }
+};
+
 export const UserActionsService = {
-  likeSongService,
-  dislikeSongService,
-  likeAlbumService,
-  dislikeAlbumService,
+  likeSong,
+  dislikeSong,
+  likeAlbum,
+  dislikeAlbum,
+  followArtist,
 };
