@@ -63,10 +63,25 @@ const followArtist = async (
   }
 };
 
+const unfollowArtist = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { userId, artistId } = req.params;
+  try {
+    await UserActionsService.unfollowArtist(userId, artistId);
+    return res.status(200).json({ follow: false });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const UserActionsController = {
   likeSong,
   dislikeSong,
   likeAlbum,
   dislikeAlbum,
   followArtist,
+  unfollowArtist,
 };

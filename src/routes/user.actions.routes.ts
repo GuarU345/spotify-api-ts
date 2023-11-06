@@ -14,6 +14,11 @@ router.post(
   authenticate,
   UserActionsController.likeAlbum
 );
+router.post(
+  "/api/users/:userId/artists/:artistId/follows",
+  authenticate,
+  UserActionsController.followArtist
+);
 router.delete(
   "/api/users/:userId/songs/:songId/likes",
   authenticate,
@@ -24,10 +29,10 @@ router.delete(
   authenticate,
   UserActionsController.dislikeAlbum
 );
-router.post(
+router.delete(
   "/api/users/:userId/artists/:artistId/follows",
   authenticate,
-  UserActionsController.followArtist
+  UserActionsController.unfollowArtist
 );
 
 export const userActionsRoutes = router;

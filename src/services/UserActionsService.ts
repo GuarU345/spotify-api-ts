@@ -165,10 +165,44 @@ const followArtist = async (userId: string, artistId: string) => {
   }
 };
 
+const unfollowArtist = async (userId: string, artistId: string) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user) {
+      throw new EmptyResponseError("Usuario no existente");
+    }
+    const searchArtistFollow = await prisma.artistFollow.findFirst({
+      where: {
+        AND: [{ user_id: user.id }, { artist_id: Number(artistId) }],
+      },
+    });
+    if (!searchArtistFollow) {
+      throw new EmptyResponseError("Registro no existente");
+    }
+    const unfollow = await prisma.artistFollow.delete({
+      where: {
+        id: searchArtistFollow.id,
+      },
+    });
+    return unfollow;
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
+    throw new GenericPrismaError("Error al intentar eliminar el registro");
+  }
+};
+
 export const UserActionsService = {
   likeSong,
   dislikeSong,
   likeAlbum,
   dislikeAlbum,
   followArtist,
+  unfollowArtist,
 };
