@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { artistSchema } from "../schemas/artistSchema";
 import { ArtistService } from "../services/ArtistService";
-import { Artist } from "../interfaces/interfaces";
 
 const createNewArtist = async (
   req: Request,
@@ -47,8 +46,25 @@ const getArtistById = async (
   }
 };
 
+const getFollowedArtistsByUserId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { userId } = req.params;
+  try {
+    const followedArtists = await ArtistService.getFollowedArtistsByUserId(
+      userId
+    );
+    return res.json(followedArtists);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const ArtistController = {
   createNewArtist,
   getArtists,
   getArtistById,
+  getFollowedArtistsByUserId,
 };

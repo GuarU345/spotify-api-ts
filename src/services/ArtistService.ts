@@ -55,8 +55,54 @@ const createArtist = async (body: Artist) => {
   }
 };
 
+const getFollowedArtistsByUserId = async (userId: string) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user) {
+      throw new EmptyResponseError("Usuario no existente");
+    }
+    const searchFollowedArtists = await prisma.artistFollow.findMany({
+      where: {
+        user_id: user.id,
+      },
+    });
+    if (searchFollowedArtists.length === 0) {
+      throw new EmptyResponseError("No sigues a ningun artista");
+    }
+    const followedArtistsIds = searchFollowedArtists.map(
+      (followed) => followed.id
+    );
+    const followedArtistsData = await prisma.artist.findMany({
+      where: {
+        id: {
+          in: followedArtistsIds,
+        },
+      },
+    });
+
+    const followedArtists = followedArtistsData.map((followed) => {
+      return {
+        id: followed.id,
+        artistName: followed.name,
+      };
+    });
+    return followedArtists;
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
+    throw new GenericPrismaError("Error al buscar los artistas que sigues");
+  }
+};
+
 export const ArtistService = {
   getArtists,
   getArtistById,
   createArtist,
+  getFollowedArtistsByUserId,
 };

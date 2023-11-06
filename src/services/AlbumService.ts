@@ -50,7 +50,11 @@ const getAlbumById = async (albumId: string) => {
 // Obtiene todos los álbumes con información detallada del artista.
 const getAlbums = async () => {
   try {
-    const albums = await prisma.album.findMany();
+    const albums = await prisma.album.findMany({
+      include: {
+        artist: true,
+      },
+    });
     if (!albums) {
       throw new EmptyResponseError("No se encontraron albums");
     }
