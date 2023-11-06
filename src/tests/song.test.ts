@@ -1,6 +1,7 @@
 import request, { Response } from "supertest";
 import { app } from "../app";
-const authToken = "";
+const authToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdlMTc4ZGM1LTkyZTgtNDE0MS1hMDg3LWNmM2YzMjY1NzhjNSIsImVtYWlsIjoiZ3VhcnVAZ21haWwuY29tIiwiaWF0IjoxNjk3OTE1OTM0fQ.I_Z73N272k1MV08EtflDbcfxY6x3H7Ji-AEfYtNuvNg";
 
 describe("Try to get songs", () => {
   let response: Response;

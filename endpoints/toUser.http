@@ -5,9 +5,9 @@ POST http://localhost:3000/api/signup
 Content-Type: application/json
 
 {
-    "username":"?",
-    "email":"email de prueba",
-    "password":"?"
+    "username":"abel34",
+    "email":"abel@gmail.com",
+    "password":"Test123!"
 }
 
 ### Debes de iniciar sesion para poder utilizar los demas endpoints ya que requeriras un token
@@ -15,38 +15,38 @@ POST http://localhost:3000/api/signin
 Content-Type: application/json
 
 {
-    "email":"tu email creado",
-    "password":"tu contraseña"
+    "email":"abel@gmail.com",
+    "password":"Test123!"
 }
 
 ### Crear un artista es necesario para despues crear un album
 POST http://localhost:3000/api/artists
 Content-Type: application/json
-Authorization: Bearer tu token
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5ZGUyZThlLTRjYjQtNGQyNi1hMjBhLTU0YjFkNDIzYWRkNSIsImVtYWlsIjoiZ3VhcnVAZ21haWwuY29tIiwiaWF0IjoxNjk5MjQ2Nzc1fQ.Qce5869LNnTt_sdUghlPgdQQZg0RRLkBSnMq0BkK_Ow
 
 {
-    "name":"nombre del artista",
-    "nationality":"nacionalidad del artista"
+    "name":"Post Malone",
+    "nationality":"American"
 }
 
 ### Crear un album al que despues le podras agregar canciones
-POST http://localhost:3000/api/artists/:id/albums
+POST http://localhost:3000/api/artists/1/albums
 Content-Type: application/json
-Authorization: Bearer tu token
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5ZGUyZThlLTRjYjQtNGQyNi1hMjBhLTU0YjFkNDIzYWRkNSIsImVtYWlsIjoiZ3VhcnVAZ21haWwuY29tIiwiaWF0IjoxNjk5MjQ2Nzc1fQ.Qce5869LNnTt_sdUghlPgdQQZg0RRLkBSnMq0BkK_Ow
 
 {
-    "name":"nombre del album",
-    "release_date":"fecha de creacion"
+    "name":"Beerbongs & Bentleys",
+    "release_date":"2018-04-27T00:00:00Z"
 }
 
 ### Agregar una cancion a un album en especifico
-POST http://localhost:3000/api/albums/:id/songs
+POST http://localhost:3000/api/albums/1/songs
 Content-Type: application/json
-Authorization: Bearer tu token
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5ZGUyZThlLTRjYjQtNGQyNi1hMjBhLTU0YjFkNDIzYWRkNSIsImVtYWlsIjoiZ3VhcnVAZ21haWwuY29tIiwiaWF0IjoxNjk5MjQ2Nzc1fQ.Qce5869LNnTt_sdUghlPgdQQZg0RRLkBSnMq0BkK_Ow
 
 {
-    "name":"nombre de la cancion",
-    "duration":"duracion de la cancion HH:MM o MM:SS"
+    "name":"Over Now",
+    "duration":"4:07"
 }
 
 ### Con estos endpoints ya puedes empezar a manejar los datos a tu gusto

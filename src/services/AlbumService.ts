@@ -103,9 +103,63 @@ const getAlbumsByArtistIdService = async (artistId: string) => {
   }
 };
 
+const getLikedAlbumsByUserId = async (userId: string) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user) {
+      throw new EmptyResponseError("Usuario no existente");
+    }
+    const searchLikedAlbums = await prisma.albumLike.findMany({
+      where: {
+        user_id: user.id,
+      },
+    });
+    if (searchLikedAlbums.length === 0) {
+      throw new EmptyResponseError("No tienes albums con me gusta");
+    }
+
+    const likedAlbumIds = searchLikedAlbums.map(
+      (likedAlbum) => likedAlbum.album_id
+    );
+
+    const likedAlbumsData = await prisma.album.findMany({
+      where: {
+        id: {
+          in: likedAlbumIds,
+        },
+      },
+      include: {
+        artist: true,
+      },
+    });
+
+    const likedAlbums = likedAlbumsData.map((likedAlbum) => {
+      return {
+        id: likedAlbum.id,
+        album: likedAlbum.name,
+        albumImage: likedAlbum.album_image,
+        artist: likedAlbum.artist.name,
+      };
+    });
+
+    return likedAlbums;
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.log(error);
+    throw new GenericPrismaError("Error al buscar los albums");
+  }
+};
+
 export const AlbumService = {
   getAlbumsService,
   getAlbumByIdService,
   getAlbumsByArtistIdService,
   createArtistAlbumService,
+  getLikedAlbumsByUserId,
 };

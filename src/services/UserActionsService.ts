@@ -12,7 +12,7 @@ const likeSongService = async (userId: string, songId: string) => {
     if (!user) {
       throw new EmptyResponseError("Usuario no existente");
     }
-    const likeSong = await prisma.like.create({
+    const likeSong = await prisma.songLike.create({
       data: {
         user_id: user.id,
         song_id: Number(songId),
@@ -20,6 +20,9 @@ const likeSongService = async (userId: string, songId: string) => {
     });
     return likeSong;
   } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
     console.error(error);
     throw new GenericPrismaError(
       "No se pudo agregar la cancion en tus me gusta"
@@ -37,7 +40,7 @@ const dislikeSongService = async (userId: string, songId: string) => {
     if (!user) {
       throw new EmptyResponseError("Usuario no existente");
     }
-    const searchUserSong = await prisma.like.findFirst({
+    const searchUserSong = await prisma.songLike.findFirst({
       where: {
         AND: [{ user_id: user.id }, { song_id: Number(songId) }],
       },
@@ -46,7 +49,7 @@ const dislikeSongService = async (userId: string, songId: string) => {
       throw new EmptyResponseError("Registro no existente");
     }
 
-    const dislikeSong = await prisma.like.delete({
+    const dislikeSong = await prisma.songLike.delete({
       where: {
         id: searchUserSong.id,
       },
@@ -61,7 +64,76 @@ const dislikeSongService = async (userId: string, songId: string) => {
   }
 };
 
+const likeAlbumService = async (userId: string, albumId: string) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user) {
+      throw new EmptyResponseError("Usuario no existente");
+    }
+    const album = await prisma.album.findUnique({
+      where: {
+        id: Number(albumId),
+      },
+    });
+    if (!album) {
+      throw new EmptyResponseError("Album no existente");
+    }
+    const likeAlbum = await prisma.albumLike.create({
+      data: {
+        user_id: user.id,
+        album_id: album.id,
+      },
+    });
+    return likeAlbum;
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
+    throw new GenericPrismaError("No se pudo agregar el album en tus me gusta");
+  }
+};
+
+const dislikeAlbumService = async (userId: string, albumId: string) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user) {
+      throw new EmptyResponseError("Usuario no existente");
+    }
+    const searchUserAlbum = await prisma.albumLike.findFirst({
+      where: {
+        AND: [{ user_id: user.id }, { album_id: Number(albumId) }],
+      },
+    });
+    if (!searchUserAlbum) {
+      throw new EmptyResponseError("Registro no existente");
+    }
+    const dislikeAlbum = await prisma.albumLike.delete({
+      where: {
+        id: searchUserAlbum.id,
+      },
+    });
+    return dislikeAlbum;
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
+    throw new GenericPrismaError("Error al intentar eliminar el registro");
+  }
+};
+
 export const UserActionsService = {
   likeSongService,
   dislikeSongService,
+  likeAlbumService,
+  dislikeAlbumService,
 };

@@ -10,6 +10,7 @@ export const handleError = async (
   res: Response,
   _next: NextFunction
 ) => {
+  console.log(err);
   // Verifica si el error es de tipo InvalidCredentialsError
   if (err instanceof InvalidCredentialsError) {
     return res.status(401).json({ message: err.message });

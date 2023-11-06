@@ -10,7 +10,9 @@ const createSongService = async (albumId: string, body: Song) => {
     const albumData = await AlbumService.getAlbumByIdService(albumId);
 
     if (!albumData) {
-      throw new Error("No puedes crear una cancion en un album que no existe");
+      throw new EmptyResponseError(
+        "No puedes crear una cancion en un album que no existe"
+      );
     }
 
     const newSong = await prisma.song.create({
@@ -23,6 +25,9 @@ const createSongService = async (albumId: string, body: Song) => {
     });
     return newSong;
   } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
     console.error(error);
     throw new GenericPrismaError("Error al crear la cancion");
   }
@@ -113,7 +118,7 @@ const getSongsByAlbumIdService = async (albumId: string) => {
 
 const getLikedSongsByUserIdService = async (id: string) => {
   try {
-    const searchLikedSongs = await prisma.like.findMany({
+    const searchLikedSongs = await prisma.songLike.findMany({
       where: {
         user_id: id,
       },

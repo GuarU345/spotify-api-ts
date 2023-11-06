@@ -66,8 +66,23 @@ const getAlbumsByArtistId = async (
   }
 };
 
+const getLikedAlbumsByUserId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { userId } = req.params;
+  try {
+    const likedAlbums = await AlbumService.getLikedAlbumsByUserId(userId);
+    return res.json(likedAlbums);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const AlbumController = {
   createNewArtistAlbum,
   getAlbums,
   getAlbumsByArtistId,
+  getLikedAlbumsByUserId,
 };

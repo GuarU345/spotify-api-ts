@@ -9,10 +9,18 @@ router.post(
   authenticate,
   UserActionsController.likeSong
 );
+router.post(
+  "/api/users/:userId/albums/:albumId/likes",
+  UserActionsController.likeAlbum
+);
 router.delete(
   "/api/users/:userId/songs/:songId/likes",
   authenticate,
   UserActionsController.dislikeSong
+);
+router.delete(
+  "/api/users/:userId/albums/:albumId/likes",
+  UserActionsController.dislikeAlbum
 );
 
 export const userActionsRoutes = router;

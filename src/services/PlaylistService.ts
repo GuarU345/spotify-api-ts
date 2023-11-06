@@ -243,14 +243,14 @@ const countSongsByPlaylistIdService = async (id: string) => {
         id: Number(id),
       },
       include: {
-        PlaylistSongs: true,
+        playlist_songs: true,
       },
     });
     if (!playlist) {
       throw new EmptyResponseError("No se pudo encontrar la playlist");
     }
     return {
-      count: playlist.PlaylistSongs.length,
+      count: playlist.playlist_songs.length,
     };
   } catch (error) {
     if (error instanceof EmptyResponseError) {

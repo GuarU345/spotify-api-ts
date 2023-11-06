@@ -11,14 +11,15 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(uuid())
-  username  String     @unique
-  email     String     @unique
-  password  String
-  createdAt DateTime   @default(now())
-  likes     Like[]
-  tokens    Token[]
-  playlists Playlist[]
+  id          String      @id @default(uuid())
+  username    String      @unique
+  email       String      @unique
+  password    String
+  createdAt   DateTime    @default(now())
+  song_likes  SongLike[]
+  tokens      Token[]
+  playlists   Playlist[]
+  album_likes AlbumLike[]
 }
 
 model Token {
@@ -29,7 +30,7 @@ model Token {
   createdAt    DateTime @default(now())
 }
 
-model Like {
+model SongLike {
   id      Int    @id @default(autoincrement())
   user_id String
   song_id Int
@@ -37,6 +38,16 @@ model Like {
   song    Song   @relation(fields: [song_id], references: [id])
 
   @@unique([user_id, song_id])
+}
+
+model AlbumLike {
+  id       Int    @id @default(autoincrement())
+  user_id  String
+  album_id Int
+  user     User   @relation(fields: [user_id], references: [id])
+  album    Album  @relation(fields: [album_id], references: [id])
+
+  @@unique([user_id, album_id])
 }
 
 model Artist {
@@ -48,41 +59,42 @@ model Artist {
 }
 
 model Album {
-  id           Int      @id @default(autoincrement())
+  id           Int         @id @default(autoincrement())
   name         String
   release_date DateTime
   album_image  String?
   artist_id    Int
-  artist       Artist   @relation(fields: [artist_id], references: [id])
+  artist       Artist      @relation(fields: [artist_id], references: [id])
   songs        Song[]
+  likes        AlbumLike[]
 
   @@unique([name, artist_id])
 }
 
 model Song {
-  id            Int            @id @default(autoincrement())
-  name          String
-  duration      String?
-  artist_id     Int
-  artist        Artist?        @relation(fields: [artist_id], references: [id])
-  album_id      Int
-  album         Album          @relation(fields: [album_id], references: [id])
-  likes         Like[]
-  PlaylistSongs PlaylistSong[]
+  id             Int            @id @default(autoincrement())
+  name           String
+  duration       String?
+  artist_id      Int
+  artist         Artist?        @relation(fields: [artist_id], references: [id])
+  album_id       Int
+  album          Album          @relation(fields: [album_id], references: [id])
+  likes          SongLike[]
+  playlist_songs PlaylistSong[]
 
   @@unique([name, artist_id])
 }
 
 model Playlist {
-  id            Int            @id @default(autoincrement())
-  name          String
-  description   String?
-  image         String
-  release_date  DateTime
-  duration      Int?
-  user_id       String
-  user          User           @relation(fields: [user_id], references: [id])
-  PlaylistSongs PlaylistSong[]
+  id             Int            @id @default(autoincrement())
+  name           String
+  description    String?
+  image          String
+  release_date   DateTime
+  duration       Int?
+  user_id        String
+  user           User           @relation(fields: [user_id], references: [id])
+  playlist_songs PlaylistSong[]
 
   @@unique([name, user_id])
 }
