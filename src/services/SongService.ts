@@ -95,16 +95,18 @@ const getSongsByAlbumId = async (albumId: string) => {
 
     const songsAlbum = {
       artist: album?.artist.name,
-      album: album?.name,
+      name: album?.name,
+      image: album?.album_image,
       songs:
         album.songs.length > 0
           ? album?.songs.map((song) => {
               return {
                 id: song.id,
-                songName: song.name,
+                name: song.name,
+                duration: song.duration,
               };
             })
-          : "No se encontraron canciones",
+          : [],
     };
     return songsAlbum;
   } catch (error) {
@@ -144,11 +146,11 @@ const getLikedSongsByUserId = async (id: string) => {
       return {
         id: likedSong.id,
         artist: likedSong.artist?.name,
-        song: likedSong.name,
+        name: likedSong.name,
         album: {
-          albumId: likedSong.album.id,
-          albumName: likedSong.album.name,
-          albumImage: likedSong.album.album_image,
+          id: likedSong.album.id,
+          name: likedSong.album.name,
+          image: likedSong.album.album_image,
         },
       };
     });
