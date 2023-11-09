@@ -96,6 +96,7 @@ model Song {
   album          Album          @relation(fields: [album_id], references: [id])
   likes          SongLike[]
   playlist_songs PlaylistSong[]
+  track          Bytes?         @unique
 
   @@unique([name, artist_id])
 }

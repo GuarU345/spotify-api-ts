@@ -8,13 +8,22 @@ const createNewSong = async (
   next: NextFunction
 ) => {
   const { id } = req.params;
+  const mp3File = req.file?.buffer;
+
+  if (!mp3File) {
+    return res.status(404).json({ message: "archivo de cancion requerido" });
+  }
+
   const result = songSchema.safeParse(req.body);
 
   if (result.success === false) {
     return res.status(422).json({ error: JSON.parse(result.error.message) });
   }
 
-  const body = result.data;
+  const body = {
+    ...result.data,
+    track: mp3File,
+  };
 
   try {
     const newSong = await SongService.createSong(id, body);

@@ -5,7 +5,7 @@ import { prisma } from "../utils/prisma";
 import { AlbumService } from "./AlbumService";
 
 const createSong = async (albumId: string, body: Song) => {
-  const { name, duration } = body;
+  const { name, duration, track } = body;
   try {
     const albumData = await AlbumService.getAlbumById(albumId);
 
@@ -19,6 +19,7 @@ const createSong = async (albumId: string, body: Song) => {
       data: {
         name,
         duration,
+        track,
         album_id: Number(albumId),
         artist_id: albumData?.artist_id,
       },

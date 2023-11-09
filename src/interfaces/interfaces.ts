@@ -1,3 +1,5 @@
+import { Buffer } from "buffer";
+
 export interface Album {
   name: string;
   release_date: string;
@@ -6,6 +8,7 @@ export interface Album {
 export interface Song {
   name: string;
   duration: string;
+  track?: Buffer;
 }
 
 export interface Artist {

@@ -9,7 +9,7 @@ router.get("/api/albums", authenticate, AlbumController.getAlbums);
 router.post(
   "/api/artists/:id/albums",
   authenticate,
-  upload.single("album_image"),
+  upload.uploadImage.single("album_image"),
   AlbumController.createNewArtistAlbum
 );
 router.get(

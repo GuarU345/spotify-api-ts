@@ -1,12 +1,13 @@
 import { Router } from "express";
 import { SongController } from "../controllers/SongController";
 import { authenticate } from "../middlewares/authenticate";
+import upload from "../middlewares/multer";
 
 const router = Router();
 
 router.post(
   "/api/albums/:id/songs",
-  authenticate,
+  upload.uploadSong.single("mp3_file"),
   SongController.createNewSong
 );
 router.get("/api/songs", authenticate, SongController.getSongs);

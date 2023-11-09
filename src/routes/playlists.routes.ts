@@ -28,7 +28,7 @@ router.post(
 router.patch(
   "/api/users/:userId/playlists/:playlistId",
   authenticate,
-  upload.single("image"),
+  upload.uploadImage.single("image"),
   PlaylistController.updatePlaylist
 );
 router.post(
