@@ -34,6 +34,30 @@ const createSong = async (albumId: string, body: Song) => {
   }
 };
 
+const getSongById = async (songId: string) => {
+  try {
+    const song = await prisma.song.findUnique({
+      where: {
+        id: Number(songId),
+      },
+      include: {
+        artist: true,
+        album: true,
+      },
+    });
+    if (!song) {
+      throw new EmptyResponseError("No se encontro la cancion");
+    }
+    return song;
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
+    throw new GenericPrismaError("Error al tratar de buscar la cancion");
+  }
+};
+
 const getAllSongsOrSongByName = async (name: string) => {
   try {
     const songs = await prisma.song.findMany({
@@ -171,4 +195,5 @@ export const SongService = {
   getAllSongsOrSongByName,
   getSongsByAlbumId,
   getLikedSongsByUserId,
+  getSongById,
 };

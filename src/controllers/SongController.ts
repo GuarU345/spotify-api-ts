@@ -45,6 +45,16 @@ const getSongs = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const getSongById = async (req: Request, res: Response, next: NextFunction) => {
+  const { songId } = req.params;
+  try {
+    const song = await SongService.getSongById(songId);
+    return res.json(song);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getSongsByAlbumId = async (
   req: Request,
   res: Response,
@@ -78,4 +88,5 @@ export const SongController = {
   getSongsByAlbumId,
   getSongs,
   getLikedSongsByUserId,
+  getSongById,
 };
