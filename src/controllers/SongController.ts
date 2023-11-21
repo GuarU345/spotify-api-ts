@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { SongService } from "../services/SongService";
 import { songSchema } from "../schemas/songSchema";
+import fs from "fs";
 
 const createNewSong = async (
   req: Request,
@@ -55,6 +56,24 @@ const getSongById = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const streamSongById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { songId } = req.params;
+  try {
+    const stream = await SongService.streamSongById(songId);
+    if (stream !== null) {
+      stream.pipe(res);
+    } else {
+      return res.json({ message: "no se pudo realizar el pipe" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getSongsByAlbumId = async (
   req: Request,
   res: Response,
@@ -89,4 +108,5 @@ export const SongController = {
   getSongs,
   getLikedSongsByUserId,
   getSongById,
+  streamSongById,
 };

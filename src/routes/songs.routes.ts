@@ -13,6 +13,11 @@ router.post(
 router.get("/api/songs", authenticate, SongController.getSongs);
 router.get("/api/songs/:songId", authenticate, SongController.getSongById);
 router.get(
+  "/api/songs/:songId/stream",
+  authenticate,
+  SongController.streamSongById
+);
+router.get(
   "/api/albums/:id/songs",
   authenticate,
   SongController.getSongsByAlbumId

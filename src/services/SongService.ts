@@ -1,8 +1,10 @@
 import { Song } from "../interfaces/interfaces";
 import EmptyResponseError from "../middlewares/errors/empty.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
+import { bufferToStream } from "../utils/helpers";
 import { prisma } from "../utils/prisma";
 import { AlbumService } from "./AlbumService";
+import { Duplex } from "stream";
 
 const createSong = async (albumId: string, body: Song) => {
   const { name, duration, track } = body;
@@ -55,6 +57,27 @@ const getSongById = async (songId: string) => {
     }
     console.error(error);
     throw new GenericPrismaError("Error al tratar de buscar la cancion");
+  }
+};
+
+const streamSongById = async (songId: string) => {
+  try {
+    const song = await prisma.song.findUnique({
+      where: {
+        id: Number(songId),
+      },
+    });
+    if (!song) {
+      throw new EmptyResponseError("No se encontro la cancion");
+    }
+    const stream = song.track ? bufferToStream(song.track) : null;
+    return stream;
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
+    throw new GenericPrismaError("Error al streamear la cancion");
   }
 };
 
@@ -119,6 +142,7 @@ const getSongsByAlbumId = async (albumId: string) => {
     }
 
     const songsAlbum = {
+      id: album?.id,
       artist: album?.artist.name,
       name: album?.name,
       image: album?.album_image,
@@ -196,4 +220,5 @@ export const SongService = {
   getSongsByAlbumId,
   getLikedSongsByUserId,
   getSongById,
+  streamSongById,
 };
