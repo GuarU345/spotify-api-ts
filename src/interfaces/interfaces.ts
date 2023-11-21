@@ -5,7 +5,7 @@ export interface Album {
   release_date: string;
 }
 
-export interface Song {
+export interface SongBody {
   name: string;
   duration: string;
   track?: Buffer;
@@ -26,4 +26,8 @@ export interface User {
   username: string;
   email: string;
   password: string;
+}
+
+export interface Song {
+  id: number;
 }

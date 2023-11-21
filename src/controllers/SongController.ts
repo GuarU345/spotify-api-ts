@@ -102,6 +102,24 @@ const getLikedSongsByUserId = async (
   }
 };
 
+const getUserLikedSongsByAlbum = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { userId } = req.params;
+  const { songs } = req.body;
+  try {
+    const likedSongIds = await SongService.getUserLikedSongsByAlbum(
+      userId,
+      songs
+    );
+    res.json(likedSongIds);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const SongController = {
   createNewSong,
   getSongsByAlbumId,
@@ -109,4 +127,5 @@ export const SongController = {
   getLikedSongsByUserId,
   getSongById,
   streamSongById,
+  getUserLikedSongsByAlbum,
 };

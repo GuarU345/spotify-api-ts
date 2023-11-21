@@ -7,8 +7,14 @@ const router = Router();
 
 router.post(
   "/api/albums/:id/songs",
+  authenticate,
   upload.uploadSong.single("mp3_file"),
   SongController.createNewSong
+);
+router.post(
+  "/api/users/:userId/songs",
+  authenticate,
+  SongController.getUserLikedSongsByAlbum
 );
 router.get("/api/songs", authenticate, SongController.getSongs);
 router.get("/api/songs/:songId", authenticate, SongController.getSongById);
