@@ -160,10 +160,39 @@ const getLikedAlbumsByUserId = async (userId: string) => {
   }
 };
 
+const checkUserLikesAlbum = async (userId: string, albumId: string) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user) {
+      throw new EmptyResponseError("Usuario no encontrado");
+    }
+    const check = await prisma.albumLike.findFirst({
+      where: {
+        AND: [{ user_id: user.id }, { album_id: Number(albumId) }],
+      },
+    });
+    if (!check) {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.log(error);
+    throw new GenericPrismaError("Error al intentar encontrar el registro");
+  }
+};
+
 export const AlbumService = {
   getAlbums,
   getAlbumById,
   getAlbumsByArtistId,
   createArtistAlbum,
   getLikedAlbumsByUserId,
+  checkUserLikesAlbum,
 };
