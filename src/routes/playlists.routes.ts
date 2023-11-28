@@ -20,6 +20,11 @@ router.get(
   authenticate,
   PlaylistController.countSongsByPlaylistId
 );
+router.get(
+  "/api/users/:userId/playlists/love",
+  authenticate,
+  PlaylistController.getLikedSongsPlaylist
+);
 router.post(
   "/api/users/:id/playlists",
   authenticate,

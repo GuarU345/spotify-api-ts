@@ -254,6 +254,31 @@ const countSongsByPlaylistId = async (id: string) => {
   }
 };
 
+const getLikedSongsPlaylist = async (userId: string) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user) {
+      throw new EmptyResponseError("Usuario no encontrado");
+    }
+    const likedPlaylist = await prisma.playlist.findFirst({
+      where: {
+        name: "Canciones que te gustan",
+      },
+    });
+    return likedPlaylist;
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
+    throw new GenericPrismaError("Error al traer la playlist");
+  }
+};
+
 const checkUserHaveLikedSongsPlaylist = async (userId: string) => {
   try {
     const userHaveLikedSongs = await prisma.songLike.findFirst({
@@ -293,4 +318,5 @@ export const PlaylistService = {
   removeSongOnPlaylist,
   createUserLikedSongsPlaylist,
   checkUserHaveLikedSongsPlaylist,
+  getLikedSongsPlaylist,
 };
