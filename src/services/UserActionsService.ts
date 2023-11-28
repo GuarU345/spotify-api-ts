@@ -1,23 +1,45 @@
 import EmptyResponseError from "../middlewares/errors/empty.error";
 import { prisma } from "../utils/prisma";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
+import { PlaylistService } from "./PlaylistService";
+import { SongService } from "./SongService";
 
 const likeSong = async (userId: string, songId: string) => {
+  let createLikedSongsPl;
   try {
     const user = await prisma.user.findUnique({
       where: {
         id: userId,
       },
     });
+
     if (!user) {
       throw new EmptyResponseError("Usuario no existente");
     }
+
+    const userHaveLikedSongs =
+      await PlaylistService.checkUserHaveLikedSongsPlaylist(user.id);
+
+    if (!userHaveLikedSongs) {
+      createLikedSongsPl = await PlaylistService.createUserLikedSongsPlaylist(
+        user.id
+      );
+    }
+
     const likeSong = await prisma.songLike.create({
       data: {
         user_id: user.id,
         song_id: Number(songId),
       },
     });
+
+    if (createLikedSongsPl) {
+      await SongService.addLikedSongToLikedSongsPlaylist(
+        createLikedSongsPl.id,
+        songId
+      );
+    }
+
     return likeSong;
   } catch (error) {
     if (error instanceof EmptyResponseError) {

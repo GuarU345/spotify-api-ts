@@ -245,6 +245,22 @@ const getUserLikedSongsByAlbum = async (userId: string, songs: Song[]) => {
   }
 };
 
+const addLikedSongToLikedSongsPlaylist = async (
+  playlistId: number,
+  songId: string
+) => {
+  try {
+    await prisma.playlistSong.create({
+      data: {
+        playlist_id: playlistId,
+        song_id: Number(songId),
+      },
+    });
+  } catch (error) {
+    throw new GenericPrismaError("Error al agregar la cancion gustada");
+  }
+};
+
 export const SongService = {
   createSong,
   getAllSongsOrSongByName,
@@ -253,4 +269,5 @@ export const SongService = {
   getSongById,
   streamSongById,
   getUserLikedSongsByAlbum,
+  addLikedSongToLikedSongsPlaylist,
 };

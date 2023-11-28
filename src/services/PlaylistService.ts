@@ -254,6 +254,35 @@ const countSongsByPlaylistId = async (id: string) => {
   }
 };
 
+const checkUserHaveLikedSongsPlaylist = async (userId: string) => {
+  try {
+    const userHaveLikedSongs = await prisma.songLike.findFirst({
+      where: {
+        user_id: userId,
+      },
+    });
+    return userHaveLikedSongs;
+  } catch (error) {
+    throw new GenericPrismaError("Error al realizar esta accion");
+  }
+};
+
+const createUserLikedSongsPlaylist = async (userId: string) => {
+  try {
+    const createPlaylist = await prisma.playlist.create({
+      data: {
+        name: "Canciones que te gustan",
+        user_id: userId,
+        release_date: new Date().toISOString(),
+        image: "https://misc.scdn.co/liked-songs/liked-songs-300.png",
+      },
+    });
+    return createPlaylist;
+  } catch (error) {
+    throw new GenericPrismaError("Error al crear la playlist");
+  }
+};
+
 export const PlaylistService = {
   getPlaylistsByUserId,
   addSongToPlaylist,
@@ -262,4 +291,6 @@ export const PlaylistService = {
   createUserPlaylist,
   getSongsByPlaylistId,
   removeSongOnPlaylist,
+  createUserLikedSongsPlaylist,
+  checkUserHaveLikedSongsPlaylist,
 };
