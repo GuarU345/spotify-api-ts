@@ -24,6 +24,9 @@ const likeSong = async (userId: string, songId: string) => {
       createLikedSongsPl = await PlaylistService.createUserLikedSongsPlaylist(
         user.id
       );
+    } else {
+      const likedSongsPl = await PlaylistService.getLikedSongsPlaylist(user.id);
+      createLikedSongsPl = likedSongsPl;
     }
 
     const likeSong = await prisma.songLike.create({
@@ -70,6 +73,15 @@ const dislikeSong = async (userId: string, songId: string) => {
     if (!searchUserSong) {
       throw new EmptyResponseError("Registro no existente");
     }
+    const searchLikedSongsPl = await PlaylistService.getLikedSongsPlaylist(
+      user.id
+    );
+
+    if (!searchLikedSongsPl) {
+      throw new EmptyResponseError("No se encontro la playlist");
+    }
+
+    await PlaylistService.removeSongOnPlaylist(searchLikedSongsPl?.id, songId);
 
     const dislikeSong = await prisma.songLike.delete({
       where: {

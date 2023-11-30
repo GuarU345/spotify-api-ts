@@ -179,7 +179,10 @@ const addSongToPlaylist = async (playlistId: string, songId: string) => {
   }
 };
 
-const removeSongOnPlaylist = async (playlistId: string, songId: string) => {
+const removeSongOnPlaylist = async (
+  playlistId: string | number,
+  songId: string
+) => {
   try {
     const playlist = await prisma.playlist.findUnique({
       where: {
@@ -266,7 +269,14 @@ const getLikedSongsPlaylist = async (userId: string) => {
     }
     const likedPlaylist = await prisma.playlist.findFirst({
       where: {
-        name: "Canciones que te gustan",
+        AND: [
+          {
+            name: "Canciones que te gustan",
+          },
+          {
+            user_id: user.id,
+          },
+        ],
       },
     });
     return likedPlaylist;
@@ -294,6 +304,10 @@ const checkUserHaveLikedSongsPlaylist = async (userId: string) => {
 
 const createUserLikedSongsPlaylist = async (userId: string) => {
   try {
+    const IsCreated = await getLikedSongsPlaylist(userId);
+    if (IsCreated) {
+      return IsCreated;
+    }
     const createPlaylist = await prisma.playlist.create({
       data: {
         name: "Canciones que te gustan",

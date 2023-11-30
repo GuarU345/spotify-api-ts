@@ -4,7 +4,6 @@ import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { bufferToStream } from "../utils/helpers";
 import { prisma } from "../utils/prisma";
 import { AlbumService } from "./AlbumService";
-import { Duplex } from "stream";
 
 const createSong = async (albumId: string, body: SongBody) => {
   const { name, duration, track } = body;
@@ -196,6 +195,7 @@ const getLikedSongsByUserId = async (id: string) => {
         id: likedSong.id,
         artist: likedSong.artist?.name,
         name: likedSong.name,
+        duration: likedSong.duration,
         album: {
           id: likedSong.album.id,
           name: likedSong.album.name,
