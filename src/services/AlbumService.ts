@@ -53,6 +53,7 @@ const getAlbums = async () => {
     const albums = await prisma.album.findMany({
       include: {
         artist: true,
+        color: true,
       },
     });
     if (!albums) {

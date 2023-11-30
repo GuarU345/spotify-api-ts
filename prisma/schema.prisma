@@ -79,7 +79,9 @@ model Album {
   release_date DateTime
   album_image  String?
   artist_id    Int
+  color_id     String?
   artist       Artist      @relation(fields: [artist_id], references: [id])
+  color        Color?      @relation(fields: [color_id], references: [id])
   songs        Song[]
   likes        AlbumLike[]
 
@@ -123,4 +125,10 @@ model PlaylistSong {
   playlist    Playlist @relation(fields: [playlist_id], references: [id])
 
   @@unique([song_id, playlist_id])
+}
+
+model Color {
+  id    String  @id @default(uuid())
+  color String  @unique
+  album Album[]
 }
