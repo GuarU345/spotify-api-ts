@@ -129,6 +129,7 @@ model PlaylistSong {
 
 model Color {
   id    String  @id @default(uuid())
+  name  String
   color String  @unique
   album Album[]
 }
