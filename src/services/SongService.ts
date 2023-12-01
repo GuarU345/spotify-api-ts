@@ -100,16 +100,18 @@ const getAllSongsOrSongByName = async (name: string) => {
 
     const songsWithData = songs.map((song) => {
       return {
-        artistId: song.artist_id,
-        artist: song?.artist?.name,
+        artist: {
+          id: song.artist?.id,
+          name: song.artist?.name,
+        },
         album: {
-          albumId: song?.album.id,
-          albumName: song.album.name,
-          albumImage: song?.album.album_image,
+          id: song.album.id,
+          name: song.album.name,
+          image: song.album.album_image,
         },
         song: {
-          songId: song.id,
-          songName: song?.name,
+          id: song.id,
+          name: song.name,
         },
       };
     });

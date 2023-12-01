@@ -33,6 +33,9 @@ const getAlbumById = async (albumId: string) => {
       where: {
         id: Number(albumId),
       },
+      include: {
+        color: true,
+      },
     });
     if (!album) {
       throw new EmptyResponseError("No se pudo encontrar el album");
@@ -87,12 +90,12 @@ const getAlbumsByArtistId = async (artistId: string) => {
 
     const artistAlbums = {
       artist: artist?.name,
-      albums:
+      album:
         artist.albums.length > 0
           ? artist?.albums.map((album) => {
               return {
                 id: album.id,
-                albumName: album.name,
+                name: album.name,
                 releaseDate: album.release_date,
               };
             })
@@ -146,7 +149,7 @@ const getLikedAlbumsByUserId = async (userId: string) => {
       return {
         id: likedAlbum.id,
         album: likedAlbum.name,
-        albumImage: likedAlbum.album_image,
+        image: likedAlbum.album_image,
         artist: likedAlbum.artist.name,
       };
     });

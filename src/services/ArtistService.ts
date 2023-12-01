@@ -87,7 +87,7 @@ const getFollowedArtistsByUserId = async (userId: string) => {
     const followedArtists = followedArtistsData.map((followed) => {
       return {
         id: followed.id,
-        artistName: followed.name,
+        name: followed.name,
       };
     });
     return followedArtists;
