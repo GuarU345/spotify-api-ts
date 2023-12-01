@@ -130,6 +130,7 @@ const getSongsByAlbumId = async (albumId: string) => {
       include: {
         songs: true,
         artist: true,
+        color: true,
       },
       where: {
         id: Number(albumId),
@@ -145,6 +146,7 @@ const getSongsByAlbumId = async (albumId: string) => {
       artist: album?.artist.name,
       name: album?.name,
       image: album?.album_image,
+      color: album.color?.color,
       songs:
         album.songs.length > 0
           ? album?.songs.map((song) => {
