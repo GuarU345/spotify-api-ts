@@ -148,7 +148,7 @@ const getLikedAlbumsByUserId = async (userId: string) => {
     const likedAlbums = likedAlbumsData.map((likedAlbum) => {
       return {
         id: likedAlbum.id,
-        album: likedAlbum.name,
+        name: likedAlbum.name,
         image: likedAlbum.album_image,
         artist: likedAlbum.artist.name,
       };
