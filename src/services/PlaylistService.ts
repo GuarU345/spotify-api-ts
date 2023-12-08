@@ -68,9 +68,9 @@ const getSongsByPlaylistId = async (id: string) => {
     });
 
     const playlistSongs = {
-      playlist: playlist.name,
-      playlistDescription: playlist.description,
-      playlistImg: playlist.image,
+      name: playlist.name,
+      description: playlist.description,
+      image: playlist.image,
       songs: songsInfo.map((playlistSong) => {
         return {
           album: {

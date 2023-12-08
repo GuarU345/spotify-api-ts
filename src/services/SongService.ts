@@ -178,7 +178,7 @@ const getLikedSongsByUserId = async (id: string) => {
       },
     });
     if (searchLikedSongs.length === 0) {
-      throw new EmptyResponseError("No tienes canciones con me gusta");
+      return searchLikedSongs;
     }
     const likedSongIds = searchLikedSongs.map((likedSong) => likedSong.song_id);
 
