@@ -48,7 +48,7 @@ const getSongsByPlaylistId = async (id: string) => {
     });
 
     if (playlistData.length === 0) {
-      throw new EmptyResponseError("Playlist vacia");
+      return playlist;
     }
 
     //get song ids saved in this playlist
@@ -74,11 +74,14 @@ const getSongsByPlaylistId = async (id: string) => {
       songs: songsInfo.map((playlistSong) => {
         return {
           album: {
+            id: playlistSong.album.id,
             name: playlistSong.album.name,
             image: playlistSong.album.album_image,
           },
           song: {
+            id: playlistSong.id,
             name: playlistSong.name,
+            duration: playlistSong.duration,
           },
           artist: {
             name: playlistSong.artist?.name,
