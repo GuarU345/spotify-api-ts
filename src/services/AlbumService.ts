@@ -127,7 +127,7 @@ const getLikedAlbumsByUserId = async (userId: string) => {
       },
     });
     if (searchLikedAlbums.length === 0) {
-      throw new EmptyResponseError("No tienes albums con me gusta");
+      return searchLikedAlbums;
     }
 
     const likedAlbumIds = searchLikedAlbums.map(
@@ -150,7 +150,8 @@ const getLikedAlbumsByUserId = async (userId: string) => {
         id: likedAlbum.id,
         name: likedAlbum.name,
         image: likedAlbum.album_image,
-        artist: likedAlbum.artist.name,
+        author: likedAlbum.artist.name,
+        type: "album",
       };
     });
 

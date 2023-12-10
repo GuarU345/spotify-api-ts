@@ -9,13 +9,22 @@ const getPlaylistsByUserId = async (id: string) => {
       where: {
         user_id: id,
       },
+      include: {
+        user: true,
+      },
     });
     if (playlists.length === 0) {
-      throw new EmptyResponseError(
-        "No se encontraron playlists de ese usuario"
-      );
+      return playlists;
     }
-    return playlists;
+    return playlists.map((playlist) => {
+      return {
+        id: playlist.id,
+        name: playlist.name,
+        image: playlist.image,
+        author: playlist.user.username,
+        type: "playlist",
+      };
+    });
   } catch (error) {
     if (error instanceof EmptyResponseError) {
       throw error;
