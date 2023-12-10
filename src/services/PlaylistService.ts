@@ -119,7 +119,8 @@ const createUserPlaylist = async (id: string) => {
         name: standardPlaylistName,
         release_date: new Date().toISOString(),
         user_id: id,
-        image: "not image",
+        image:
+          "https://community.spotify.com/t5/image/serverpage/image-id/25294i2836BD1C1A31BDF2?v=v2",
       },
     });
     return createPlaylist;
