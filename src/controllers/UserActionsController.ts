@@ -77,6 +77,20 @@ const unfollowArtist = async (
   }
 };
 
+const globalSearch = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { name } = req.query;
+  try {
+    const result = await UserActionsService.globalSearch(name as string);
+    return res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const UserActionsController = {
   likeSong,
   dislikeSong,
@@ -84,4 +98,5 @@ export const UserActionsController = {
   dislikeAlbum,
   followArtist,
   unfollowArtist,
+  globalSearch,
 };

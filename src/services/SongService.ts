@@ -5,6 +5,15 @@ import { bufferToStream } from "../utils/helpers";
 import { prisma } from "../utils/prisma";
 import { AlbumService } from "./AlbumService";
 
+const getSongs = async () => {
+  try {
+    const songs = await prisma.song.findMany();
+    return songs;
+  } catch (error) {
+    throw new GenericPrismaError("Error al tratar de obtener las canciones");
+  }
+};
+
 const createSong = async (albumId: string, body: SongBody) => {
   const { name, duration, track } = body;
   try {
@@ -77,52 +86,6 @@ const streamSongById = async (songId: string) => {
     }
     console.error(error);
     throw new GenericPrismaError("Error al streamear la cancion");
-  }
-};
-
-const getAllSongsOrSongByName = async (name: string) => {
-  try {
-    const songs = await prisma.song.findMany({
-      include: {
-        artist: true,
-        album: true,
-      },
-      where: {
-        name: {
-          contains: name as string,
-        },
-      },
-    });
-
-    if (songs.length < 1) {
-      throw new Error("Ninguna cancion coincide con la busqueda");
-    }
-
-    const songsWithData = songs.map((song) => {
-      return {
-        artist: {
-          id: song.artist?.id,
-          name: song.artist?.name,
-        },
-        album: {
-          id: song.album.id,
-          name: song.album.name,
-          image: song.album.album_image,
-        },
-        song: {
-          id: song.id,
-          name: song.name,
-        },
-      };
-    });
-
-    return songsWithData;
-  } catch (error) {
-    if (error instanceof EmptyResponseError) {
-      throw error;
-    }
-    console.error(error);
-    throw new GenericPrismaError("Error al tratar de realizar la busqueda");
   }
 };
 
@@ -267,7 +230,7 @@ const addLikedSongToLikedSongsPlaylist = async (
 
 export const SongService = {
   createSong,
-  getAllSongsOrSongByName,
+  getSongs,
   getSongsByAlbumId,
   getLikedSongsByUserId,
   getSongById,

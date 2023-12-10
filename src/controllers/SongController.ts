@@ -35,12 +35,9 @@ const createNewSong = async (
 };
 
 const getSongs = async (req: Request, res: Response, next: NextFunction) => {
-  const { name } = req.query;
   try {
-    const songWithData = await SongService.getAllSongsOrSongByName(
-      name as string
-    );
-    res.json(songWithData);
+    const songs = await SongService.getSongs();
+    res.json(songs);
   } catch (error) {
     next(error);
   }
