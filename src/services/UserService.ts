@@ -87,7 +87,10 @@ const signin = async (body: User) => {
       },
     });
 
-    return newToken.jwtSecretKey;
+    return {
+      token: newToken.jwtSecretKey,
+      user_id: newToken.user_id,
+    };
   } catch (error) {
     if (error instanceof InvalidCredentialsError) {
       throw error;

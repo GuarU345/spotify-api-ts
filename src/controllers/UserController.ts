@@ -22,8 +22,8 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
 const signin = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const body = req.body;
-    const token = await UserService.signin(body);
-    return res.json(token);
+    const userData = await UserService.signin(body);
+    return res.json(userData);
   } catch (error) {
     next(error);
   }
