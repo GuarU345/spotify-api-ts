@@ -17,18 +17,6 @@ const likeSong = async (userId: string, songId: string) => {
       throw new EmptyResponseError("Usuario no existente");
     }
 
-    const userHaveLikedSongs =
-      await PlaylistService.checkUserHaveLikedSongsPlaylist(user.id);
-
-    if (!userHaveLikedSongs) {
-      createLikedSongsPl = await PlaylistService.createUserLikedSongsPlaylist(
-        user.id
-      );
-    } else {
-      const likedSongsPl = await PlaylistService.getLikedSongsPlaylist(user.id);
-      createLikedSongsPl = likedSongsPl;
-    }
-
     const likeSong = await prisma.songLike.create({
       data: {
         user_id: user.id,
@@ -36,9 +24,13 @@ const likeSong = async (userId: string, songId: string) => {
       },
     });
 
-    if (createLikedSongsPl) {
+    const likedSongsPlaylist = await PlaylistService.getLikedSongsPlaylist(
+      user.id
+    );
+
+    if (likedSongsPlaylist) {
       await SongService.addLikedSongToLikedSongsPlaylist(
-        createLikedSongsPl.id,
+        likedSongsPlaylist.id,
         songId
       );
     }

@@ -115,8 +115,15 @@ const getSongsByPlaylistId = async (id: string) => {
 
 const createUserPlaylist = async (id: string) => {
   try {
-    const getPlaylists = await prisma.playlist.findMany();
-    const standardPlaylistName = `Playlist N. ${getPlaylists.length + 1}`;
+    const userPlaylists = await checkUserHavePlaylists(id);
+    const userPlaylistsName = userPlaylists.filter(
+      (userPlaylist) => userPlaylist.name === "Playlist N. 1"
+    );
+    console.log(userPlaylists);
+    const standardPlaylistName =
+      userPlaylistsName.length < 0
+        ? "Playlist N. 1"
+        : `Playlist N. ${userPlaylists.length}`;
     const createPlaylist = await prisma.playlist.create({
       data: {
         name: standardPlaylistName,
@@ -342,6 +349,15 @@ const createUserLikedSongsPlaylist = async (userId: string) => {
   } catch (error) {
     throw new GenericPrismaError("Error al crear la playlist");
   }
+};
+
+const checkUserHavePlaylists = async (userId: string) => {
+  const findPlaylist = await prisma.playlist.findMany({
+    where: {
+      user_id: userId,
+    },
+  });
+  return findPlaylist;
 };
 
 export const PlaylistService = {
