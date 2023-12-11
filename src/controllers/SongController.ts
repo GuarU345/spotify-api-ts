@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { SongService } from "../services/SongService";
 import { songSchema } from "../schemas/songSchema";
-import fs from "fs";
 
 const createNewSong = async (
   req: Request,
@@ -90,27 +89,11 @@ const getLikedSongsByUserId = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { id } = req.params;
-  try {
-    const likedSongs = await SongService.getLikedSongsByUserId(id);
-    res.json(likedSongs);
-  } catch (error) {
-    next(error);
-  }
-};
-
-const getUserLikedSongsByAlbum = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
   const { userId } = req.params;
   const { songs } = req.body;
+
   try {
-    const likedSongIds = await SongService.getUserLikedSongsByAlbum(
-      userId,
-      songs
-    );
+    const likedSongIds = await SongService.getLikedSongsByUserId(userId, songs);
     res.json(likedSongIds);
   } catch (error) {
     next(error);
@@ -121,8 +104,7 @@ export const SongController = {
   createNewSong,
   getSongsByAlbumId,
   getSongs,
-  getLikedSongsByUserId,
   getSongById,
   streamSongById,
-  getUserLikedSongsByAlbum,
+  getLikedSongsByUserId,
 };

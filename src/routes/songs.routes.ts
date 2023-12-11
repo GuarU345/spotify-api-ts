@@ -14,7 +14,7 @@ router.post(
 router.post(
   "/api/users/:userId/songs",
   authenticate,
-  SongController.getUserLikedSongsByAlbum
+  SongController.getLikedSongsByUserId
 );
 router.get("/api/songs", authenticate, SongController.getSongs);
 router.get("/api/songs/:songId", authenticate, SongController.getSongById);
@@ -27,11 +27,6 @@ router.get(
   "/api/albums/:id/songs",
   authenticate,
   SongController.getSongsByAlbumId
-);
-router.get(
-  "/api/users/:id/songs",
-  authenticate,
-  SongController.getLikedSongsByUserId
 );
 
 export const songRoutes = router;

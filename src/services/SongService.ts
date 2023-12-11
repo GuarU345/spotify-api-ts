@@ -133,55 +133,7 @@ const getSongsByAlbumId = async (albumId: string) => {
   }
 };
 
-const getLikedSongsByUserId = async (id: string) => {
-  try {
-    const searchLikedSongs = await prisma.songLike.findMany({
-      where: {
-        user_id: id,
-      },
-    });
-    if (searchLikedSongs.length === 0) {
-      return searchLikedSongs;
-    }
-    const likedSongIds = searchLikedSongs.map((likedSong) => likedSong.song_id);
-
-    const likedSongsData = await prisma.song.findMany({
-      where: {
-        id: {
-          in: likedSongIds,
-        },
-      },
-      include: {
-        artist: true,
-        album: true,
-      },
-    });
-
-    const likedSongs = likedSongsData.map((likedSong) => {
-      return {
-        id: likedSong.id,
-        artist: likedSong.artist?.name,
-        name: likedSong.name,
-        duration: likedSong.duration,
-        album: {
-          id: likedSong.album.id,
-          name: likedSong.album.name,
-          image: likedSong.album.album_image,
-        },
-      };
-    });
-
-    return likedSongs;
-  } catch (error) {
-    if (error instanceof EmptyResponseError) {
-      throw error;
-    }
-    console.error(error);
-    throw new GenericPrismaError("Error al tratar de encontrar las canciones");
-  }
-};
-
-const getUserLikedSongsByAlbum = async (userId: string, songs: Song[]) => {
+const getLikedSongsByUserId = async (userId: string, songs: Song[]) => {
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -232,9 +184,8 @@ export const SongService = {
   createSong,
   getSongs,
   getSongsByAlbumId,
-  getLikedSongsByUserId,
   getSongById,
   streamSongById,
-  getUserLikedSongsByAlbum,
+  getLikedSongsByUserId,
   addLikedSongToLikedSongsPlaylist,
 };

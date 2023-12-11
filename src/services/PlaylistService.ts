@@ -80,23 +80,26 @@ const getSongsByPlaylistId = async (id: string) => {
       name: playlist.name,
       description: playlist.description,
       image: playlist.image,
-      songs: songsInfo.map((playlistSong) => {
-        return {
-          album: {
-            id: playlistSong.album.id,
-            name: playlistSong.album.name,
-            image: playlistSong.album.album_image,
-          },
-          song: {
-            id: playlistSong.id,
-            name: playlistSong.name,
-            duration: playlistSong.duration,
-          },
-          artist: {
-            name: playlistSong.artist?.name,
-          },
-        };
-      }),
+      songs:
+        songsInfo.length > 0
+          ? songsInfo.map((playlistSong) => {
+              return {
+                album: {
+                  id: playlistSong.album.id,
+                  name: playlistSong.album.name,
+                  image: playlistSong.album.album_image,
+                },
+                song: {
+                  id: playlistSong.id,
+                  name: playlistSong.name,
+                  duration: playlistSong.duration,
+                },
+                artist: {
+                  name: playlistSong.artist?.name,
+                },
+              };
+            })
+          : [],
     };
     return playlistSongs;
   } catch (error) {
