@@ -119,7 +119,6 @@ const createUserPlaylist = async (id: string) => {
     const userPlaylistsName = userPlaylists.filter(
       (userPlaylist) => userPlaylist.name === "Playlist N. 1"
     );
-    console.log(userPlaylists);
     const standardPlaylistName =
       userPlaylistsName.length < 0
         ? "Playlist N. 1"

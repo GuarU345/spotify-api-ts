@@ -134,7 +134,6 @@ const getSongsByAlbumId = async (albumId: string) => {
 };
 
 const getLikedSongsByUserId = async (userId: string, songs: Song[]) => {
-  console.log(songs);
   try {
     const user = await prisma.user.findUnique({
       where: {
