@@ -6,3 +6,9 @@ export const bufferToStream = (myBuffer: Buffer) => {
   tmp.push(null);
   return tmp;
 };
+
+export const MUSIC_TYPES = {
+  ALBUM: "album",
+  PLAYLIST: "playlist",
+  SONG: "song",
+};

@@ -45,7 +45,7 @@ model SongLike {
 model AlbumLike {
   id         Int      @id @default(autoincrement())
   user_id    String
-  album_id   Int
+  album_id   String
   user       User     @relation(fields: [user_id], references: [id])
   album      Album    @relation(fields: [album_id], references: [id])
   created_at DateTime @default(now())
@@ -56,7 +56,7 @@ model AlbumLike {
 model ArtistFollow {
   id         Int      @id @default(autoincrement())
   user_id    String
-  artist_id  Int
+  artist_id  String
   user       User     @relation(fields: [user_id], references: [id])
   artist     Artist   @relation(fields: [artist_id], references: [id])
   created_at DateTime @default(now())
@@ -65,7 +65,7 @@ model ArtistFollow {
 }
 
 model Artist {
-  id          Int            @id @default(autoincrement())
+  id          String         @id @default(uuid())
   name        String         @unique
   nationality String
   albums      Album[]
@@ -74,11 +74,11 @@ model Artist {
 }
 
 model Album {
-  id           Int         @id @default(autoincrement())
+  id           String      @id @default(uuid())
   name         String
   release_date DateTime
   album_image  String?
-  artist_id    Int
+  artist_id    String
   color_id     String?
   artist       Artist      @relation(fields: [artist_id], references: [id])
   color        Color?      @relation(fields: [color_id], references: [id])
@@ -92,9 +92,9 @@ model Song {
   id             Int            @id @default(autoincrement())
   name           String
   duration       String?
-  artist_id      Int
+  artist_id      String
   artist         Artist?        @relation(fields: [artist_id], references: [id])
-  album_id       Int
+  album_id       String
   album          Album          @relation(fields: [album_id], references: [id])
   likes          SongLike[]
   playlist_songs PlaylistSong[]
@@ -104,7 +104,7 @@ model Song {
 }
 
 model Playlist {
-  id             Int            @id @default(autoincrement())
+  id             String         @id @default(uuid())
   name           String
   description    String?
   image          String
@@ -121,7 +121,7 @@ model PlaylistSong {
   id          String   @id @default(uuid())
   song_id     Int
   song        Song     @relation(fields: [song_id], references: [id])
-  playlist_id Int
+  playlist_id String
   playlist    Playlist @relation(fields: [playlist_id], references: [id])
 
   @@unique([song_id, playlist_id])

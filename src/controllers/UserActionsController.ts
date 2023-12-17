@@ -91,6 +91,24 @@ const globalSearch = async (
   }
 };
 
+const userReproducingSomething = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.params;
+  const { type } = req.query;
+  try {
+    const result = await UserActionsService.userReproducingSomething(
+      Number(id),
+      type as string
+    );
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const UserActionsController = {
   likeSong,
   dislikeSong,
@@ -99,4 +117,5 @@ export const UserActionsController = {
   followArtist,
   unfollowArtist,
   globalSearch,
+  userReproducingSomething,
 };

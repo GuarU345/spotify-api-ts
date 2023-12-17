@@ -3,6 +3,7 @@ import { prisma } from "../utils/prisma";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { PlaylistService } from "./PlaylistService";
 import { SongService } from "./SongService";
+import { MUSIC_TYPES } from "../utils/helpers";
 
 const likeSong = async (userId: string, songId: string) => {
   let createLikedSongsPl;
@@ -274,6 +275,100 @@ const globalSearch = async (name: string) => {
   }
 };
 
+const userReproducingSomething = async (id: number, type: string) => {
+  try {
+    if (type === MUSIC_TYPES.ALBUM) {
+      const album = await prisma.album.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          songs: {
+            orderBy: {
+              name: "asc",
+            },
+          },
+          artist: true,
+        },
+      });
+      if (!album) {
+        throw new EmptyResponseError("No se encontro el album");
+      }
+      const firstSong = album.songs[0].id;
+      return {
+        id: album.id,
+        type,
+        songId: firstSong,
+        songs: album.songs.map((song) => {
+          return {
+            id: song.id,
+            name: song.name,
+            album: {
+              name: album.name,
+              image: album.album_image,
+            },
+            artist: {
+              name: album.artist.name,
+            },
+          };
+        }),
+      };
+    }
+    if (type === MUSIC_TYPES.PLAYLIST) {
+      const playlist = await prisma.playlist.findUnique({
+        where: {
+          id,
+        },
+      });
+      if (!playlist) {
+        throw new EmptyResponseError("No se encontro la playlist");
+      }
+      const playlistSongs = await prisma.playlistSong.findMany({
+        where: {
+          playlist_id: playlist.id,
+        },
+      });
+      const songIds = playlistSongs.map((playlistSong) => playlistSong.song_id);
+      const songs = await prisma.song.findMany({
+        where: {
+          id: {
+            in: songIds,
+          },
+        },
+        include: {
+          album: true,
+          artist: true,
+        },
+      });
+      const firstSong = songs[0].id;
+      return {
+        id: playlist.id,
+        type,
+        songId: firstSong,
+        songs: songs.map((song) => {
+          return {
+            id: song.id,
+            name: song.name,
+            album: {
+              name: song.album.name,
+              image: song.album.album_image,
+            },
+            artist: {
+              name: song.artist?.name,
+            },
+          };
+        }),
+      };
+    }
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
+    throw new GenericPrismaError("Error al tratar de encontrar la informacion");
+  }
+};
+
 export const UserActionsService = {
   likeSong,
   dislikeSong,
@@ -282,4 +377,5 @@ export const UserActionsService = {
   followArtist,
   unfollowArtist,
   globalSearch,
+  userReproducingSomething,
 };

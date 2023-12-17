@@ -5,6 +5,11 @@ import { authenticate } from "../middlewares/authenticate";
 const router = Router();
 
 router.get("/api/search", authenticate, UserActionsController.globalSearch);
+router.get(
+  "/api/data/:id",
+  authenticate,
+  UserActionsController.userReproducingSomething
+);
 router.post(
   "/api/users/:userId/songs/:songId/likes",
   authenticate,

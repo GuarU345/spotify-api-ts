@@ -93,7 +93,11 @@ const getSongsByAlbumId = async (albumId: string) => {
   try {
     const album = await prisma.album.findUnique({
       include: {
-        songs: true,
+        songs: {
+          orderBy: {
+            name: "asc",
+          },
+        },
         artist: true,
         color: true,
       },

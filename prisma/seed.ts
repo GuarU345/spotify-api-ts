@@ -34,6 +34,7 @@ const createNewArtists = () => {
       await Promise.all(createArtists);
       resolve("Artistas creados correctamente");
     } catch (error) {
+      console.error(error);
       reject("Hubo un error");
     }
   });
@@ -61,6 +62,7 @@ const createNewAlbums = () => {
       await Promise.all(createAlbums);
       resolve("Albums creados correctamente");
     } catch (error) {
+      console.error(error);
       reject("Hubo un error");
     }
   });
