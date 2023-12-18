@@ -41,7 +41,7 @@ const getSongsByPlaylistId = async (id: string) => {
     //get specific playlist
     const playlist = await prisma.playlist.findUnique({
       where: {
-        id: Number(id),
+        id,
       },
     });
 
@@ -144,7 +144,7 @@ const updatePlaylist = async (id: string, userId: string, body: Playlist) => {
     const { name, description, image } = body;
     const playlist = await prisma.playlist.findUnique({
       where: {
-        id: Number(id),
+        id,
       },
     });
     if (!playlist) {
@@ -175,7 +175,7 @@ const addSongToPlaylist = async (playlistId: string, songId: string) => {
   try {
     const playlist = await prisma.playlist.findUnique({
       where: {
-        id: Number(playlistId),
+        id: playlistId,
       },
     });
     if (!playlist) {
@@ -207,14 +207,11 @@ const addSongToPlaylist = async (playlistId: string, songId: string) => {
   }
 };
 
-const removeSongOnPlaylist = async (
-  playlistId: string | number,
-  songId: string
-) => {
+const removeSongOnPlaylist = async (playlistId: string, songId: string) => {
   try {
     const playlist = await prisma.playlist.findUnique({
       where: {
-        id: Number(playlistId),
+        id: playlistId,
       },
     });
 
@@ -264,7 +261,7 @@ const countSongsByPlaylistId = async (id: string) => {
   try {
     const playlist = await prisma.playlist.findUnique({
       where: {
-        id: Number(id),
+        id: id,
       },
       include: {
         playlist_songs: true,

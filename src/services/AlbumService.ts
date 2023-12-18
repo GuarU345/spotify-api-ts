@@ -16,7 +16,7 @@ const createArtistAlbum = async (
         name,
         release_date,
         album_image,
-        artist_id: Number(artistId),
+        artist_id: artistId,
       },
     });
     return newAlbum;
@@ -31,7 +31,7 @@ const getAlbumById = async (albumId: string) => {
   try {
     const album = await prisma.album.findUnique({
       where: {
-        id: Number(albumId),
+        id: albumId,
       },
       include: {
         color: true,
@@ -80,7 +80,7 @@ const getAlbumsByArtistId = async (artistId: string) => {
         albums: true,
       },
       where: {
-        id: Number(artistId),
+        id: artistId,
       },
     });
 
@@ -177,7 +177,7 @@ const checkUserLikesAlbum = async (userId: string, albumId: string) => {
     }
     const check = await prisma.albumLike.findFirst({
       where: {
-        AND: [{ user_id: user.id }, { album_id: Number(albumId) }],
+        AND: [{ user_id: user.id }, { album_id: albumId }],
       },
     });
     if (!check) {

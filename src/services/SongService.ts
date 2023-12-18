@@ -30,7 +30,7 @@ const createSong = async (albumId: string, body: SongBody) => {
         name,
         duration,
         track,
-        album_id: Number(albumId),
+        album_id: albumId,
         artist_id: albumData?.artist_id,
       },
     });
@@ -102,7 +102,7 @@ const getSongsByAlbumId = async (albumId: string) => {
         color: true,
       },
       where: {
-        id: Number(albumId),
+        id: albumId,
       },
     });
 
@@ -170,7 +170,7 @@ const getLikedSongsByUserId = async (userId: string, songs: Song[]) => {
 };
 
 const addLikedSongToLikedSongsPlaylist = async (
-  playlistId: number,
+  playlistId: string,
   songId: string
 ) => {
   try {

@@ -23,7 +23,7 @@ const getArtistById = async (id: string) => {
   try {
     const artist = await prisma.artist.findUnique({
       where: {
-        id: Number(id),
+        id: id,
       },
     });
     if (!artist) {
@@ -74,7 +74,7 @@ const getFollowedArtistsByUserId = async (userId: string) => {
       throw new EmptyResponseError("No sigues a ningun artista");
     }
     const followedArtistsIds = searchFollowedArtists.map(
-      (followed) => followed.id
+      (followed) => followed.artist_id
     );
     const followedArtistsData = await prisma.artist.findMany({
       where: {

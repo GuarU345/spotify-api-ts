@@ -103,7 +103,7 @@ const likeAlbum = async (userId: string, albumId: string) => {
     }
     const album = await prisma.album.findUnique({
       where: {
-        id: Number(albumId),
+        id: albumId,
       },
     });
     if (!album) {
@@ -137,7 +137,7 @@ const dislikeAlbum = async (userId: string, albumId: string) => {
     }
     const searchUserAlbum = await prisma.albumLike.findFirst({
       where: {
-        AND: [{ user_id: user.id }, { album_id: Number(albumId) }],
+        AND: [{ user_id: user.id }, { album_id: albumId }],
       },
     });
     if (!searchUserAlbum) {
@@ -170,7 +170,7 @@ const followArtist = async (userId: string, artistId: string) => {
     }
     const artist = await prisma.artist.findUnique({
       where: {
-        id: Number(artistId),
+        id: artistId,
       },
     });
     if (!artist) {
@@ -204,7 +204,7 @@ const unfollowArtist = async (userId: string, artistId: string) => {
     }
     const searchArtistFollow = await prisma.artistFollow.findFirst({
       where: {
-        AND: [{ user_id: user.id }, { artist_id: Number(artistId) }],
+        AND: [{ user_id: user.id }, { artist_id: artistId }],
       },
     });
     if (!searchArtistFollow) {
@@ -275,7 +275,7 @@ const globalSearch = async (name: string) => {
   }
 };
 
-const userReproducingSomething = async (id: number, type: string) => {
+const userReproducingSomething = async (id: string, type: string) => {
   try {
     if (type === MUSIC_TYPES.ALBUM) {
       const album = await prisma.album.findUnique({

@@ -100,7 +100,7 @@ const userReproducingSomething = async (
   const { type } = req.query;
   try {
     const result = await UserActionsService.userReproducingSomething(
-      Number(id),
+      id,
       type as string
     );
     res.json(result);
