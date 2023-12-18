@@ -294,11 +294,9 @@ const userReproducingSomething = async (id: string, type: string) => {
       if (!album) {
         throw new EmptyResponseError("No se encontro el album");
       }
-      const firstSong = album.songs[0].id;
       return {
         id: album.id,
         type,
-        songId: firstSong,
         songs: album.songs.map((song) => {
           return {
             id: song.id,
@@ -340,11 +338,9 @@ const userReproducingSomething = async (id: string, type: string) => {
           artist: true,
         },
       });
-      const firstSong = songs[0].id;
       return {
         id: playlist.id,
         type,
-        songId: firstSong,
         songs: songs.map((song) => {
           return {
             id: song.id,
