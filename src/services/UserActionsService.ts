@@ -6,7 +6,6 @@ import { SongService } from "./SongService";
 import { MUSIC_TYPES } from "../utils/helpers";
 
 const likeSong = async (userId: string, songId: string) => {
-  let createLikedSongsPl;
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -297,6 +296,7 @@ const userReproducingSomething = async (id: string, type: string) => {
       return {
         id: album.id,
         type,
+        songId: album.songs[0].id,
         songs: album.songs.map((song) => {
           return {
             id: song.id,
@@ -341,6 +341,7 @@ const userReproducingSomething = async (id: string, type: string) => {
       return {
         id: playlist.id,
         type,
+        songId: songs[0].id,
         songs: songs.map((song) => {
           return {
             id: song.id,
