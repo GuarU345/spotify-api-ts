@@ -34,7 +34,7 @@ model Token {
 model SongLike {
   id         Int      @id @default(autoincrement())
   user_id    String
-  song_id    Int
+  song_id    String
   user       User     @relation(fields: [user_id], references: [id])
   song       Song     @relation(fields: [song_id], references: [id])
   created_at DateTime @default(now())
@@ -89,7 +89,7 @@ model Album {
 }
 
 model Song {
-  id             Int            @id @default(autoincrement())
+  id             String         @id @default(uuid())
   name           String
   duration       String?
   artist_id      String
@@ -119,7 +119,7 @@ model Playlist {
 
 model PlaylistSong {
   id          String   @id @default(uuid())
-  song_id     Int
+  song_id     String
   song        Song     @relation(fields: [song_id], references: [id])
   playlist_id String
   playlist    Playlist @relation(fields: [playlist_id], references: [id])
