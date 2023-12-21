@@ -20,7 +20,7 @@ const likeSong = async (userId: string, songId: string) => {
     const likeSong = await prisma.songLike.create({
       data: {
         user_id: user.id,
-        song_id: Number(songId),
+        song_id: songId,
       },
     });
 
@@ -59,7 +59,7 @@ const dislikeSong = async (userId: string, songId: string) => {
     }
     const searchUserSong = await prisma.songLike.findFirst({
       where: {
-        AND: [{ user_id: user.id }, { song_id: Number(songId) }],
+        AND: [{ user_id: user.id }, { song_id: songId }],
       },
     });
     if (!searchUserSong) {

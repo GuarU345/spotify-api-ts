@@ -183,7 +183,7 @@ const addSongToPlaylist = async (playlistId: string, songId: string) => {
     }
     const song = await prisma.song.findUnique({
       where: {
-        id: Number(songId),
+        id: songId,
       },
     });
     if (!song) {
@@ -221,7 +221,7 @@ const removeSongOnPlaylist = async (playlistId: string, songId: string) => {
 
     const song = await prisma.song.findUnique({
       where: {
-        id: Number(songId),
+        id: songId,
       },
     });
 

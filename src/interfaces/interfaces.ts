@@ -29,5 +29,5 @@ export interface User {
 }
 
 export interface Song {
-  id: number;
+  id: string;
 }

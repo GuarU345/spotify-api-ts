@@ -48,7 +48,7 @@ const getSongById = async (songId: string) => {
   try {
     const song = await prisma.song.findUnique({
       where: {
-        id: Number(songId),
+        id: songId,
       },
       include: {
         artist: true,
@@ -72,7 +72,7 @@ const streamSongById = async (songId: string) => {
   try {
     const song = await prisma.song.findUnique({
       where: {
-        id: Number(songId),
+        id: songId,
       },
     });
     if (!song) {
@@ -177,7 +177,7 @@ const addLikedSongToLikedSongsPlaylist = async (
     await prisma.playlistSong.create({
       data: {
         playlist_id: playlistId,
-        song_id: Number(songId),
+        song_id: songId,
       },
     });
   } catch (error) {
