@@ -139,7 +139,7 @@ const createUserPlaylist = async (id: string) => {
   }
 };
 
-const updatePlaylist = async (id: string, userId: string, body: Playlist) => {
+const updatePlaylist = async (id: string, body: Playlist) => {
   try {
     const { name, description, image } = body;
     const playlist = await prisma.playlist.findUnique({
@@ -158,7 +158,6 @@ const updatePlaylist = async (id: string, userId: string, body: Playlist) => {
       },
       where: {
         id: playlist.id,
-        user_id: userId,
       },
     });
     return updatePlaylist;
