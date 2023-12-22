@@ -28,5 +28,10 @@ router.get(
   authenticate,
   SongController.getSongsByAlbumId
 );
+router.get(
+  "/api/search/songs",
+  authenticate,
+  SongController.searchSongsForYourPlaylist
+);
 
 export const songRoutes = router;

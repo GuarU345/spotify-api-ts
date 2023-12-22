@@ -51,7 +51,7 @@ const updatePlaylist = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { playlistId, userId } = req.params;
+  const { playlistId } = req.params;
   const image = req.file;
   let imageToBase64 = "";
   let requestBody = {};
@@ -78,7 +78,6 @@ const updatePlaylist = async (
   try {
     const updatedPlaylist = await PlaylistService.updatePlaylist(
       playlistId,
-      userId,
       body
     );
     return res.json(updatedPlaylist);

@@ -185,6 +185,42 @@ const addLikedSongToLikedSongsPlaylist = async (
   }
 };
 
+const searchSongsForYourPlaylist = async (name: string) => {
+  const searchSongs = await prisma.song.findMany({
+    where: {
+      name: {
+        contains: name,
+      },
+    },
+    include: {
+      album: {
+        select: {
+          name: true,
+          album_image: true,
+        },
+      },
+      artist: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+  return searchSongs.map((song) => {
+    return {
+      id: song.id,
+      name: song.name,
+      album: {
+        name: song.album.name,
+        image: song.album.album_image,
+      },
+      artist: {
+        name: song.artist?.name,
+      },
+    };
+  });
+};
+
 export const SongService = {
   createSong,
   getSongs,
@@ -193,4 +229,5 @@ export const SongService = {
   streamSongById,
   getLikedSongsByUserId,
   addLikedSongToLikedSongsPlaylist,
+  searchSongsForYourPlaylist,
 };
