@@ -8,7 +8,7 @@ export interface Album {
 export interface SongBody {
   name: string;
   duration: string;
-  track?: Buffer;
+  track?: string;
 }
 
 export interface Artist {

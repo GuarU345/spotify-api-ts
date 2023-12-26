@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { SongService } from "../services/SongService";
 import { songSchema } from "../schemas/songSchema";
+import { readFile } from "fs/promises";
 
 const createNewSong = async (
   req: Request,
@@ -8,11 +9,14 @@ const createNewSong = async (
   next: NextFunction
 ) => {
   const { id } = req.params;
-  const mp3File = req.file?.buffer;
+  const file = req.file;
 
-  if (!mp3File) {
+  if (!file) {
     return res.status(404).json({ message: "archivo de cancion requerido" });
   }
+
+  const mp3File = await readFile(file.path);
+  const mp3FileToBase64 = Buffer.from(mp3File.buffer).toString("base64");
 
   const result = songSchema.safeParse(req.body);
 
@@ -22,7 +26,7 @@ const createNewSong = async (
 
   const body = {
     ...result.data,
-    track: mp3File,
+    track: mp3FileToBase64,
   };
 
   try {
@@ -47,24 +51,6 @@ const getSongById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const song = await SongService.getSongById(songId);
     return res.json(song);
-  } catch (error) {
-    next(error);
-  }
-};
-
-const streamSongById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const { songId } = req.params;
-  try {
-    const stream = await SongService.streamSongById(songId);
-    if (stream !== null) {
-      stream.pipe(res);
-    } else {
-      return res.json({ message: "no se pudo realizar el pipe" });
-    }
   } catch (error) {
     next(error);
   }
@@ -121,7 +107,6 @@ export const SongController = {
   getSongsByAlbumId,
   getSongs,
   getSongById,
-  streamSongById,
   getLikedSongsByUserId,
   searchSongsForYourPlaylist,
 };

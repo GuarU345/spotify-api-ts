@@ -68,27 +68,6 @@ const getSongById = async (songId: string) => {
   }
 };
 
-const streamSongById = async (songId: string) => {
-  try {
-    const song = await prisma.song.findUnique({
-      where: {
-        id: songId,
-      },
-    });
-    if (!song) {
-      throw new EmptyResponseError("No se encontro la cancion");
-    }
-    const stream = song.track ? bufferToStream(song.track) : null;
-    return stream;
-  } catch (error) {
-    if (error instanceof EmptyResponseError) {
-      throw error;
-    }
-    console.error(error);
-    throw new GenericPrismaError("Error al streamear la cancion");
-  }
-};
-
 const getSongsByAlbumId = async (albumId: string) => {
   try {
     const album = await prisma.album.findUnique({
@@ -226,7 +205,6 @@ export const SongService = {
   getSongs,
   getSongsByAlbumId,
   getSongById,
-  streamSongById,
   getLikedSongsByUserId,
   addLikedSongToLikedSongsPlaylist,
   searchSongsForYourPlaylist,
