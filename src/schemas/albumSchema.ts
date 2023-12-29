@@ -17,9 +17,7 @@ export const albumSchema = z.object({
         message: "La fecha de lanzamiento no es válida en formato ISO 8601",
       }
     ),
-  album_image: z
-    .string({
-      invalid_type_error: "La url del album debe de ser un string",
-    })
-    .optional(),
+  album_image: z.string({
+    invalid_type_error: "La url del album debe de ser un string",
+  }),
 });

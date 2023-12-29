@@ -1,7 +1,6 @@
 import { Song, SongBody } from "../interfaces/interfaces";
 import EmptyResponseError from "../middlewares/errors/empty.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
-import { bufferToStream } from "../utils/helpers";
 import { prisma } from "../utils/prisma";
 import { AlbumService } from "./AlbumService";
 
@@ -49,10 +48,6 @@ const getSongById = async (songId: string) => {
     const song = await prisma.song.findUnique({
       where: {
         id: songId,
-      },
-      include: {
-        artist: true,
-        album: true,
       },
     });
     if (!song) {

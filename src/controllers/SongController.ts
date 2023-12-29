@@ -12,7 +12,7 @@ const createNewSong = async (
   const file = req.file;
 
   if (!file) {
-    return res.status(404).json({ message: "archivo de cancion requerido" });
+    return res.status(400).json({ message: "archivo de cancion requerido" });
   }
 
   const mp3File = await readFile(file.path);

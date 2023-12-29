@@ -4,12 +4,8 @@ import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { prisma } from "../utils/prisma";
 
 // Crea un nuevo álbum para un artista dado.
-const createArtistAlbum = async (
-  artistId: string,
-  body: Album,
-  album_image: string
-) => {
-  const { name, release_date } = body;
+const createArtistAlbum = async (artistId: string, body: Album) => {
+  const { name, release_date, album_image } = body;
   try {
     const newAlbum = await prisma.album.create({
       data: {

@@ -14,7 +14,7 @@ const createNewArtistAlbum = async (
   let imageToBase64 = "";
   let requestBody = {};
 
-  if (image) {
+  if (image !== undefined) {
     const img = await readFile(image.path);
     imageToBase64 = Buffer.from(img.buffer).toString("base64");
     requestBody = {
@@ -34,11 +34,7 @@ const createNewArtistAlbum = async (
   const body = result.data;
 
   try {
-    const newAlbum = await AlbumService.createArtistAlbum(
-      id,
-      body,
-      imageToBase64
-    );
+    const newAlbum = await AlbumService.createArtistAlbum(id, body);
     res.json(newAlbum);
   } catch (error) {}
 };

@@ -3,6 +3,7 @@ import { Buffer } from "buffer";
 export interface Album {
   name: string;
   release_date: string;
+  album_image: string;
 }
 
 export interface SongBody {
