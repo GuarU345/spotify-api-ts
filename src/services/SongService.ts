@@ -3,6 +3,7 @@ import EmptyResponseError from "../middlewares/errors/empty.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { prisma } from "../utils/prisma";
 import { AlbumService } from "./AlbumService";
+import { UserService } from "./UserService";
 
 const getSongs = async () => {
   try {
@@ -63,7 +64,16 @@ const getSongById = async (songId: string) => {
   }
 };
 
-const getSongsByAlbumId = async (albumId: string) => {
+interface AlbumSong {
+  id: string;
+  name: string;
+  duration: string | null;
+  artist_id: string;
+  album_id: string;
+  track: string | null;
+}
+
+const getSongsByAlbumId = async (albumId: string, userId?: string) => {
   try {
     const album = await prisma.album.findUnique({
       include: {
@@ -82,6 +92,22 @@ const getSongsByAlbumId = async (albumId: string) => {
 
     if (!album) {
       throw new EmptyResponseError("Album no encontrado");
+    }
+
+    if (userId) {
+      const userLikedSongs = await checkWhatAlbumSongsLikesUser(
+        userId,
+        album.songs
+      );
+      const songsAlbum = {
+        id: album?.id,
+        artist: album?.artist.name,
+        name: album?.name,
+        image: album?.album_image,
+        color: album.color?.color,
+        songs: userLikedSongs,
+      };
+      return songsAlbum;
     }
 
     const songsAlbum = {
@@ -191,6 +217,40 @@ const searchSongsForYourPlaylist = async (name: string) => {
       artist: {
         name: song.artist?.name,
       },
+    };
+  });
+};
+
+const checkWhatAlbumSongsLikesUser = async (
+  userId: string,
+  albumSongs: AlbumSong[]
+) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!user) {
+    throw new EmptyResponseError("Usuario no encontrado");
+  }
+
+  const songIds = albumSongs.map((song) => song.id);
+
+  const likedSongs = await prisma.songLike.findMany({
+    where: {
+      AND: [{ song_id: { in: songIds } }, { user_id: user.id }],
+    },
+  });
+
+  const likedSongIds = likedSongs.map((likedSong) => likedSong.song_id);
+
+  return albumSongs.map((song) => {
+    return {
+      id: song.id,
+      name: song.name,
+      duration: song.duration,
+      liked: likedSongIds.includes(song.id) ? true : false,
     };
   });
 };

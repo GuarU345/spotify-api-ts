@@ -62,8 +62,12 @@ const getSongsByAlbumId = async (
   next: NextFunction
 ) => {
   const { id } = req.params;
+  const { userId } = req.query;
   try {
-    const songsAlbum = await SongService.getSongsByAlbumId(id);
+    const songsAlbum = await SongService.getSongsByAlbumId(
+      id,
+      userId as string
+    );
     return res.json(songsAlbum);
   } catch (error) {
     next(error);
