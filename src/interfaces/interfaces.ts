@@ -33,6 +33,15 @@ export interface Song {
   id: string;
 }
 
+export interface AlbumSong {
+  id: string;
+  name: string;
+  duration: string | null;
+  artist_id: string;
+  album_id: string;
+  track: string | null;
+}
+
 interface AlbumToPlaylist {
   id: string;
   name: string;

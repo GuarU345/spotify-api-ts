@@ -1,4 +1,9 @@
-import { PlaylistSong, Song, SongBody } from "../interfaces/interfaces";
+import {
+  AlbumSong,
+  PlaylistSong,
+  Song,
+  SongBody,
+} from "../interfaces/interfaces";
 import EmptyResponseError from "../middlewares/errors/empty.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { prisma } from "../utils/prisma";
@@ -63,15 +68,6 @@ const getSongById = async (songId: string) => {
     throw new GenericPrismaError("Error al tratar de buscar la cancion");
   }
 };
-
-interface AlbumSong {
-  id: string;
-  name: string;
-  duration: string | null;
-  artist_id: string;
-  album_id: string;
-  track: string | null;
-}
 
 const getSongsByAlbumId = async (albumId: string, userId?: string) => {
   try {
@@ -229,13 +225,7 @@ const checkWhatAlbumSongsLikesUser = async (
 
   const songIds = albumSongs.map((song) => song.id);
 
-  const likedSongs = await prisma.songLike.findMany({
-    where: {
-      AND: [{ song_id: { in: songIds } }, { user_id: user.id }],
-    },
-  });
-
-  const likedSongIds = likedSongs.map((likedSong) => likedSong.song_id);
+  const likedSongIds = await getLikedSongIds(songIds, user);
 
   return albumSongs.map((song) => {
     return {
@@ -255,13 +245,7 @@ const checkWhatPlaylistSongsLikesUser = async (
 
   const songIds = playlistSongs.map((song) => song.id);
 
-  const likedSongs = await prisma.songLike.findMany({
-    where: {
-      AND: [{ song_id: { in: songIds } }, { user_id: user.id }],
-    },
-  });
-
-  const likedSongIds = likedSongs.map((likedSong) => likedSong.song_id);
+  const likedSongIds = await getLikedSongIds(songIds, user);
 
   return playlistSongs.map((playlistSong) => {
     return {
@@ -281,6 +265,17 @@ const checkWhatPlaylistSongsLikesUser = async (
       },
     };
   });
+};
+
+const getLikedSongIds = async (songIds: string[], user: { id: string }) => {
+  const likedSongs = await prisma.songLike.findMany({
+    where: {
+      AND: [{ song_id: { in: songIds } }, { user_id: user.id }],
+    },
+  });
+
+  const likedSongIds = likedSongs.map((likedSong) => likedSong.song_id);
+  return likedSongIds;
 };
 
 export const SongService = {
