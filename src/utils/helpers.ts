@@ -1,11 +1,4 @@
-import { Duplex } from "stream";
-
-export const bufferToStream = (myBuffer: Buffer) => {
-  let tmp = new Duplex();
-  tmp.push(myBuffer);
-  tmp.push(null);
-  return tmp;
-};
+export const INITIAL_PLAYLIST_NAME = "Canciones que te gustan";
 
 export const MUSIC_TYPES = {
   ALBUM: "album",

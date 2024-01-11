@@ -11,11 +11,6 @@ router.get(
   PlaylistController.getPlaylistsByUserId
 );
 router.get(
-  "/api/playlists/:id/songs",
-  authenticate,
-  PlaylistController.getSongsByPlaylistId
-);
-router.get(
   "/api/playlists/:id/songs/count",
   authenticate,
   PlaylistController.countSongsByPlaylistId

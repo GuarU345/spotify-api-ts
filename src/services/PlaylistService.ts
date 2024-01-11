@@ -1,8 +1,8 @@
 import { Playlist } from "../interfaces/interfaces";
 import EmptyResponseError from "../middlewares/errors/empty.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
+import { INITIAL_PLAYLIST_NAME } from "../utils/helpers";
 import { prisma } from "../utils/prisma";
-import { SongService } from "./SongService";
 
 const getPlaylistsByUserId = async (id: string) => {
   try {
@@ -33,97 +33,6 @@ const getPlaylistsByUserId = async (id: string) => {
     console.error(error);
     throw new GenericPrismaError(
       "Error al encontrar las playlists del usuario"
-    );
-  }
-};
-
-const getSongsByPlaylistId = async (id: string, userId?: string) => {
-  try {
-    //get specific playlist
-    const playlist = await prisma.playlist.findUnique({
-      where: {
-        id,
-      },
-    });
-
-    if (!playlist) {
-      throw new EmptyResponseError("No se pudo encontrar la playlist");
-    }
-
-    //get info with playlist id
-    const playlistData = await prisma.playlistSong.findMany({
-      where: {
-        playlist_id: playlist.id,
-      },
-    });
-
-    if (playlistData.length === 0) {
-      return playlist;
-    }
-
-    //get song ids saved in this playlist
-    const songIds = playlistData.map((playlistSong) => playlistSong.song_id);
-
-    //search songs by id iterating the song ids
-    const songsInfo = await prisma.song.findMany({
-      where: {
-        id: {
-          in: songIds,
-        },
-      },
-      include: {
-        artist: true,
-        album: true,
-      },
-    });
-
-    if (userId) {
-      const userLikedSongs = await SongService.checkWhatPlaylistSongsLikesUser(
-        userId,
-        songsInfo
-      );
-      const playlistSongs = {
-        name: playlist.name,
-        description: playlist.description,
-        image: playlist.image,
-        songs: userLikedSongs,
-      };
-      return playlistSongs;
-    }
-
-    const playlistSongs = {
-      name: playlist.name,
-      description: playlist.description,
-      image: playlist.image,
-      songs:
-        songsInfo.length > 0
-          ? songsInfo.map((playlistSong) => {
-              return {
-                album: {
-                  id: playlistSong.album.id,
-                  name: playlistSong.album.name,
-                  image: playlistSong.album.album_image,
-                },
-                song: {
-                  id: playlistSong.id,
-                  name: playlistSong.name,
-                  duration: playlistSong.duration,
-                },
-                artist: {
-                  name: playlistSong.artist?.name,
-                },
-              };
-            })
-          : [],
-    };
-    return playlistSongs;
-  } catch (error) {
-    if (error instanceof EmptyResponseError) {
-      throw error;
-    }
-    console.error(error);
-    throw new GenericPrismaError(
-      "Error al encontrar las canciones de esa playlist"
     );
   }
 };
@@ -310,7 +219,7 @@ const getLikedSongsPlaylist = async (userId: string) => {
       where: {
         AND: [
           {
-            name: "Canciones que te gustan",
+            name: INITIAL_PLAYLIST_NAME,
           },
           {
             user_id: user.id,
@@ -349,7 +258,7 @@ const createUserLikedSongsPlaylist = async (userId: string) => {
     }
     const createPlaylist = await prisma.playlist.create({
       data: {
-        name: "Canciones que te gustan",
+        name: INITIAL_PLAYLIST_NAME,
         user_id: userId,
         release_date: new Date().toISOString(),
         image: "https://misc.scdn.co/liked-songs/liked-songs-300.png",
@@ -376,7 +285,6 @@ export const PlaylistService = {
   updatePlaylist,
   countSongsByPlaylistId,
   createUserPlaylist,
-  getSongsByPlaylistId,
   removeSongOnPlaylist,
   createUserLikedSongsPlaylist,
   checkUserHaveLikedSongsPlaylist,

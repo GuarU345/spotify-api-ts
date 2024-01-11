@@ -74,6 +74,21 @@ const getSongsByAlbumId = async (
   }
 };
 
+const getSongsByPlaylistId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.params;
+  const { userId } = req.query;
+  try {
+    const resp = await SongService.getSongsByPlaylistId(id, userId as string);
+    return res.json(resp);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getLikedSongsByUserId = async (
   req: Request,
   res: Response,
@@ -109,6 +124,7 @@ const searchSongsForYourPlaylist = async (
 export const SongController = {
   createNewSong,
   getSongsByAlbumId,
+  getSongsByPlaylistId,
   getSongs,
   getSongById,
   getLikedSongsByUserId,

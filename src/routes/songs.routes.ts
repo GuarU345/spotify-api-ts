@@ -24,6 +24,11 @@ router.get(
   SongController.getSongsByAlbumId
 );
 router.get(
+  "/api/playlists/:id/songs",
+  authenticate,
+  SongController.getSongsByPlaylistId
+);
+router.get(
   "/api/search/songs",
   authenticate,
   SongController.searchSongsForYourPlaylist
