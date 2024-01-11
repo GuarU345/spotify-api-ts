@@ -2,6 +2,7 @@ import { Playlist } from "../interfaces/interfaces";
 import EmptyResponseError from "../middlewares/errors/empty.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { prisma } from "../utils/prisma";
+import { SongService } from "./SongService";
 
 const getPlaylistsByUserId = async (id: string) => {
   try {
@@ -36,7 +37,7 @@ const getPlaylistsByUserId = async (id: string) => {
   }
 };
 
-const getSongsByPlaylistId = async (id: string) => {
+const getSongsByPlaylistId = async (id: string, userId?: string) => {
   try {
     //get specific playlist
     const playlist = await prisma.playlist.findUnique({
@@ -75,6 +76,20 @@ const getSongsByPlaylistId = async (id: string) => {
         album: true,
       },
     });
+
+    if (userId) {
+      const userLikedSongs = await SongService.checkWhatPlaylistSongsLikesUser(
+        userId,
+        songsInfo
+      );
+      const playlistSongs = {
+        name: playlist.name,
+        description: playlist.description,
+        image: playlist.image,
+        songs: userLikedSongs,
+      };
+      return playlistSongs;
+    }
 
     const playlistSongs = {
       name: playlist.name,

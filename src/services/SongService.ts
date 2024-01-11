@@ -1,4 +1,4 @@
-import { Song, SongBody } from "../interfaces/interfaces";
+import { PlaylistSong, Song, SongBody } from "../interfaces/interfaces";
 import EmptyResponseError from "../middlewares/errors/empty.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { prisma } from "../utils/prisma";
@@ -225,15 +225,7 @@ const checkWhatAlbumSongsLikesUser = async (
   userId: string,
   albumSongs: AlbumSong[]
 ) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      id: userId,
-    },
-  });
-
-  if (!user) {
-    throw new EmptyResponseError("Usuario no encontrado");
-  }
+  const user = await UserService.userExists(userId);
 
   const songIds = albumSongs.map((song) => song.id);
 
@@ -255,6 +247,42 @@ const checkWhatAlbumSongsLikesUser = async (
   });
 };
 
+const checkWhatPlaylistSongsLikesUser = async (
+  userId: string,
+  playlistSongs: PlaylistSong[]
+) => {
+  const user = await UserService.userExists(userId);
+
+  const songIds = playlistSongs.map((song) => song.id);
+
+  const likedSongs = await prisma.songLike.findMany({
+    where: {
+      AND: [{ song_id: { in: songIds } }, { user_id: user.id }],
+    },
+  });
+
+  const likedSongIds = likedSongs.map((likedSong) => likedSong.song_id);
+
+  return playlistSongs.map((playlistSong) => {
+    return {
+      album: {
+        id: playlistSong.album?.id,
+        name: playlistSong.album?.name,
+        image: playlistSong.album?.album_image,
+      },
+      song: {
+        id: playlistSong.id,
+        name: playlistSong.name,
+        duration: playlistSong.duration,
+        liked: likedSongIds.includes(playlistSong.id) ? true : false,
+      },
+      artist: {
+        name: playlistSong.artist?.name,
+      },
+    };
+  });
+};
+
 export const SongService = {
   createSong,
   getSongs,
@@ -263,4 +291,5 @@ export const SongService = {
   getLikedSongsByUserId,
   addLikedSongToLikedSongsPlaylist,
   searchSongsForYourPlaylist,
+  checkWhatPlaylistSongsLikesUser,
 };

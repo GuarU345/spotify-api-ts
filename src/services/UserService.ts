@@ -5,6 +5,7 @@ import InvalidCredentialsError from "../middlewares/errors/user.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { User } from "../interfaces/interfaces";
 import { PlaylistService } from "./PlaylistService";
+import EmptyResponseError from "../middlewares/errors/empty.error";
 
 const signup = async (body: User) => {
   const { username, email, password } = body;
@@ -116,7 +117,28 @@ export const getUserDataByToken = async (bearer: string) => {
   return user?.id;
 };
 
+export const userExists = async (userId: string) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user) {
+      throw new EmptyResponseError("Usuario no encontrado");
+    }
+    return user;
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
+    throw new GenericPrismaError("Error al tratar de buscar al usuario");
+  }
+};
+
 export const UserService = {
   signup,
   signin,
+  userExists,
 };

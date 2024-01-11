@@ -24,8 +24,12 @@ const getSongsByPlaylistId = async (
   next: NextFunction
 ) => {
   const { id } = req.params;
+  const { userId } = req.query;
   try {
-    const resp = await PlaylistService.getSongsByPlaylistId(id);
+    const resp = await PlaylistService.getSongsByPlaylistId(
+      id,
+      userId as string
+    );
     return res.json(resp);
   } catch (error) {
     next(error);
