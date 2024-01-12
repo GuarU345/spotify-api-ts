@@ -359,14 +359,21 @@ const checkWhatPlaylistSongsLikesUser = async (
 };
 
 const getLikedSongIds = async (songIds: string[], user: { id: string }) => {
-  const likedSongs = await prisma.songLike.findMany({
-    where: {
-      AND: [{ song_id: { in: songIds } }, { user_id: user.id }],
-    },
-  });
+  try {
+    const likedSongs = await prisma.songLike.findMany({
+      where: {
+        AND: [{ song_id: { in: songIds } }, { user_id: user.id }],
+      },
+    });
 
-  const likedSongIds = likedSongs.map((likedSong) => likedSong.song_id);
-  return likedSongIds;
+    const likedSongIds = likedSongs.map((likedSong) => likedSong.song_id);
+    return likedSongIds;
+  } catch (error) {
+    console.error(error);
+    throw new GenericPrismaError(
+      "Error al tratar de encontrar los ids de las canciones"
+    );
+  }
 };
 
 export const SongService = {
