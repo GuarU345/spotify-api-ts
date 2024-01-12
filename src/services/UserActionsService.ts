@@ -338,6 +338,11 @@ const userReproducingSomething = async (id: string, type: string) => {
           artist: true,
         },
       });
+
+      if (songs.length === 0) {
+        throw new EmptyResponseError("La playlist no cuenta con canciones");
+      }
+
       return {
         id: playlist.id,
         type,
