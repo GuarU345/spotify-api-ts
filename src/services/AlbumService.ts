@@ -95,7 +95,7 @@ const getAlbumsByArtistId = async (artistId: string) => {
                 releaseDate: album.release_date,
               };
             })
-          : "No se encontraron albums",
+          : [],
     };
     return artistAlbums;
   } catch (error) {
