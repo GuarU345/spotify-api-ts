@@ -72,6 +72,18 @@ const updatePlaylist = async (
   }
 };
 
+const deletePlaylist = async (req: Request,
+  res: Response,
+  next: NextFunction) => {
+  const { playlistId } = req.params
+  try {
+    await PlaylistService.deletePlaylist(playlistId)
+    return res.json({ remove: true })
+  } catch (error) {
+    next(error)
+  }
+}
+
 const addSongToPlaylist = async (
   req: Request,
   res: Response,
@@ -133,6 +145,7 @@ export const PlaylistController = {
   getPlaylistsByUserId,
   createUserPlaylist,
   updatePlaylist,
+  deletePlaylist,
   addSongToPlaylist,
   countSongsByPlaylistId,
   removeSongOnPlaylist,

@@ -94,6 +94,31 @@ const updatePlaylist = async (id: string, body: Playlist) => {
   }
 };
 
+const deletePlaylist = async (id: string) => {
+  try {
+    const playlist = await prisma.playlist.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!playlist) {
+      throw new EmptyResponseError("No se pudo encontrar la playlist");
+    }
+    const remove = await prisma.playlist.delete({
+      where: {
+        id
+      }
+    })
+    return remove
+  } catch (error) {
+    if (error instanceof EmptyResponseError) {
+      throw error;
+    }
+    console.error(error);
+    throw new GenericPrismaError("Error al tratar de eliminar la playlist");
+  }
+}
+
 const addSongToPlaylist = async (playlistId: string, songId: string) => {
   try {
     const playlist = await prisma.playlist.findUnique({
@@ -289,4 +314,5 @@ export const PlaylistService = {
   createUserLikedSongsPlaylist,
   checkUserHaveLikedSongsPlaylist,
   getLikedSongsPlaylist,
+  deletePlaylist
 };

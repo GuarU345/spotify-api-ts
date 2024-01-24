@@ -41,5 +41,10 @@ router.delete(
   authenticate,
   PlaylistController.removeSongOnPlaylist
 );
+router.delete(
+  "/api/playlists/:playlistId",
+  authenticate,
+  PlaylistController.deletePlaylist
+)
 
 export const playlistRoutes = router;

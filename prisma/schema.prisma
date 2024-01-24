@@ -95,7 +95,7 @@ model Song {
   artist_id      String
   artist         Artist?        @relation(fields: [artist_id], references: [id])
   album_id       String
-  album          Album          @relation(fields: [album_id], references: [id])
+  album          Album          @relation(fields: [album_id], references: [id], onDelete: Cascade)
   likes          SongLike[]
   playlist_songs PlaylistSong[]
   track          String?        @unique
@@ -122,7 +122,7 @@ model PlaylistSong {
   song_id     String
   song        Song     @relation(fields: [song_id], references: [id])
   playlist_id String
-  playlist    Playlist @relation(fields: [playlist_id], references: [id])
+  playlist    Playlist @relation(fields: [playlist_id], references: [id], onDelete: Cascade)
 
   @@unique([song_id, playlist_id])
 }
