@@ -20,15 +20,17 @@ const getPlaylistsByUserId = async (id: string) => {
     if (playlists.length === 0) {
       return playlists;
     }
-    return playlists.map((playlist) => {
+    const playlistsData = playlists.map(async (playlist) => {
       return {
         id: playlist.id,
         name: playlist.name,
         image: playlist.image,
         author: playlist.user.username,
         type: "playlist",
+        haveSongs: await checkPlaylistHaveSongs(playlist.id)
       };
     });
+    return await Promise.all(playlistsData)
   } catch (error) {
     if (error instanceof EmptyResponseError) {
       throw error;
@@ -306,6 +308,18 @@ const checkUserHavePlaylists = async (userId: string) => {
   });
   return findPlaylist;
 };
+
+const checkPlaylistHaveSongs = async (playlistId: string) => {
+  const haveSong = await prisma.playlistSong.findFirst({
+    where: {
+      playlist_id: playlistId
+    }
+  })
+  if (!haveSong?.song_id) {
+    return false
+  }
+  return true
+}
 
 export const PlaylistService = {
   getPlaylistsByUserId,
