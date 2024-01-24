@@ -13,6 +13,9 @@ const getPlaylistsByUserId = async (id: string) => {
       include: {
         user: true,
       },
+      orderBy: {
+        release_date: 'asc'
+      }
     });
     if (playlists.length === 0) {
       return playlists;
