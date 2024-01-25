@@ -226,10 +226,19 @@ const unfollowArtist = async (userId: string, artistId: string) => {
 
 const globalSearch = async (name: string) => {
   try {
-    const song = await prisma.song.findFirst({
+    const songs = await prisma.song.findMany({
       include: {
-        artist: true,
-        album: true,
+        artist: {
+          select: {
+            name: true
+          }
+        },
+        album: {
+          select: {
+            name: true,
+            album_image: true
+          }
+        },
       },
       where: {
         name: {
@@ -238,19 +247,23 @@ const globalSearch = async (name: string) => {
       },
     });
 
-    if (song) {
+    const songsData = songs.map(song => {
       return {
-        type: "song",
         id: song.id,
-        name: song?.name,
-        image: song?.album.album_image,
-        artist: song?.artist?.name,
-      };
-    }
+        name: song.name,
+        artist: song.artist?.name,
+        image: song.album.album_image,
+        type: "song"
+      }
+    })
 
-    const album = await prisma.album.findFirst({
+    const albums = await prisma.album.findMany({
       include: {
-        artist: true,
+        artist: {
+          select: {
+            name: true
+          }
+        },
       },
       where: {
         name: {
@@ -259,16 +272,17 @@ const globalSearch = async (name: string) => {
       },
     });
 
-    if (album) {
+    const albumsData = albums.map(album => {
       return {
-        type: "album",
         id: album.id,
         name: album.name,
-        image: album.album_image,
         artist: album.artist.name,
-      };
-    }
-    return null;
+        image: album.album_image,
+        type: "album"
+      }
+    })
+
+    return [...songsData, ...albumsData]
   } catch (error) {
     throw new GenericPrismaError("Error al tratar de hacer una busqueda");
   }
