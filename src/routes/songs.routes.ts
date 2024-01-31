@@ -6,30 +6,30 @@ import { upload } from "../middlewares/multer";
 const router = Router();
 
 router.post(
-  "/api/albums/:id/songs",
+  "/albums/:id/songs",
   authenticate,
   upload.single("mp3_file"),
   SongController.createNewSong
 );
 router.post(
-  "/api/users/:userId/songs",
+  "/users/:userId/songs",
   authenticate,
   SongController.getLikedSongsByUserId
 );
-router.get("/api/songs", authenticate, SongController.getSongs);
-router.get("/api/songs/:songId", authenticate, SongController.getSongById);
+router.get("/songs", authenticate, SongController.getSongs);
+router.get("/songs/:songId", authenticate, SongController.getSongById);
 router.get(
-  "/api/albums/:id/songs",
+  "/albums/:id/songs",
   authenticate,
   SongController.getSongsByAlbumId
 );
 router.get(
-  "/api/playlists/:id/songs",
+  "/playlists/:id/songs",
   authenticate,
   SongController.getSongsByPlaylistId
 );
 router.get(
-  "/api/search/songs",
+  "/search/songs",
   authenticate,
   SongController.searchSongsForYourPlaylist
 );

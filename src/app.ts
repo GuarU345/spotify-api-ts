@@ -12,6 +12,6 @@ export const PORT = process.env.PORT ?? 3000;
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use("/", router);
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api", router);
 app.use(handleError);

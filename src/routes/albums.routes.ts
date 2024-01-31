@@ -5,25 +5,25 @@ import { upload } from "../middlewares/multer";
 
 const router = Router();
 
-router.get("/api/albums", authenticate, AlbumController.getAlbums);
+router.get("/albums", authenticate, AlbumController.getAlbums);
 router.post(
-  "/api/artists/:id/albums",
+  "/artists/:id/albums",
   authenticate,
   upload.single("album_image"),
   AlbumController.createNewArtistAlbum
 );
 router.get(
-  "/api/artists/:id/albums",
+  "/artists/:id/albums",
   authenticate,
   AlbumController.getAlbumsByArtistId
 );
 router.get(
-  "/api/users/:userId/albums",
+  "/users/:userId/albums",
   authenticate,
   AlbumController.getLikedAlbumsByUserId
 );
 router.get(
-  "/api/users/:userId/albums/:albumId",
+  "/users/:userId/albums/:albumId",
   authenticate,
   AlbumController.checkUserLikesAlbum
 );

@@ -3,7 +3,7 @@ import { UserController } from "../controllers/UserController";
 
 const router = Router();
 
-router.post("/api/signup", UserController.signup);
-router.post("/api/signin", UserController.signin);
+router.post("/signup", UserController.signup);
+router.post("/signin", UserController.signin);
 
 export const userRoutes = router;

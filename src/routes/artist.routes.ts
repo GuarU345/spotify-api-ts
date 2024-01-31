@@ -4,11 +4,11 @@ import { authenticate } from "../middlewares/authenticate";
 
 const router = Router();
 
-router.post("/api/artists", authenticate, ArtistController.createNewArtist);
-router.get("/api/artists", authenticate, ArtistController.getArtists);
-router.get("/api/artists/:id", authenticate, ArtistController.getArtistById);
+router.post("/artists", authenticate, ArtistController.createNewArtist);
+router.get("/artists", authenticate, ArtistController.getArtists);
+router.get("/artists/:id", authenticate, ArtistController.getArtistById);
 router.get(
-  "/api/users/:userId/artists",
+  "/users/:userId/artists",
   authenticate,
   ArtistController.getFollowedArtistsByUserId
 );

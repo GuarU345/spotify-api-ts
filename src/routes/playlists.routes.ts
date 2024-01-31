@@ -6,43 +6,43 @@ import { upload } from "../middlewares/multer";
 const router = Router();
 
 router.get(
-  "/api/users/:id/playlists",
+  "/users/:id/playlists",
   authenticate,
   PlaylistController.getPlaylistsByUserId
 );
 router.get(
-  "/api/playlists/:id/songs/count",
+  "/playlists/:id/songs/count",
   authenticate,
   PlaylistController.countSongsByPlaylistId
 );
 router.get(
-  "/api/users/:userId/playlists/love",
+  "/users/:userId/playlists/love",
   authenticate,
   PlaylistController.getLikedSongsPlaylist
 );
 router.post(
-  "/api/users/:id/playlists",
+  "/users/:id/playlists",
   authenticate,
   PlaylistController.createUserPlaylist
 );
 router.patch(
-  "/api/playlists/:playlistId",
+  "/playlists/:playlistId",
   authenticate,
   upload.single("image"),
   PlaylistController.updatePlaylist
 );
 router.post(
-  "/api/playlists/:playlistId/songs/:songId",
+  "/playlists/:playlistId/songs/:songId",
   authenticate,
   PlaylistController.addSongToPlaylist
 );
 router.delete(
-  "/api/playlists/:playlistId/songs/:songId",
+  "/playlists/:playlistId/songs/:songId",
   authenticate,
   PlaylistController.removeSongOnPlaylist
 );
 router.delete(
-  "/api/playlists/:playlistId",
+  "/playlists/:playlistId",
   authenticate,
   PlaylistController.deletePlaylist
 )
