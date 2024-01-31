@@ -10,6 +10,7 @@ router.get(
   authenticate,
   PlaylistController.getPlaylistsByUserId
 );
+router.get("/playlists/:id", authenticate, PlaylistController.getPlaylistById)
 router.get(
   "/playlists/:id/songs/count",
   authenticate,

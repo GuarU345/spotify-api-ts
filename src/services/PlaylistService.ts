@@ -68,6 +68,18 @@ const createUserPlaylist = async (id: string) => {
   }
 };
 
+const getPlaylistById = async (id: string) => {
+  const playlist = await prisma.playlist.findUnique({
+    where: {
+      id
+    }
+  })
+  if (!playlist) {
+    throw new EmptyResponseError("No se pudo encontrar la playlist")
+  }
+  return playlist
+}
+
 const updatePlaylist = async (id: string, body: Playlist) => {
   try {
     const { name, description, image } = body;
@@ -331,5 +343,6 @@ export const PlaylistService = {
   createUserLikedSongsPlaylist,
   checkUserHaveLikedSongsPlaylist,
   getLikedSongsPlaylist,
-  deletePlaylist
+  deletePlaylist,
+  getPlaylistById
 };
