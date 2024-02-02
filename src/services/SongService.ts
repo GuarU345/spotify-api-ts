@@ -115,12 +115,12 @@ const getSongsByAlbumId = async (albumId: string, userId?: string) => {
       songs:
         album.songs.length > 0
           ? album?.songs.map((song) => {
-              return {
-                id: song.id,
-                name: song.name,
-                duration: song.duration,
-              };
-            })
+            return {
+              id: song.id,
+              name: song.name,
+              duration: song.duration,
+            };
+          })
           : [],
     };
     return songsAlbum;
@@ -194,22 +194,22 @@ const getSongsByPlaylistId = async (id: string, userId?: string) => {
       songs:
         songsInfo.length > 0
           ? songsInfo.map((playlistSong) => {
-              return {
-                album: {
-                  id: playlistSong.album.id,
-                  name: playlistSong.album.name,
-                  image: playlistSong.album.album_image,
-                },
-                song: {
-                  id: playlistSong.id,
-                  name: playlistSong.name,
-                  duration: playlistSong.duration,
-                },
-                artist: {
-                  name: playlistSong.artist?.name,
-                },
-              };
-            })
+            return {
+              album: {
+                id: playlistSong.album.id,
+                name: playlistSong.album.name,
+                image: playlistSong.album.album_image,
+              },
+              song: {
+                id: playlistSong.id,
+                name: playlistSong.name,
+                duration: playlistSong.duration,
+              },
+              artist: {
+                name: playlistSong.artist?.name,
+              },
+            };
+          })
           : [],
     };
     return playlistSongs;
@@ -364,6 +364,9 @@ const getLikedSongIds = async (songIds: string[], user: { id: string }) => {
       where: {
         AND: [{ song_id: { in: songIds } }, { user_id: user.id }],
       },
+      orderBy: {
+        created_at: 'desc'
+      }
     });
 
     const likedSongIds = likedSongs.map((likedSong) => likedSong.song_id);
