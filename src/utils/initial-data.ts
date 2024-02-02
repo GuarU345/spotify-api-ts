@@ -1,192 +1,192 @@
 export const ARTISTS = [
   {
-    name: "Imagine Dragons",
+    name: "LoFi Dreamer",
     nationality: "American",
   },
   {
-    name: "Post Malone",
+    name: "Urban Nocturne",
     nationality: "American",
   },
   {
-    name: "The Weeknd",
+    name: "Tenno",
     nationality: "American",
   },
   {
-    name: "Kendrick Lamar",
+    name: "Raimu",
     nationality: "American",
   },
   {
-    name: "Junior H",
-    nationality: "Mexican",
+    name: "Chau Saura",
+    nationality: "American",
   },
 ];
 
 export const ALBUMS = [
   {
-    name: "Smoke + Mirrors",
+    name: "Chill Lo-Fi Music",
     release_date: "1970-01-01T00:00:00.000Z",
     album_image:
-      "https://i.scdn.co/image/ab67616d00001e021551c93dfa33ea4f30ef4eea",
-    artist: "Imagine Dragons",
+      "https://vinyl.lofirecords.com/cdn/shop/products/VINYL_MORNING_COFFEE_4-min.png?v=1680526353",
+    artist: "LoFi Dreamer",
   },
   {
-    name: "Beerbongs & Bentleys",
+    name: "Midnight Tales",
     release_date: "1970-01-01T00:00:00.000Z",
     album_image:
-      "https://i.scdn.co/image/ab67616d00001e02b1c4b76e23414c9f20242268",
-    artist: "Post Malone",
+      "https://vinyl.lofirecords.com/cdn/shop/files/2amsynth-vinyl.png?v=1693312187",
+    artist: "Urban Nocturne",
   },
   {
-    name: "After Hours",
+    name: "Study Session",
     release_date: "1970-01-01T00:00:00.000Z",
     album_image:
-      "https://i.scdn.co/image/ab67616d00001e028863bc11d2aa12b54f5aeb36",
-    artist: "The Weeknd",
+      "https://f4.bcbits.com/img/a1435058381_65.jpg",
+    artist: "Tenno",
   },
   {
-    name: "DAMN",
+    name: "Blue Note Study Time",
     release_date: "1970-01-01T00:00:00.000Z",
     album_image:
-      "https://i.scdn.co/image/ab67616d00001e028b52c6b9bc4e43d873869699",
-    artist: "Kendrick Lamar",
+      "https://f4.bcbits.com/img/a1962013209_16.jpg",
+    artist: "Raimu",
   },
   {
-    name: "$AD BOYZ 4 LIFE II",
+    name: "Chau Saura Session",
     release_date: "1970-01-01T00:00:00.000Z",
     album_image:
-      "https://i.scdn.co/image/ab67616d00001e02f3ba6742a35f111aaea1ca2f",
-    artist: "Junior H",
+      "https://f4.bcbits.com/img/a2793859494_16.jpg",
+    artist: "Chau Saura",
   },
 ];
 
 export const SONGS = [
   {
-    artist: "Imagine Dragons",
-    album: "Smoke + Mirrors",
+    artist: "LoFi Dreamer",
+    album: "Chill Lo-Fi Music",
     songs: [
       {
-        name: "Gold",
-        duration: "3:06",
+        name: "Moonlit Walk",
+        duration: "2:57",
       },
       {
-        name: "Shots",
-        duration: "4:05",
+        name: "Coffee Daze",
+        duration: "3:40",
       },
       {
-        name: "Hopeless Opus",
-        duration: "5:25",
-      },
-      {
-        name: "Dream",
-        duration: "4:06",
-      },
-      {
-        name: "Who We Are",
+        name: "Skyline Serenade",
         duration: "3:30",
+      },
+      {
+        name: "Urban Echoes",
+        duration: "2:12",
+      },
+      {
+        name: "Night's End",
+        duration: "2:26",
       },
     ],
   },
   {
-    artist: "Post Malone",
-    album: "Beerbongs & Bentleys",
+    artist: "Urban Nocturne",
+    album: "Midnight Tales",
     songs: [
       {
-        name: "Stay",
-        duration: "3:06",
+        name: "Silent Rain",
+        duration: "2:38",
       },
       {
-        name: "Over Now",
-        duration: "4:05",
+        name: "Lost Pages",
+        duration: "2:41",
       },
       {
-        name: "rockstar",
-        duration: "5:25",
+        name: "Midnight Tales",
+        duration: "2:54",
       },
       {
-        name: "Psycho",
-        duration: "4:06",
+        name: "City Lights",
+        duration: "3:12",
       },
       {
-        name: "Better Now",
-        duration: "3:30",
+        name: "Night Drive",
+        duration: "2:58",
       },
     ],
   },
   {
-    artist: "The Weeknd",
-    album: "After Hours",
+    artist: "Tenno",
+    album: "Study Session",
     songs: [
       {
-        name: "In Your Eyes",
+        name: "Lunar",
         duration: "3:06",
       },
       {
-        name: "Save Your Tears",
-        duration: "4:05",
+        name: "Go go go!",
+        duration: "1:30",
       },
       {
-        name: "Blinding Lights",
-        duration: "5:25",
+        name: "Keep focus!",
+        duration: "2:00",
       },
       {
-        name: "Faith",
-        duration: "4:06",
+        name: "JavaScript is the way",
+        duration: "3:57",
       },
       {
-        name: "Heartless",
-        duration: "3:30",
+        name: "No more TypeScript for me",
+        duration: "2:30",
       },
     ],
   },
   {
-    artist: "Kendrick Lamar",
-    album: "DAMN",
+    artist: "Raimu",
+    album: "Blue Note Study Time",
     songs: [
       {
-        name: "BLOOD",
-        duration: "3:06",
+        name: "Serene Dreams",
+        duration: "2:59",
       },
       {
-        name: "DNA",
-        duration: "4:05",
+        name: "Twilight Melody",
+        duration: "2:12",
       },
       {
-        name: "ELEMENT",
-        duration: "5:25",
+        name: "Whispers of the Sea",
+        duration: "3:02",
       },
       {
-        name: "FEEL",
-        duration: "4:06",
+        name: "Journey in Stillness",
+        duration: "2:30",
       },
       {
-        name: "DUCKWORTH",
-        duration: "3:30",
+        name: "Tranquil Dawn",
+        duration: "2:29",
       },
     ],
   },
   {
-    artist: "Junior H",
-    album: "$AD BOYZ 4 LIFE II",
+    artist: "Chau Saura",
+    album: "Chau Saura Session",
     songs: [
       {
-        name: "Y LLORO",
-        duration: "3:06",
+        name: "Ethereal Serenity",
+        duration: "3:49",
       },
       {
-        name: "MIENTRAS DUERMES",
-        duration: "4:05",
+        name: "Lullaby for the Soul",
+        duration: "1:53",
       },
       {
-        name: "$AD BOYZ II",
-        duration: "5:25",
+        name: "Zen Harmony",
+        duration: "2:15",
       },
       {
-        name: "ROCKSTAR",
+        name: "Gentle Oasis",
         duration: "4:06",
       },
       {
-        name: "SERPIENTE",
-        duration: "3:30",
+        name: "Soothing Serenade",
+        duration: "2:54",
       },
     ],
   },
