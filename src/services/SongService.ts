@@ -151,6 +151,9 @@ const getSongsByPlaylistId = async (id: string, userId?: string) => {
       where: {
         playlist_id: playlist.id,
       },
+      orderBy: {
+        created_at: 'desc'
+      }
     });
 
     if (playlistData.length === 0) {
