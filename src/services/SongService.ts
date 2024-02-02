@@ -363,9 +363,6 @@ const getLikedSongIds = async (songIds: string[], user: { id: string }) => {
     const likedSongs = await prisma.songLike.findMany({
       where: {
         AND: [{ song_id: { in: songIds } }, { user_id: user.id }],
-      },
-      orderBy: {
-        created_at: 'desc'
       }
     });
 

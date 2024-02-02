@@ -123,6 +123,7 @@ model PlaylistSong {
   song        Song     @relation(fields: [song_id], references: [id])
   playlist_id String
   playlist    Playlist @relation(fields: [playlist_id], references: [id], onDelete: Cascade)
+  created_at  DateTime @default(now())
 
   @@unique([song_id, playlist_id])
 }
