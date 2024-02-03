@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Response } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import { router } from "./routes/routes";
@@ -14,4 +14,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api", router);
+app.use("/", (_req, res: Response) => {
+    res.json("Welcome to my Spotify Clone Api")
+})
 app.use(handleError);
