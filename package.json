@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev src/index.ts",
     "swagger": "node --loader ts-node/esm libs/swagger",
-    "postinstall": "npx prisma generate",
-    "build": "npx tsc",
+    "postinstall": "prisma generate",
+    "build": "tsc",
     "start": "node dist/src/index.js"
   },
   "prisma": {
