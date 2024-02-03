@@ -7,7 +7,7 @@
     "dev": "ts-node-dev src/index.ts",
     "swagger": "node --loader ts-node/esm libs/swagger",
     "build": "npx tsc",
-    "start": "npx prisma generate && node dist/index.js"
+    "start": "npx prisma generate && node dist/src/index.js"
   },
   "prisma": {
     "seed": "ts-node-dev prisma/seed.ts"
