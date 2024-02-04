@@ -14,9 +14,17 @@ const main = async () => {
 };
 
 const createNewArtists = async () => {
-  await prisma.artist.createMany({
-    data: ARTISTS
-  });
+  const createArtists = ARTISTS.map(async ({ name, nationality }) => {
+    await prisma.artist.create({
+      data: {
+        name,
+        nationality
+      }
+    });
+  })
+
+  await Promise.all(createArtists)
+
   console.log("Artistas creados correctamente")
 };
 

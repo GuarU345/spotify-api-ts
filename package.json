@@ -5,10 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev src/index.ts",
-    "swagger": "node --loader ts-node/esm libs/swagger",
-    "postinstall": "prisma generate",
-    "build": "tsc",
-    "start": "node dist/src/index.js"
+    "swagger": "node --loader ts-node/esm libs/swagger"
   },
   "prisma": {
     "seed": "ts-node-dev prisma/seed.ts"
