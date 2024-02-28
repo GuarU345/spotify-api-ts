@@ -1,5 +1,3 @@
-import { string } from "zod";
-
 export interface Album {
   name: string;
   release_date: string;
@@ -67,3 +65,10 @@ export interface PlaylistSong {
   artist: ArtistToPlaylist | null;
   album: AlbumToPlaylist;
 }
+
+export interface SongUserStateBody {
+  user_id: string,
+  song_id: string,
+  minute: string,
+  album_id: string
+} 

@@ -109,6 +109,21 @@ const userReproducingSomething = async (
   }
 };
 
+const songUserState = async (
+  req: Request,
+  res: Response,
+  next: NextFunction) => {
+  const body = req.body
+
+  try {
+    console.log(body)
+    const createState = await UserActionsService.songUserState(body)
+    res.json(createState)
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const UserActionsController = {
   likeSong,
   dislikeSong,
@@ -118,4 +133,5 @@ export const UserActionsController = {
   unfollowArtist,
   globalSearch,
   userReproducingSomething,
+  songUserState
 };

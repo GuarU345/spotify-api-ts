@@ -4,6 +4,9 @@ import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { PlaylistService } from "./PlaylistService";
 import { SongService } from "./SongService";
 import { MUSIC_TYPES } from "../utils/helpers";
+import { SongUserStateBody } from "../interfaces/interfaces";
+import { UserService } from "./UserService";
+import { AlbumService } from "./AlbumService";
 
 const likeSong = async (userId: string, songId: string) => {
   try {
@@ -385,6 +388,28 @@ const userReproducingSomething = async (id: string, type: string) => {
   }
 };
 
+const songUserState = async (body: SongUserStateBody) => {
+  const { user_id, song_id, album_id, minute } = body
+
+  try {
+    const user = await UserService.userExists(user_id)
+    const album = await AlbumService.getAlbumById(album_id)
+    const song = await SongService.getSongById(song_id)
+
+    const createState = await prisma.songUserState.create({
+      data: {
+        user_id: user.id,
+        album_id: album.id,
+        song_id: song.id,
+        minute
+      }
+    })
+    return createState
+  } catch (error) {
+    throw new GenericPrismaError("Error al tratar de crear el estado")
+  }
+}
+
 export const UserActionsService = {
   likeSong,
   dislikeSong,
@@ -394,4 +419,5 @@ export const UserActionsService = {
   unfollowArtist,
   globalSearch,
   userReproducingSomething,
+  songUserState
 };

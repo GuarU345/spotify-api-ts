@@ -25,6 +25,7 @@ router.post(
   authenticate,
   UserActionsController.followArtist
 );
+router.post("/users/songs/save", authenticate, UserActionsController.songUserState)
 router.delete(
   "/users/:userId/songs/:songId/likes",
   authenticate,
