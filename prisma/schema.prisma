@@ -11,16 +11,17 @@ datasource db {
 }
 
 model User {
-  id             String         @id @default(uuid())
-  username       String         @unique
-  email          String         @unique
+  id             String          @id @default(uuid())
+  username       String          @unique
+  email          String          @unique
   password       String
-  createdAt      DateTime       @default(now())
+  createdAt      DateTime        @default(now())
   song_likes     SongLike[]
   tokens         Token[]
   playlists      Playlist[]
   album_likes    AlbumLike[]
   artist_follows ArtistFollow[]
+  SongUserState  SongUserState[]
 }
 
 model Token {
@@ -74,31 +75,33 @@ model Artist {
 }
 
 model Album {
-  id           String      @id @default(uuid())
-  name         String
-  release_date DateTime
-  album_image  String?
-  artist_id    String
-  color_id     String?
-  artist       Artist      @relation(fields: [artist_id], references: [id])
-  color        Color?      @relation(fields: [color_id], references: [id])
-  songs        Song[]
-  likes        AlbumLike[]
+  id            String          @id @default(uuid())
+  name          String
+  release_date  DateTime
+  album_image   String?
+  artist_id     String
+  color_id      String?
+  artist        Artist          @relation(fields: [artist_id], references: [id])
+  color         Color?          @relation(fields: [color_id], references: [id])
+  songs         Song[]
+  likes         AlbumLike[]
+  SongUserState SongUserState[]
 
   @@unique([name, artist_id])
 }
 
 model Song {
-  id             String         @id @default(uuid())
+  id             String          @id @default(uuid())
   name           String
   duration       String?
   artist_id      String
-  artist         Artist?        @relation(fields: [artist_id], references: [id])
+  artist         Artist?         @relation(fields: [artist_id], references: [id])
   album_id       String
-  album          Album          @relation(fields: [album_id], references: [id], onDelete: Cascade)
+  album          Album           @relation(fields: [album_id], references: [id], onDelete: Cascade)
   likes          SongLike[]
   playlist_songs PlaylistSong[]
-  track          String?        @unique
+  track          String?         @unique
+  SongUserState  SongUserState[]
 
   @@unique([name, artist_id])
 }
@@ -133,4 +136,15 @@ model Color {
   name  String
   color String  @unique
   album Album[]
+}
+
+model SongUserState {
+  id       String @id @default(uuid())
+  user_id  String
+  user     User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  song_id  String
+  song     Song   @relation(fields: [song_id], references: [id], onDelete: Cascade)
+  minute   String
+  album_id String
+  album    Album  @relation(fields: [album_id], references: [id])
 }
