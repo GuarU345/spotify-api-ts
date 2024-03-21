@@ -58,7 +58,7 @@ const createNewSongs = async () => {
     },
   });
 
-  const albumData = albums.flatMap((album) => {
+  const albumData = albums.flatMap((album: any) => {
     return SONGS.map((song) => {
       if (song.album === album.name) {
         return {
@@ -71,8 +71,8 @@ const createNewSongs = async () => {
     }).filter(Boolean);
   });
 
-  const createSongs = albumData.map((album) => {
-    album?.songs.map(async (song) => {
+  const createSongs = albumData.map((album: any) => {
+    album?.songs.map(async (song: any) => {
       await prisma.song.create({
         data: {
           name: song.name,
