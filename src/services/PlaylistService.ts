@@ -3,6 +3,7 @@ import EmptyResponseError from "../middlewares/errors/empty.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { INITIAL_PLAYLIST_NAME } from "../utils/helpers";
 import { prisma } from "../utils/prisma";
+import { UserService } from "./UserService";
 
 const getPlaylistsByUserId = async (id: string) => {
   try {
@@ -17,9 +18,7 @@ const getPlaylistsByUserId = async (id: string) => {
         release_date: 'asc'
       }
     });
-    if (playlists.length === 0) {
-      return playlists;
-    }
+    if (playlists.length === 0) return []
     const playlistsData = playlists.map(async (playlist) => {
       return {
         id: playlist.id,
@@ -41,6 +40,28 @@ const getPlaylistsByUserId = async (id: string) => {
     );
   }
 };
+
+const getPlaylistsCountByUserId = async (id: string) => {
+  try {
+    const user = await UserService.userExists(id)
+    const playlists = await prisma.playlist.findMany({
+      where: {
+        user_id: user.id,
+        NOT: {
+          name: INITIAL_PLAYLIST_NAME
+        }
+      },
+      include: {
+        playlist_songs: true
+      }
+    })
+
+    const playlistsWithSongs = playlists.filter(playlist => playlist.playlist_songs.length > 0)
+    return playlistsWithSongs.length
+  } catch (error) {
+    throw new GenericPrismaError("Error al tratar de traer el total de playlists")
+  }
+}
 
 const createUserPlaylist = async (id: string) => {
   try {
@@ -335,6 +356,7 @@ const checkPlaylistHaveSongs = async (playlistId: string) => {
 
 export const PlaylistService = {
   getPlaylistsByUserId,
+  getPlaylistsCountByUserId,
   addSongToPlaylist,
   updatePlaylist,
   countSongsByPlaylistId,

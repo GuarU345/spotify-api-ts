@@ -18,6 +18,20 @@ const getPlaylistsByUserId = async (
   }
 };
 
+const getPlaylistsCountByUserId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.params
+  try {
+    const playlistsCount = await PlaylistService.getPlaylistsCountByUserId(id)
+    res.json(playlistsCount)
+  } catch (error) {
+    next(error)
+  }
+}
+
 const createUserPlaylist = async (
   req: Request,
   res: Response,
@@ -155,6 +169,7 @@ const getLikedSongsPlaylist = async (
 
 export const PlaylistController = {
   getPlaylistsByUserId,
+  getPlaylistsCountByUserId,
   createUserPlaylist,
   updatePlaylist,
   deletePlaylist,

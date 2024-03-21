@@ -89,12 +89,12 @@ const getAlbumsByArtistId = async (artistId: string) => {
       album:
         artist.albums.length > 0
           ? artist?.albums.map((album) => {
-              return {
-                id: album.id,
-                name: album.name,
-                releaseDate: album.release_date,
-              };
-            })
+            return {
+              id: album.id,
+              name: album.name,
+              releaseDate: album.release_date,
+            };
+          })
           : [],
     };
     return artistAlbums;
