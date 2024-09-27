@@ -324,7 +324,7 @@ const createUserLikedSongsPlaylist = async (userId: string) => {
         name: INITIAL_PLAYLIST_NAME,
         user_id: userId,
         release_date: new Date().toISOString(),
-        image: "https://misc.scdn.co/liked-songs/liked-songs-300.png",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmzWWypc2RrvdQhLmIbXa0zEfS-zA5xVogGg&s",
       },
     });
     return createPlaylist;
