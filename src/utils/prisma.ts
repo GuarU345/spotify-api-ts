@@ -3,10 +3,15 @@ import { PrismaLibSQL } from '@prisma/adapter-libsql'
 import { createClient } from '@libsql/client'
 import { isProd } from './helpers'
 
-const libsql = createClient({
-    url: `${process.env.TURSO_DATABASE_URL}`,
-    authToken: `${process.env.TURSO_AUTH_TOKEN}`,
-})
+let adapter: PrismaLibSQL | null = null
 
-const adapter = new PrismaLibSQL(libsql)
-export const prisma = isProd ? new PrismaClient({ adapter }) : new PrismaClient()
+if (isProd) {
+    const libsql = createClient({
+        url: `${process.env.TURSO_DATABASE_URL}`,
+        authToken: `${process.env.TURSO_AUTH_TOKEN}`,
+    })
+
+    adapter = new PrismaLibSQL(libsql)
+}
+
+export const prisma = isProd && adapter ? new PrismaClient({ adapter }) : new PrismaClient()
