@@ -7,23 +7,17 @@ import { MUSIC_TYPES } from "../utils/helpers";
 import { SongUserStateBody } from "../interfaces/interfaces";
 import { UserService } from "./UserService";
 import { AlbumService } from "./AlbumService";
+import { ArtistService } from "./ArtistService";
 
 const likeSong = async (userId: string, songId: string) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-
-    if (!user) {
-      throw new EmptyResponseError("Usuario no existente");
-    }
+    const user = await UserService.userExists(userId)
+    const song = await SongService.getSongById(songId)
 
     const likeSong = await prisma.songLike.create({
       data: {
         user_id: user.id,
-        song_id: songId,
+        song_id: song.id,
       },
     });
 
@@ -52,17 +46,12 @@ const likeSong = async (userId: string, songId: string) => {
 
 const dislikeSong = async (userId: string, songId: string) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-    if (!user) {
-      throw new EmptyResponseError("Usuario no existente");
-    }
+    const user = await UserService.userExists(userId)
+    const song = await SongService.getSongById(songId)
+
     const searchUserSong = await prisma.songLike.findFirst({
       where: {
-        AND: [{ user_id: user.id }, { song_id: songId }],
+        AND: [{ user_id: user.id }, { song_id: song.id }],
       },
     });
     if (!searchUserSong) {
@@ -95,22 +84,9 @@ const dislikeSong = async (userId: string, songId: string) => {
 
 const likeAlbum = async (userId: string, albumId: string) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-    if (!user) {
-      throw new EmptyResponseError("Usuario no existente");
-    }
-    const album = await prisma.album.findUnique({
-      where: {
-        id: albumId,
-      },
-    });
-    if (!album) {
-      throw new EmptyResponseError("Album no existente");
-    }
+    const user = await UserService.userExists(userId)
+    const album = await AlbumService.getAlbumById(albumId)
+
     const likeAlbum = await prisma.albumLike.create({
       data: {
         user_id: user.id,
@@ -129,17 +105,12 @@ const likeAlbum = async (userId: string, albumId: string) => {
 
 const dislikeAlbum = async (userId: string, albumId: string) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-    if (!user) {
-      throw new EmptyResponseError("Usuario no existente");
-    }
+    const user = await UserService.userExists(userId)
+    const album = await AlbumService.getAlbumById(albumId)
+
     const searchUserAlbum = await prisma.albumLike.findFirst({
       where: {
-        AND: [{ user_id: user.id }, { album_id: albumId }],
+        AND: [{ user_id: user.id }, { album_id: album.id }],
       },
     });
     if (!searchUserAlbum) {
@@ -162,22 +133,9 @@ const dislikeAlbum = async (userId: string, albumId: string) => {
 
 const followArtist = async (userId: string, artistId: string) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-    if (!user) {
-      throw new EmptyResponseError("Usuario no existente");
-    }
-    const artist = await prisma.artist.findUnique({
-      where: {
-        id: artistId,
-      },
-    });
-    if (!artist) {
-      throw new EmptyResponseError("Artista no encontrado");
-    }
+    const user = await UserService.userExists(userId)
+    const artist = await ArtistService.getArtistById(artistId)
+    
     const follow = await prisma.artistFollow.create({
       data: {
         user_id: user.id,
@@ -196,17 +154,12 @@ const followArtist = async (userId: string, artistId: string) => {
 
 const unfollowArtist = async (userId: string, artistId: string) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-    if (!user) {
-      throw new EmptyResponseError("Usuario no existente");
-    }
+    const user = await UserService.userExists(userId)
+    const artist = await ArtistService.getArtistById(artistId)
+
     const searchArtistFollow = await prisma.artistFollow.findFirst({
       where: {
-        AND: [{ user_id: user.id }, { artist_id: artistId }],
+        AND: [{ user_id: user.id }, { artist_id: artist.id }],
       },
     });
     if (!searchArtistFollow) {

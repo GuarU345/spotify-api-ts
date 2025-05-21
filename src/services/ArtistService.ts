@@ -2,6 +2,7 @@ import { prisma } from "../utils/prisma";
 import EmptyResponseError from "../middlewares/errors/empty.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { Artist } from "../interfaces/interfaces";
+import { UserService } from "./UserService";
 
 const getArtists = async () => {
   try {
@@ -57,14 +58,8 @@ const createArtist = async (body: Artist) => {
 
 const getFollowedArtistsByUserId = async (userId: string) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-    if (!user) {
-      throw new EmptyResponseError("Usuario no existente");
-    }
+    const user = await UserService.userExists(userId);
+    
     const searchFollowedArtists = await prisma.artistFollow.findMany({
       where: {
         user_id: user.id,

@@ -2,6 +2,7 @@ import { Album } from "../interfaces/interfaces";
 import EmptyResponseError from "../middlewares/errors/empty.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { prisma } from "../utils/prisma";
+import { UserService } from "./UserService";
 
 // Crea un nuevo álbum para un artista dado.
 const createArtistAlbum = async (artistId: string, body: Album) => {
@@ -109,14 +110,8 @@ const getAlbumsByArtistId = async (artistId: string) => {
 
 const getLikedAlbumsByUserId = async (userId: string) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-    if (!user) {
-      throw new EmptyResponseError("Usuario no existente");
-    }
+    const user = await UserService.userExists(userId)
+
     const searchLikedAlbums = await prisma.albumLike.findMany({
       where: {
         user_id: user.id,
@@ -163,14 +158,8 @@ const getLikedAlbumsByUserId = async (userId: string) => {
 
 const checkUserLikesAlbum = async (userId: string, albumId: string) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-    if (!user) {
-      throw new EmptyResponseError("Usuario no encontrado");
-    }
+    const user = await UserService.userExists(userId);
+    
     const check = await prisma.albumLike.findFirst({
       where: {
         AND: [{ user_id: user.id }, { album_id: albumId }],

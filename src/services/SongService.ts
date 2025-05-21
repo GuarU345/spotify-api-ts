@@ -8,6 +8,7 @@ import EmptyResponseError from "../middlewares/errors/empty.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { prisma } from "../utils/prisma";
 import { AlbumService } from "./AlbumService";
+import { PlaylistService } from "./PlaylistService";
 import { UserService } from "./UserService";
 
 const getSongs = async () => {
@@ -136,16 +137,7 @@ const getSongsByAlbumId = async (albumId: string, userId?: string) => {
 const getSongsByPlaylistId = async (id: string, userId?: string) => {
   try {
     //get specific playlist
-    const playlist = await prisma.playlist.findUnique({
-      where: {
-        id,
-      },
-    });
-
-    if (!playlist) {
-      throw new EmptyResponseError("No se pudo encontrar la playlist");
-    }
-
+    const playlist = await PlaylistService.getPlaylistById(id)
     //get info with playlist id
     const playlistData = await prisma.playlistSong.findMany({
       where: {
@@ -229,14 +221,8 @@ const getSongsByPlaylistId = async (id: string, userId?: string) => {
 
 const getLikedSongsByUserId = async (userId: string, songs: Song[]) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-    if (!user) {
-      throw new EmptyResponseError("Usuario no encontrado");
-    }
+    const user = await UserService.userExists(userId)
+    
     const songIds = songs.map((song) => song.id);
     const searchSongs = await prisma.songLike.findMany({
       where: {

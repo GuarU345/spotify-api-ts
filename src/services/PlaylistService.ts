@@ -3,6 +3,7 @@ import EmptyResponseError from "../middlewares/errors/empty.error";
 import GenericPrismaError from "../middlewares/errors/prisma.error";
 import { INITIAL_PLAYLIST_NAME } from "../utils/helpers";
 import { prisma } from "../utils/prisma";
+import { SongService } from "./SongService";
 import { UserService } from "./UserService";
 
 const getPlaylistsByUserId = async (id: string) => {
@@ -104,14 +105,8 @@ const getPlaylistById = async (id: string) => {
 const updatePlaylist = async (id: string, body: Playlist) => {
   try {
     const { name, description, image } = body;
-    const playlist = await prisma.playlist.findUnique({
-      where: {
-        id,
-      },
-    });
-    if (!playlist) {
-      throw new EmptyResponseError("No se pudo encontrar la playlist");
-    }
+    const playlist = await getPlaylistById(id)
+
     const updatePlaylist = await prisma.playlist.update({
       data: {
         name,
@@ -134,17 +129,11 @@ const updatePlaylist = async (id: string, body: Playlist) => {
 
 const deletePlaylist = async (id: string) => {
   try {
-    const playlist = await prisma.playlist.findUnique({
-      where: {
-        id,
-      },
-    });
-    if (!playlist) {
-      throw new EmptyResponseError("No se pudo encontrar la playlist");
-    }
+    const playlist = await getPlaylistById(id)
+
     const remove = await prisma.playlist.delete({
       where: {
-        id
+        id:playlist.id
       }
     })
     return remove
@@ -159,22 +148,9 @@ const deletePlaylist = async (id: string) => {
 
 const addSongToPlaylist = async (playlistId: string, songId: string) => {
   try {
-    const playlist = await prisma.playlist.findUnique({
-      where: {
-        id: playlistId,
-      },
-    });
-    if (!playlist) {
-      throw new EmptyResponseError("No se pudo encontrar la playlist");
-    }
-    const song = await prisma.song.findUnique({
-      where: {
-        id: songId,
-      },
-    });
-    if (!song) {
-      throw new EmptyResponseError("No se pudo encontrar la cancion");
-    }
+    const playlist = await getPlaylistById(playlistId)
+    const song = await SongService.getSongById(songId)
+
     const addSong = await prisma.playlistSong.create({
       data: {
         playlist_id: playlist.id,
@@ -195,25 +171,8 @@ const addSongToPlaylist = async (playlistId: string, songId: string) => {
 
 const removeSongOnPlaylist = async (playlistId: string, songId: string) => {
   try {
-    const playlist = await prisma.playlist.findUnique({
-      where: {
-        id: playlistId,
-      },
-    });
-
-    if (!playlist) {
-      throw new EmptyResponseError("No se pudo encontrar la playlist");
-    }
-
-    const song = await prisma.song.findUnique({
-      where: {
-        id: songId,
-      },
-    });
-
-    if (!song) {
-      throw new EmptyResponseError("No se pudo encontrar la cancion");
-    }
+    const playlist = await getPlaylistById(playlistId)
+    const song = await SongService.getSongById(songId)
 
     const playlistSong = await prisma.playlistSong.findFirst({
       where: {
@@ -270,14 +229,8 @@ const countSongsByPlaylistId = async (id: string) => {
 
 const getLikedSongsPlaylist = async (userId: string) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-    if (!user) {
-      throw new EmptyResponseError("Usuario no encontrado");
-    }
+    const user = await UserService.userExists(userId)
+    
     const likedPlaylist = await prisma.playlist.findFirst({
       where: {
         AND: [
