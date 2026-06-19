@@ -1,8 +1,9 @@
 import { prisma } from "../src/utils/prisma";
-import { ALBUMS, ARTISTS, SONGS } from "../src/utils/initial-data";
+import { ALBUM_COLORS, ALBUMS, ARTISTS, SONGS } from "../src/utils/initial-data";
 
 const main = async () => {
   try {
+    await createColors();
     await createNewArtists();
     await createNewAlbums();
     await createNewSongs();
@@ -11,6 +12,21 @@ const main = async () => {
   } catch (error) {
     console.error(error);
   }
+};
+
+const createColors = async () => {
+  const createColors = ALBUM_COLORS.map(async ({ name, value }) => {
+    await prisma.color.create({
+      data: {
+        name,
+        color: value,
+      },
+    });
+  });
+
+  await Promise.all(createColors);
+
+  console.log("Colores creados correctamente");
 };
 
 const createNewArtists = async () => {

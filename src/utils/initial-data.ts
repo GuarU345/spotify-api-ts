@@ -1,193 +1,221 @@
 export const ARTISTS = [
   {
-    name: "LoFi Dreamer",
+    name: "Imagine Dragons",
     nationality: "American",
   },
   {
-    name: "Urban Nocturne",
+    name: "Kendrick Lamar",
     nationality: "American",
   },
   {
-    name: "Tenno",
-    nationality: "American",
+    name: "Rauw Alejandro",
+    nationality: "Puerto Rican",
   },
   {
-    name: "Raimu",
-    nationality: "American",
+    name: "Alvaro Diaz",
+    nationality: "Colombian",
   },
   {
-    name: "Chau Saura",
-    nationality: "American",
+    name: "Peso Pluma",
+    nationality: "Mexican",
   },
 ];
 
 export const ALBUMS = [
   {
-    name: "Chill Lo-Fi Music",
+    name: "GÉNESIS",
     release_date: "1970-01-01T00:00:00.000Z",
     album_image:
-      "https://vinyl.lofirecords.com/cdn/shop/products/VINYL_MORNING_COFFEE_4-min.png?v=1680526353",
-    artist: "LoFi Dreamer",
+      "https://i.scdn.co/image/ab67616d00001e022fb583ed96f8f35cbf2897ba",
+    artist: "Peso Pluma",
+    color: "purple"
   },
   {
-    name: "Midnight Tales",
+    name: "OMAKASE",
     release_date: "1970-01-01T00:00:00.000Z",
     album_image:
-      "https://vinyl.lofirecords.com/cdn/shop/files/2amsynth-vinyl.png?v=1693312187",
-    artist: "Urban Nocturne",
+      "https://i.scdn.co/image/ab67616d00001e026ed39fc4ac85aa4ce6ea1793",
+    artist: "Alvaro Diaz",
+    color: "salmon"
   },
   {
-    name: "Study Session",
+    name: "VICE VERSA",
     release_date: "1970-01-01T00:00:00.000Z",
     album_image:
-      "https://f4.bcbits.com/img/a1435058381_65.jpg",
-    artist: "Tenno",
+      "https://i.scdn.co/image/ab67616d00001e02f793c0c53727d8c5c950f809",
+    artist: "Rauw Alejandro",
+    color: "blue sky"
   },
   {
-    name: "Blue Note Study Time",
+    name: "DAMN.",
     release_date: "1970-01-01T00:00:00.000Z",
     album_image:
-      "https://f4.bcbits.com/img/a1962013209_16.jpg",
-    artist: "Raimu",
+      "https://i.scdn.co/image/ab67616d00001e028b52c6b9bc4e43d873869699",
+    artist: "Kendrick Lamar",
+    color: "red"
   },
   {
-    name: "Chau Saura Session",
+    name: "Smoke + Mirrors (Deluxe)",
     release_date: "1970-01-01T00:00:00.000Z",
     album_image:
-      "https://f4.bcbits.com/img/a2793859494_16.jpg",
-    artist: "Chau Saura",
+      "https://i.scdn.co/image/ab67616d00001e021551c93dfa33ea4f30ef4eea",
+    artist: "Imagine Dragons",
+    color: "gold"
   },
 ];
 
 export const SONGS = [
   {
-    artist: "LoFi Dreamer",
-    album: "Chill Lo-Fi Music",
+    artist: "Peso Pluma",
+    album: "GÉNESIS",
     songs: [
       {
-        name: "Moonlit Walk",
-        duration: "2:57",
+        name: "LUNA",
+        duration: "2:43",
       },
       {
-        name: "Coffee Daze",
-        duration: "3:40",
+        name: "RUBICON",
+        duration: "3:58",
       },
       {
-        name: "Skyline Serenade",
-        duration: "3:30",
-      },
-      {
-        name: "Urban Echoes",
-        duration: "2:12",
-      },
-      {
-        name: "Night's End",
-        duration: "2:26",
-      },
-    ],
-  },
-  {
-    artist: "Urban Nocturne",
-    album: "Midnight Tales",
-    songs: [
-      {
-        name: "Silent Rain",
-        duration: "2:38",
-      },
-      {
-        name: "Lost Pages",
-        duration: "2:41",
-      },
-      {
-        name: "Midnight Tales",
+        name: "CARNAL",
         duration: "2:54",
       },
       {
-        name: "City Lights",
-        duration: "3:12",
+        name: "LADY GAGA",
+        duration: "3:32",
       },
       {
-        name: "Night Drive",
-        duration: "2:58",
-      },
-    ],
-  },
-  {
-    artist: "Tenno",
-    album: "Study Session",
-    songs: [
-      {
-        name: "Lunar",
-        duration: "3:06",
-      },
-      {
-        name: "Go go go!",
-        duration: "1:30",
-      },
-      {
-        name: "Keep focus!",
-        duration: "2:00",
-      },
-      {
-        name: "JavaScript is the way",
-        duration: "3:57",
-      },
-      {
-        name: "No more TypeScript for me",
-        duration: "2:30",
+        name: "NUEVA VIDA",
+        duration: "3:10",
       },
     ],
   },
   {
-    artist: "Raimu",
-    album: "Blue Note Study Time",
+    artist: "Imagine Dragons",
+    album: "Smoke + Mirrors (Deluxe)",
     songs: [
       {
-        name: "Serene Dreams",
+        name: "Polaroid",
+        duration: "3:50",
+      },
+      {
+        name: "Gold",
+        duration: "3:36",
+      },
+      {
+        name: "Shots",
+        duration: "3:52",
+      },
+      {
+        name: "Dream",
+        duration: "4:18",
+      },
+      {
+        name: "Hopeless Opus",
+        duration: "3:58",
+      },
+    ],
+  },
+  {
+    artist: "Alvaro Diaz",
+    album: "OMAKASE",
+    songs: [
+      {
+        name: "PERDISTE EL EMMY",
+        duration: "4:03",
+      },
+      {
+        name: "PIENSO EN TI",
+        duration: "3:28",
+      },
+      {
+        name: "INAROW62",
+        duration: "3:26",
+      },
+      {
+        name: "NO PODEMOS SER AMIGOS",
+        duration: "3:23",
+      },
+      {
+        name: "OVELNAIT",
+        duration: "3:34",
+      },
+    ],
+  },
+  {
+    artist: "Rauw Alejandro",
+    album: "VICE VERSA",
+    songs: [
+      {
+        name: "Desenfocao'",
         duration: "2:59",
       },
       {
-        name: "Twilight Melody",
+        name: "Sexo Virtual",
         duration: "2:12",
       },
       {
-        name: "Whispers of the Sea",
+        name: "Desesperados",
         duration: "3:02",
       },
       {
-        name: "Journey in Stillness",
+        name: "Cosa Guapa",
         duration: "2:30",
       },
       {
-        name: "Tranquil Dawn",
+        name: "La Old Skul",
         duration: "2:29",
       },
     ],
   },
   {
-    artist: "Chau Saura",
-    album: "Chau Saura Session",
+    artist: "Kendrick Lamar",
+    album: "DAMN.",
     songs: [
       {
-        name: "Ethereal Serenity",
+        name: "BLOOD",
         duration: "3:49",
       },
       {
-        name: "Lullaby for the Soul",
+        name: "DNA",
         duration: "1:53",
       },
       {
-        name: "Zen Harmony",
+        name: "ELEMENT",
         duration: "2:15",
       },
       {
-        name: "Gentle Oasis",
+        name: "FEEL",
         duration: "4:06",
       },
       {
-        name: "Soothing Serenade",
+        name: "DUCKWORTH",
         duration: "2:54",
       },
     ],
   },
 ];
+
+export const ALBUM_COLORS = [
+  {
+    name: "purple",
+    value: "#263656"
+  },
+  {
+    name: "blue sky",
+    value: "#008eb9"
+  },
+  {
+    name: "gold",
+    value: "#9e702a"
+  },
+  {
+    name: "red",
+    value: "#b90505"
+  },
+  {
+    name: "salmon",
+    value: "#93453e"
+  }
+]
